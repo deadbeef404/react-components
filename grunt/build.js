@@ -26,7 +26,6 @@ module.exports = function(grunt, options) {
                 min: {
                     files: grunt.file.expandMapping(['src/compiled/**/*.js',
                                                      '!src/compiled/**/*.test.js',
-                                                     '!src/compiled/third-party/**/*.js',
                                                      '!src/compiled/tests/**/*.js',
                                                      '!src/compiled/examples/**/*.js',
                                                      '!src/compiled/dispatcher/**/*.js'], './', {
@@ -55,5 +54,5 @@ module.exports = function(grunt, options) {
                 }
             }
         }
-    }
+    };
 };

@@ -1,7 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var AppDispatcher = require('AppDispatcher');
+    var AppDispatcher,
+        depName = 'AppDispatcher';
+    if(require.defined(depName)){
+        AppDispatcher = require(depName);
+    }
+    else{
+        AppDispatcher = require('drc/dispatcher/AppDispatcher');
+    }
 
     return {
         actionTypes: {
@@ -16,7 +23,7 @@ define(function(require) {
          * @param {object} filters
          */
         requestData: function(id, definition, filters){
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.REQUEST_DATA,
                 component: 'PieChart',
                 id: id,
@@ -28,7 +35,7 @@ define(function(require) {
         },
 
         destroyInstance: function(id) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.DESTROY_INSTANCE,
                 component: 'PieChart',
                 id: id

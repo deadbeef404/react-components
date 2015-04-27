@@ -1,7 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var AppDispatcher = require('AppDispatcher');
+    var AppDispatcher,
+        depName = 'AppDispatcher';
+    if(require.defined(depName)){
+        AppDispatcher = require(depName);
+    }
+    else{
+        AppDispatcher = require('drc/dispatcher/AppDispatcher');
+    }
 
     return {
         actionTypes: {
@@ -22,7 +29,7 @@ define(function(require) {
          * @param {Object} filters - The query string params to be sent with any data requests to the server.
          */
         requestData: function(id, definition, dataFormatter, filters) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.REQUEST_DATA,
                 component: 'Table',
                 id: id,
@@ -39,7 +46,7 @@ define(function(require) {
          * @param {String} id - The unique identifier of the Table instance to be destroyed.
          */
         destroyInstance: function(id) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.DESTROY_INSTANCE,
                 component: 'Table',
                 id: id
@@ -52,7 +59,7 @@ define(function(require) {
          * @param {String|Number} value - The string or number used to filter out table rows that are not a match.
          */
         filter: function(id, value) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.FILTER,
                 component: 'Table',
                 id: id,
@@ -68,7 +75,7 @@ define(function(require) {
          * @param {String} direction - the direction paginate (right or left).
          */
         paginate: function(id, direction) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.PAGINATE,
                 component: 'Table',
                 id: id,
@@ -85,7 +92,7 @@ define(function(require) {
          * @param {String} direction - The direction to sort (ascending or descending).
          */
         sortChange: function(id, colIndex, direction) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.TABLE_SORT,
                 component: 'Table',
                 id: id,
@@ -102,7 +109,7 @@ define(function(require) {
          * @param {Boolean} deselect - There are selected items in the filtered data set, so we need to deselect them.
          */
         toggleBulkSelect: function(id, deselect) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.TOGGLE_BULK_SELECT,
                 component: 'Table',
                 id: id,
@@ -118,7 +125,7 @@ define(function(require) {
          * @param {Number} rowIndex - The index of the table row containing the select box that was toggled.
          */
         toggleRowSelect: function(id, rowIndex) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.TOGGLE_ROW_SELECT,
                 component: 'Table',
                 id: id,

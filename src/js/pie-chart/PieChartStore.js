@@ -1,7 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var AppDispatcher = require('AppDispatcher');
+    var AppDispatcher,
+        depName = 'AppDispatcher';
+    if(require.defined(depName)){
+        AppDispatcher = require(depName);
+    }
+    else{
+        AppDispatcher = require('drc/dispatcher/AppDispatcher');
+    }
     var _ = require('lodash');
     var PieChartActions = require('drc/pie-chart/PieChartActions');
     var StoreBase = require('drc/lib/StoreBase');

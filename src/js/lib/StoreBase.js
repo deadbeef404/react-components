@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    var EventEmitter = require('third-party/eventEmitter');
+    var EventEmitter = require('drc/lib/EventEmitter');
     var _ = require('lodash');
     var RequestHandler = require('RequestHandler');
 
