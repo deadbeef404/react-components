@@ -42,11 +42,17 @@ $ npm install -g bower
 $ bower install react-components --save
 ```
 
-#### Include the following in require config (file names must match)
+#### Include the following in require config (alias names must match)
 
 ```
-AppDispatcher: '/path/to/AppDispatcher',
-RequestHandler: 'path/to/RequestHandler'
+RequestHandler: 'path/to/RequestHandler',
+drc: 'path/to/bower_components/react-components/src/compiled'
+```
+
+#### (Optional) Setup path to your Flux Dispatcher in require config
+This step is only necessary if you have your own Flux Dispatcher. Otherwise you can just use the built-in one in this library.
+```
+AppDispatcher: '/path/to/AppDispatcher'
 ```
 
 #### Add external style sheet
