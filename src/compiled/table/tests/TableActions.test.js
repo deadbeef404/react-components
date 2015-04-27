@@ -1,5 +1,5 @@
 define(function(require) {
-    var AppDispatcher = require('AppDispatcher');
+    var AppDispatcher = require('drc/dispatcher/AppDispatcher');
     var TableActions = require('drc/table/TableActions');
 
     var ActionTypes = TableActions.actionTypes;
@@ -12,11 +12,11 @@ define(function(require) {
                 var dataFormatter = 'formatter';
                 var filters = {test: 'filter'};
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 TableActions.requestData(id, definition, dataFormatter, filters);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: ActionTypes.REQUEST_DATA,
                     component: 'Table',
                     id: id,
@@ -33,11 +33,11 @@ define(function(require) {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 TableActions.destroyInstance(id);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: ActionTypes.DESTROY_INSTANCE,
                     component: 'Table',
                     id: id
@@ -50,11 +50,11 @@ define(function(require) {
                 var id = 'testID';
                 var value = 'testFilter';
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 TableActions.filter(id, value);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: ActionTypes.FILTER,
                     component: 'Table',
                     id: id,
@@ -70,11 +70,11 @@ define(function(require) {
                 var id = 'testID';
                 var direction = 'testDirection';
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 TableActions.paginate(id, direction);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: ActionTypes.PAGINATE,
                     component: 'Table',
                     id: id,
@@ -91,11 +91,11 @@ define(function(require) {
                 var colIndex = 0;
                 var direction = 'testDirection';
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 TableActions.sortChange(id, colIndex, direction);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: ActionTypes.TABLE_SORT,
                     component: 'Table',
                     id: id,
@@ -112,11 +112,11 @@ define(function(require) {
                 var id = 'testID';
                 var deselect = false;
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 TableActions.toggleBulkSelect(id, deselect);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: ActionTypes.TOGGLE_BULK_SELECT,
                     component: 'Table',
                     id: id,
@@ -132,11 +132,11 @@ define(function(require) {
                 var id = 'testID';
                 var rowIndex = 0;
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 TableActions.toggleRowSelect(id, rowIndex);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: ActionTypes.TOGGLE_ROW_SELECT,
                     component: 'Table',
                     id: id,
