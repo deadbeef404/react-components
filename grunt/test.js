@@ -7,7 +7,7 @@ module.exports = function(grunt, options) {
          * Jasmine client side JS test tasks
          */
         jasmine: {
-            src: ['src/compiled/**/*.js', '!src/compiled/third-party/*',
+            src: ['src/compiled/**/*.js',
                 '!src/compiled/examples/main.js', '!src/compiled/**/tests/*.js',
                 '!src/compiled/examples/**/*.js'],
             options: {
@@ -29,13 +29,12 @@ module.exports = function(grunt, options) {
                             baseUrl: 'src/compiled/',
                             paths: {
                                 d3: '../../../bower_components/d3/d3',
-                                'jquery': '../../../bower_components/jquery/dist/jquery',
-                                'lodash': '../../../bower_components/lodash/lodash',
+                                jquery: '../../../bower_components/jquery/dist/jquery',
+                                lodash: '../../../bower_components/lodash/lodash',
                                 moment: '../../../bower_components/moment/moment',
-                                'react': '../../../bower_components/react/react-with-addons',
-                                'third-party': '../../../src/compiled/third-party',
-                                'testUtil': '../../../src/compiled/tests/util',
-
+                                react: '../../../bower_components/react/react-with-addons',
+                                flux: '../../../bower_components/flux/dist/Flux',
+                                testUtil: '../../../src/compiled/tests/util',
                                 RequestHandler: '../../../src/compiled/utils/RequestHandler'
                             },
                             callback: function () {
@@ -78,7 +77,6 @@ module.exports = function(grunt, options) {
             src: [
                 'src/**/*.js',
                 '!src/js/**/*.js', //We scan the /compiled versions, not the source since JSX hoses things
-                '!src/compiled/third-party/*.js',
                 '!src/compiled/tests/*.js',
                 '!src/**/*.test.js'
             ]
@@ -91,7 +89,7 @@ module.exports = function(grunt, options) {
             src: [
                 'src/**/*.js',
                 '!src/js/**/*.js', //We scan the /compiled versions, not the source since JSX hoses things
-                '!src/compiled/third-party/*.js',
+                '!src/compiled/lib/EventEmitter.js',
                 '!src/compiled/tests/*.js',
                 '!src/**/*.test.js'
             ],

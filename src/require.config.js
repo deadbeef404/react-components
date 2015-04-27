@@ -3,7 +3,6 @@ require.config({
     paths: {
         main: 'examples/main',
 
-        AppDispatcher: '../../src/compiled/dispatcher/AppDispatcher',
         RequestHandler: '../../src/compiled/examples/utils/RequestHandler',
         drc: '../../src/compiled',
 
@@ -12,6 +11,7 @@ require.config({
         jquery: '../../bower_components/jquery/dist/jquery',
         lodash: '../../bower_components/lodash/lodash',
         moment: '../../bower_components/moment/moment',
-        react: '../../bower_components/react/react-with-addons'
+        react: '../../bower_components/react/react-with-addons',
+        flux: '../../bower_components/flux/dist/Flux'
     }
 });
