@@ -49,10 +49,14 @@ RequestHandler: 'path/to/RequestHandler',
 drc: 'path/to/bower_components/react-components/src/compiled'
 ```
 
-#### (Optional) Setup path to your Flux Dispatcher in require config
+#### (Optional) Add mapping to require config to your Flux Dispatcher
 This step is only necessary if you have your own Flux Dispatcher. Otherwise you can just use the built-in one in this library.
 ```
-AppDispatcher: '/path/to/AppDispatcher'
+map: {
+    "*":{
+        "drc/dispatcher/AppDispatcher.min": "path/to/your/dispatcher"
+    }
+}
 ```
 
 #### Add external style sheet

@@ -1,14 +1,7 @@
 define(function(require) {
     'use strict';
 
-    var AppDispatcher,
-        depName = 'AppDispatcher';
-    if(require.defined(depName)){
-        AppDispatcher = require(depName);
-    }
-    else{
-        AppDispatcher = require('drc/dispatcher/AppDispatcher');
-    }
+    var AppDispatcher = require('drc/dispatcher/AppDispatcher');
 
     return {
         actionTypes: {

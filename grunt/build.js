@@ -27,8 +27,7 @@ module.exports = function(grunt, options) {
                     files: grunt.file.expandMapping(['src/compiled/**/*.js',
                                                      '!src/compiled/**/*.test.js',
                                                      '!src/compiled/tests/**/*.js',
-                                                     '!src/compiled/examples/**/*.js',
-                                                     '!src/compiled/dispatcher/**/*.js'], './', {
+                                                     '!src/compiled/examples/**/*.js'], './', {
                         rename: function (destBase, destPath) {
                             return destBase + destPath.replace('.js', '.min.js');
                         }
