@@ -3,12 +3,14 @@ define(function(require) {
 
     var Dispatcher = require('flux').Dispatcher;
     Dispatcher = new Dispatcher();
-    var actionDispatch = function(action){
-        return this.dispatch({action: action});
+
+    /**
+     * Simple utility method to avoid having to pass in a sub object for
+     * each action to send.
+     * @param  {Mixed} action Action contents to send
+     */
+    Dispatcher.dispatchAction = function(action){
+        this.dispatch({action: action});
     };
-    //Create alias functions for backward compatibility
-    Dispatcher.handleViewAction = actionDispatch;
-    Dispatcher.handleServerAction = actionDispatch;
-    Dispatcher.dispatchAction = actionDispatch;
     return Dispatcher;
 });
