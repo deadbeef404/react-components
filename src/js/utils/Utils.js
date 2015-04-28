@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     var _ = require('lodash');
-    var Moment = require('moment');
+    var moment = require('moment');
     var React = require('react');
 
     var guid = (function() {
@@ -26,10 +26,10 @@ define(function(require) {
      */
     function calculateTimeString(start, end, includeDate) {
         var format = 'h:mm A',
-            startTime = Moment(start).format(format),
-            endTime = Moment(end).format(format);
+            startTime = moment(start).format(format),
+            endTime = moment(end).format(format);
 
-        var date = includeDate ? Moment(start).format('MMM Do,') : '';
+        var date = includeDate ? moment(start).format('MMM Do,') : '';
 
         // If same minute, just show a single minute, not a range.
         if(startTime === endTime){

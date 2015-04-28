@@ -98,7 +98,7 @@ define(function(require) {
 
             var pie = d3.layout.pie()
                 .padAngle(0.03)
-                .value(function(dataNode){return dataNode.value;})
+                .value(function(dataNode){return dataNode.value; })
                 //Data comes pre-sorted from the server so don't let d3 to any additional sorting
                 .sort(null);
 
@@ -109,8 +109,12 @@ define(function(require) {
             var group = g.append('path');
 
             group
-                .style("fill", function() { return this.colors[colorCounter++];}.bind(this))
-                .style("cursor", function(dataNode){ if(_.isArray(dataNode.data.children) && dataNode.data.children.length) return "pointer";})
+                .style("fill", function() { return this.colors[colorCounter++]; }.bind(this))
+                .style("cursor", function(dataNode) {
+                    if (_.isArray(dataNode.data.children) && dataNode.data.children.length) {
+                        return "pointer";
+                    }
+                })
                 .transition()
                 .delay(function(dataNode, index) { return index * delay; })
                 .duration(150)
@@ -187,7 +191,7 @@ define(function(require) {
         /**
          * Handles leaving a segment. Shinks radius back to normal size
          */
-        mouseout: function(dataNode){
+        mouseout: function(){
             var mouseover = this.mouseover;
             this.setState({selectedRowName: null});
             this.chart.selectAll("path").on("mouseover", null);
@@ -285,6 +289,7 @@ define(function(require) {
 
         /**
          * Generates markup for table to display data list
+         * @returns {Array} - The rows for the data list
          */
         getRowDisplay: function(){
             var rows = [],

@@ -3,7 +3,7 @@ define(function(require) {
 
     var AppDispatcher = require('drc/dispatcher/AppDispatcher');
     var _ = require('lodash');
-    var Moment = require('moment');
+    var moment = require('moment');
     var StoreBase = require('drc/lib/StoreBase');
     var TableActions = require('drc/table/TableActions');
 
@@ -65,12 +65,12 @@ define(function(require) {
                     }
                     else if (col.dataType === 'time' || col.dataType === 'status') {
                         if (col.dataType === 'status' && item[col.dataProperty]) {
-                            item.online = Moment(item[col.dataProperty]).valueOf() > Moment(Date.now()).subtract(col.onlineLimit, 'minutes').valueOf();
+                            item.online = moment(item[col.dataProperty]).valueOf() > moment(Date.now()).subtract(col.onlineLimit, 'minutes').valueOf();
                         }
 
                         // Need to keep track of the original timestamp for column sorting to work properly.
                         item.timestamp = item[col.dataProperty] ? item[col.dataProperty] : null;
-                        item[col.dataProperty] = item[col.dataProperty] ? Moment(item[col.dataProperty]).format(col.timeFormat) : '--';
+                        item[col.dataProperty] = item[col.dataProperty] ? moment(item[col.dataProperty]).format(col.timeFormat) : '--';
                     }
                 });
             }, this);
@@ -144,7 +144,7 @@ define(function(require) {
 
         /**
          * Retrieves the pagination data for the table. This includes cursor and size.
-         * @returns {{cursor: number, size: number}}
+         * @returns {{cursor: number, size: number}} - The pagination object.
          */
         getPaginationData: function() {
             return this.pagination;
@@ -260,7 +260,7 @@ define(function(require) {
                 }
                 // a must be equal to b
                 return 0;
-            }.bind(this));
+            });
         },
 
         /**
@@ -336,7 +336,7 @@ define(function(require) {
         /**
          * Retrieves a Table instance.
          * @param {String} id - The unique identifier fo the Table instance to retrieve.
-         * @returns {Table}
+         * @returns {Table} - An instance of the Table class.
          */
         getInstance: function(id) {
             return this.collection[id];

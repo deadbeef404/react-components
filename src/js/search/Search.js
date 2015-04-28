@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    var _     = require('lodash');
+    var _ = require('lodash');
     var React = require('react');
     var RequestHandler = require('RequestHandler');
     var $ = require('jquery');
@@ -150,6 +150,7 @@ define(function(require) {
 
         /**
          * Handle store change event.
+         * @param {Object} data - The data received from the server.
          */
         onDataReceived: function(data) {
             if(!data){
@@ -283,15 +284,13 @@ define(function(require) {
                 this.setState({shownList: []});
             }
             //Only continue of value entered is longer than min search term length
+            else if(this.props.isFullDataResponse){
+                var listToShow = this.getListOfMatchesForQuery(searchTerm);
+                this.currentFilteredList = listToShow;
+                this.setState({shownList: listToShow});
+            }
             else{
-                if(this.props.isFullDataResponse){
-                    var listToShow = this.getListOfMatchesForQuery(searchTerm);
-                    this.currentFilteredList = listToShow;
-                    this.setState({shownList: listToShow});
-                }
-                else{
-                    this.requestDataForTerm(searchTerm);
-                }
+                this.requestDataForTerm(searchTerm);
             }
         },
 
@@ -304,9 +303,7 @@ define(function(require) {
         },
 
         /**
-         * Handles blur event on input element. Only hides list if the action isn't
-         * occurring on the autocomplete list
-         * @return {[type]} [description]
+         * Handles blur event on input element. Only hides list if the action isn't occurring on the autocomplete list.
          */
         onBlur: function(){
             //If the users mouse is currently in the list, don't hide it
@@ -455,15 +452,15 @@ define(function(require) {
 
         /**
          * Event when a user mouses out of the autocomplete list
-         * @param  {Object} event Mouse event
          */
-        handleListMouseLeave: function(event){
+        handleListMouseLeave: function(){
             this.actionOverList = false;
         },
 
         /**
          * Returns list of autocomplete items to show in dropdown
-         * @return {Array} List of nodes to display
+         * @param {Array} rowData - List of node data
+         * @return {Array} - List of nodes to display
          */
         getAutocompleteComponents: function(rowData){
             var markup = [];
