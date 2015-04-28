@@ -1,5 +1,5 @@
 define(function(require) {
-    var AppDispatcher = require('AppDispatcher');
+    var AppDispatcher = require('drc/dispatcher/AppDispatcher');
     var PieChartActions = require('drc/pie-chart/PieChartActions');
 
     describe('PieChartActions', function() {
@@ -9,11 +9,11 @@ define(function(require) {
                 var definition = 'testDefinition';
                 var filters = {test: 'filter'};
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 PieChartActions.requestData(id, definition, filters);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: PieChartActions.actionTypes.REQUEST_DATA,
                     component: 'PieChart',
                     id: id,
@@ -29,11 +29,11 @@ define(function(require) {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
 
-                spyOn(AppDispatcher, 'handleViewAction');
+                spyOn(AppDispatcher, 'dispatchAction');
 
                 PieChartActions.destroyInstance(id);
 
-                expect(AppDispatcher.handleViewAction).toHaveBeenCalledWith({
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
                     actionType: PieChartActions.actionTypes.DESTROY_INSTANCE,
                     component: 'PieChart',
                     id: id

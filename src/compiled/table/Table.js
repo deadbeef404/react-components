@@ -1,7 +1,6 @@
 define(function(require) {
     'use strict';
 
-    var BaseTable = require('drc/table/BaseTable');
     var BasicTable = require('drc/table/BasicTable');
     var GroupedActionsTable = require('drc/table/GroupedActionsTable');
     var React = require('react');

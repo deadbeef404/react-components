@@ -42,8 +42,8 @@ define(function(require) {
         },
 
         getInitialState: function() {
-            this.selectionEnabled = _.some(this.props.definition.cols, function(col) {return col.dataType === 'select';}) ? true : false;
-            this.quickFilterEnabled = _.some(this.props.definition.cols, function(col) {return col.quickFilter === true;}) ? true : false;
+            this.selectionEnabled = _.some(this.props.definition.cols, function(col) {return col.dataType === 'select'; }) ? true : false;
+            this.quickFilterEnabled = _.some(this.props.definition.cols, function(col) {return col.quickFilter === true; }) ? true : false;
             this.iconClasses = _.merge(_.clone(iconClasses), this.props.iconClasses);
 
             return {
@@ -269,7 +269,7 @@ define(function(require) {
 
             if (colData.dataType === 'select' && this.state.data && this.state.data.length) {
                 icon = this.getBulkSelectionIcon(colData);
-                onClick = this.handleBulkSelectClick.bind(this, icon._store.props.title === 'Deselect All');
+                onClick = this.handleBulkSelectClick.bind(this, icon.props.title === 'Deselect All');
                 headerClasses += ' select-column-th';
             }
             else if (colData.sortDirection && this.state.data && this.state.data.length) {
@@ -299,9 +299,9 @@ define(function(require) {
             var match = _.some(filteredData, function(data) {
                 return this.state.selectedItems[data[colData.dataProperty]];
             }.bind(this));
-            var iconClasses = match ? this.iconClasses.deselectAll : this.iconClasses.selectAll;
+            var iconClassString = match ? this.iconClasses.deselectAll : this.iconClasses.selectAll;
 
-            return React.createElement("i", {className: iconClasses, title: match ? 'Deselect All' : 'Select All'});
+            return React.createElement("i", {className: iconClassString, title: match ? 'Deselect All' : 'Select All'});
         },
 
         /**
@@ -314,9 +314,9 @@ define(function(require) {
                 'sorting-indicator': true,
                 'active': this.state.sortColIndex === index
             });
-            var iconClasses = this.state.colSortDirections[index] === 'ascending' ? this.iconClasses.sortAsc + ' asc' : this.iconClasses.sortDesc + ' desc';
+            var iconClassString = this.state.colSortDirections[index] === 'ascending' ? this.iconClasses.sortAsc + ' asc' : this.iconClasses.sortDesc + ' desc';
 
-            return React.createElement("i", {className: defaultIconClasses + ' ' + iconClasses});
+            return React.createElement("i", {className: defaultIconClasses + ' ' + iconClassString});
         },
 
         /**
@@ -328,28 +328,28 @@ define(function(require) {
          * @return {Object} - A React table data element.
          */
         getTableData: function(val, meta, hoverValue, index) {
-            var afterIcon, iconClasses;
+            var afterIcon, iconClassString;
             var contentClasses = 'content';
 
             // This is a select column
             if (meta.dataType && meta.dataType === 'select') {
-                iconClasses = this.state.selectedItems && this.state.selectedItems[val] ? this.iconClasses.selectOn + ' on' : this.iconClasses.selectOff + ' off';
+                iconClassString = this.state.selectedItems && this.state.selectedItems[val] ? this.iconClasses.selectOn + ' on' : this.iconClasses.selectOff + ' off';
 
                 return (
                     React.createElement("td", {className: "select-column-td no-select", 
                         title: this.state.selectedItems && this.state.selectedItems[val] ? "Deselect" : "Select", 
                         key: 'tableData' + Utils.guid(), 
                         onClick: this.handleSelectClick}, 
-                        React.createElement("i", {className: iconClasses})
+                        React.createElement("i", {className: iconClassString})
                     )
                 );
             }
 
             if (meta.dataType === 'status') {
                 contentClasses += ' before-icon';
-                iconClasses = this.state.data[index].online ? this.iconClasses.statusOn + ' status-on' : this.iconClasses.statusOff + ' status-off';
+                iconClassString = this.state.data[index].online ? this.iconClasses.statusOn + ' status-on' : this.iconClasses.statusOff + ' status-off';
 
-                afterIcon = React.createElement("i", {className: 'after-icon ' + iconClasses});
+                afterIcon = React.createElement("i", {className: 'after-icon ' + iconClassString});
             }
             hoverValue = hoverValue || val;
 
