@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    var EventEmitter = require('third-party/eventEmitter');
+    var EventEmitter = require('drc/lib/EventEmitter');
     var _ = require('lodash');
     var RequestHandler = require('RequestHandler');
 
@@ -21,7 +21,7 @@ define(function(require) {
         requestData: function(id, filters, callback) {
             var requestModel = this.collection[id];
 
-            RequestHandler.request(requestModel.url, filters, function(data, responseResult) {
+            RequestHandler.request(requestModel.url, filters, function(data) {
                 requestModel.onDataReceived(data);
                 callback();
             }, function(){

@@ -11,11 +11,10 @@ module.exports = function(grunt) {
     grunt.initConfig(configs);
 
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks("grunt-eslint");
     grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks("grunt-jscs");
-    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-shell-spawn');
@@ -43,8 +42,7 @@ module.exports = function(grunt) {
     grunt.registerTask('test',[
         'shell:cleanCompiledDirectory',
         'shell:jsxCompile',
-        'jshint',
-        'jscs',
+        'eslint',
         'jasmine'
     ]);
 
@@ -61,8 +59,6 @@ module.exports = function(grunt) {
      * Creates minified files of all necessary source files if and only if testing passes
      */
     grunt.registerTask('build', [
-        'test',
-        'compass',
         'shell:build'
     ]);
 };

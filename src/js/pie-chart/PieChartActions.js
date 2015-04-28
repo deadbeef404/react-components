@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    var AppDispatcher = require('AppDispatcher');
+    var AppDispatcher = require('drc/dispatcher/AppDispatcher');
 
     return {
         actionTypes: {
@@ -13,10 +13,10 @@ define(function(require) {
          * Action for populating pie chart data. Used both for initial and subsequent loads.
          * @param {string} id - The id of the component.
          * @param {object} definition - A configuration object for the PieChart.
-         * @param {object} filters
+         * @param {object} filters - Query string params for the request.
          */
         requestData: function(id, definition, filters){
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.REQUEST_DATA,
                 component: 'PieChart',
                 id: id,
@@ -28,7 +28,7 @@ define(function(require) {
         },
 
         destroyInstance: function(id) {
-            AppDispatcher.handleViewAction({
+            AppDispatcher.dispatchAction({
                 actionType: this.actionTypes.DESTROY_INSTANCE,
                 component: 'PieChart',
                 id: id

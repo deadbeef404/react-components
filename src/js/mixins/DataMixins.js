@@ -41,7 +41,7 @@ define(function() {
          * The destroy functionality can be useful for components that create objects in a collection within a store,
          * even if it is just managing state for the client with no persistence layer.
          * @param {object} actions - The object returned from the action file associated with the component.
-         * @returns {{componentWillUnmount: componentWillUnmount}}
+         * @returns {{componentWillUnmount: componentWillUnmount}} - A React lifecycle function.
          */
         destroySelfOnUnmount: function(actions) {
             return {
@@ -61,7 +61,7 @@ define(function() {
         /**
          * Used to add and remove the listeners required when requesting data from the server.
          * @param {object} store - The object returned from the store file associated with the component.
-         * @returns {{componentDidMount: componentDidMount, componentWillUnmount: componentWillUnmount}}
+         * @returns {{componentDidMount: componentDidMount, componentWillUnmount: componentWillUnmount}}  - React lifecycle functions.
          */
         eventSubscription: function(store) {
             return {

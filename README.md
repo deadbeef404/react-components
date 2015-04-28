@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/dataminr/react-components.svg?branch=master)](https://travis-ci.org/dataminr/react-components)
+[![Bower version][bower-image]][bower-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
+
 # react-components
 
 ## Just getting your project started?
@@ -41,11 +42,21 @@ $ npm install -g bower
 $ bower install react-components --save
 ```
 
-#### Include the following in require config (file names must match)
+#### Include the following in require config (alias names must match)
 
 ```
-AppDispatcher: '/path/to/AppDispatcher',
-RequestHandler: 'path/to/RequestHandler'
+RequestHandler: 'path/to/RequestHandler',
+drc: 'path/to/bower_components/react-components/src/compiled'
+```
+
+#### (Optional) Add mapping to require config to your Flux Dispatcher
+This step is only necessary if you have your own Flux Dispatcher. Otherwise you can just use the built-in one in this library.
+```
+map: {
+    "*":{
+        "drc/dispatcher/AppDispatcher.min": "path/to/your/dispatcher"
+    }
+}
 ```
 
 #### Add external style sheet
@@ -196,3 +207,12 @@ The developers that made this project possible by contributing to the the follow
 [Sass](http://sass-lang.com/), [Require](http://requirejs.org/), [Grunt](http://gruntjs.com/), [Jasmine](http://jasmine.github.io/2.2/introduction.html),
 [Istanbul](https://github.com/gotwarlost/istanbul), [JSHint](http://jshint.com/), [JSCS](http://jscs.info/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
 [d3](http://d3js.org/), [lodash](https://lodash.com/docs), [jQuery](http://jquery.com/), and [Moment](http://momentjs.com/docs/)
+
+[bower-image]: https://badge.fury.io/bo/react-components.svg
+[bower-url]: http://badge.fury.io/bo/react-components
+
+[license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
+[license-url]: LICENSE
+
+[travis-url]: https://travis-ci.org/dataminr/react-components
+[travis-image]: https://travis-ci.org/dataminr/react-components.svg?branch=master

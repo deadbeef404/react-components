@@ -8,7 +8,6 @@ define(function(require) {
     var Search = require('drc/search/Search');
     var Table = require('drc/table/Table');
     var TableStore = require('drc/table/TableStore');
-    var Utils = require('drc/utils/Utils');
 
     var tableDefinition = {
         url: '/test/table',
@@ -78,6 +77,7 @@ define(function(require) {
         rowClick: {
             callback: function(event, props, state) {
                 var idx = event.currentTarget.rowIndex;
+                /* eslint-disable no-alert */
                 alert(
                     'You just clicked on ' + state.data[idx][state.rowClick.labelKey || 'name'] + '.' +
                     'We just executed the user defined rowClick.callback:\n\n' +
@@ -86,6 +86,7 @@ define(function(require) {
                     '    alert(\'You just clicked on +\'\n    state.data[idx][state.rowClick.labelKey \n    || \'name\'] + \'.\');\n' +
                     '}'
                 );
+                /* eslint-enable no-alert */
             }
         }
     };
@@ -99,7 +100,9 @@ define(function(require) {
         var companyID = parseInt(event.target.getAttribute('data-id')),
             companyName = event.target.innerText;
 
+        /* eslint-disable no-alert */
         alert('You just clicked on ' + companyName + '. It\'s ID is ' + companyID);
+        /* eslint-enable no-alert */
     };
 
     return React.createClass({
@@ -198,7 +201,9 @@ define(function(require) {
         },
 
         handleBulkActionClick: function() {
+            /* eslint-disable no-alert */
             alert('You have selected the following items from the table:\n\n' + TableStore.getSelectedItems('tableId'));
+            /* eslint-enable no-alert */
         },
 
         handleLinkClick: function(link) {
