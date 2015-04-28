@@ -2,8 +2,8 @@ define(function(require) {
     'use strict';
 
     var BaseTable = require('drc/table/BaseTable');
+    var $ = require('jquery');
     var _ = require('lodash');
-    var Moment = require('moment');
     var React = require('react');
     var Utils = require('drc/utils/Utils');
 
@@ -18,7 +18,7 @@ define(function(require) {
                 var rowDataElements = [];
 
                 // Build the table data elements for the table row
-                _.forIn(this.state.colDefinitions, function(val, key) {
+                _.forIn(this.state.colDefinitions, function(val) {
                     rowDataElements.push(this.getTableData(rowData, val, index));
                 }.bind(this));
 
@@ -36,7 +36,7 @@ define(function(require) {
                     _.each(rowData.actions, function(action) {
                         var subRowData = [];
 
-                        _.forIn(this.state.colDefinitions, function(val, key) {
+                        _.forIn(this.state.colDefinitions, function(val) {
                             subRowData.push(this.getNestedRowTableData(action, val));
                         }.bind(this));
 
@@ -112,7 +112,7 @@ define(function(require) {
                 });
 
                 if (!action.start || !action.end) {
-                    return;
+                    return null;
                 }
 
                 switch (meta.dataProperty) {

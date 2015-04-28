@@ -9,7 +9,7 @@ module.exports = function(grunt, options) {
         jasmine: {
             src: ['src/compiled/**/*.js',
                 '!src/compiled/examples/main.js', '!src/compiled/**/tests/*.js',
-                '!src/compiled/examples/**/*.js'],
+                '!src/compiled/examples/**/*.js', '!src/compiled/lib/EventEmitter.js'],
             options: {
                 specs: ['src/compiled/**/*.test.js'],
                 helpers: [
@@ -35,7 +35,8 @@ module.exports = function(grunt, options) {
                                 react: '../../../bower_components/react/react-with-addons',
                                 flux: '../../../bower_components/flux/dist/Flux',
                                 testUtil: '../../../src/compiled/tests/util',
-                                RequestHandler: '../../../src/compiled/utils/RequestHandler'
+                                RequestHandler: '../../../src/compiled/utils/RequestHandler',
+                                'drc/lib/EventEmitter': '../../../src/compiled/lib/EventEmitter'
                             },
                             callback: function () {
                                 define('instrumented', ['module'], function (module) {
@@ -68,54 +69,17 @@ module.exports = function(grunt, options) {
         },
 
         /**
-         * JSHint configuration
+         * ESLint configuration. See http://eslint.org and .eslintrc files
+         * for details
          */
-        jshint:{
-            options:{
-                newcap: false
-            },
-            src: [
+        eslint:{
+            target: [
                 'src/**/*.js',
-                '!src/js/**/*.js', //We scan the /compiled versions, not the source since JSX hoses things
-                '!src/compiled/tests/*.js',
+                '!src/compiled/**/*.js',
+                '!src/js/tests/*.js',
+                '!src/js/lib/EventEmitter.js',
                 '!src/**/*.test.js'
             ]
-        },
-
-        /**
-         * Javascript Style Checker config
-         */
-        jscs: {
-            src: [
-                'src/**/*.js',
-                '!src/js/**/*.js', //We scan the /compiled versions, not the source since JSX hoses things
-                '!src/compiled/lib/EventEmitter.js',
-                '!src/compiled/tests/*.js',
-                '!src/**/*.test.js'
-            ],
-            options: {
-                // http://jscs.info/rules.html
-                disallowEmptyBlocks: true,
-                disallowMixedSpacesAndTabs: true,
-                disallowMultipleLineBreaks: true,
-                disallowMultipleLineStrings: true,
-                disallowPaddingNewlinesInBlocks: true,
-                disallowSpaceAfterObjectKeys: true,
-                disallowSpaceAfterPrefixUnaryOperators: true,
-                disallowSpaceBeforePostfixUnaryOperators: true,
-                disallowSpacesInCallExpression: true,
-                requireBlocksOnNewline: 1,
-                requireCamelCaseOrUpperCaseIdentifiers: true,
-                requireCommaBeforeLineBreak: true,
-                requireDotNotation: true,
-                requireKeywordsOnNewLine: ["elseif", "else"],
-                requireSpaceBeforeBinaryOperators: true,
-                requireSpaceAfterBinaryOperators: true,
-                requireSpaceBetweenArguments: true,
-                requireSpacesInConditionalExpression: true,
-                validateIndentation: 4,
-                validateParameterSeparator: ", "
-            }
         },
 
         /**

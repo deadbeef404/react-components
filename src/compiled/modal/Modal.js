@@ -2,8 +2,7 @@ define(function(require) {
     'use strict';
 
     var React = require('react');
-    var StringUtils = require('drc/utils/StringUtils');
-    var Utils = require('drc/utils/Utils');
+    var _ = require('lodash');
 
     var iconClasses = {
         close: 'fa fa-close'
@@ -63,7 +62,7 @@ define(function(require) {
 
         /**
          * Captures any click event outside the modal and calls the close modal handler.
-         * @param e - The simulated React event.
+         * @param {Object} e - The simulated React event.
          */
         backgroundClickHandler: function(e) {
             if (e.target.getAttribute('data-clickcatcher')) {
@@ -73,7 +72,7 @@ define(function(require) {
 
         /**
          * Triggered when clicking outside the modal, clicking on the close button, and when pressing escape.
-         * @param e - The simulated React event.
+         * @param {Object} e - The simulated React event.
          */
         closeModalHandler: function(e) {
             e.stopPropagation();
