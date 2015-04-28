@@ -261,7 +261,7 @@ define(function(require) {
                 var action = _.cloneDeep(tableData[0].actions[0]);
                 delete action.start;
                 var nestedTableDataElement = table.getNestedRowTableData(action, definition.cols[0], 0);
-                expect(nestedTableDataElement).toBeUndefined();
+                expect(nestedTableDataElement).toBeNull();
                 expect(Utils.calculateTimeString).not.toHaveBeenCalled();
                 expect(table.calculateDurationString).not.toHaveBeenCalled();
             });
@@ -272,7 +272,7 @@ define(function(require) {
                 var action = _.cloneDeep(tableData[0].actions[0]);
                 delete action.end;
                 var nestedTableDataElement = table.getNestedRowTableData(action, definition.cols[0], 0);
-                expect(nestedTableDataElement).toBeUndefined();
+                expect(nestedTableDataElement).toBeNull();
                 expect(Utils.calculateTimeString).not.toHaveBeenCalled();
                 expect(table.calculateDurationString).not.toHaveBeenCalled();
             });

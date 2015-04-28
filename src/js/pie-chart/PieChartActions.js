@@ -13,7 +13,7 @@ define(function(require) {
          * Action for populating pie chart data. Used both for initial and subsequent loads.
          * @param {string} id - The id of the component.
          * @param {object} definition - A configuration object for the PieChart.
-         * @param {object} filters
+         * @param {object} filters - Query string params for the request.
          */
         requestData: function(id, definition, filters){
             AppDispatcher.dispatchAction({
