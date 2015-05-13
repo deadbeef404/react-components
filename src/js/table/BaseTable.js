@@ -50,7 +50,8 @@ define(function(require) {
                 loading: true,
                 data: null,
                 dataError: false,
-                selectedItems: {}
+                selectedItems: {},
+                advancedFilters: this.props.definition.advancedFilters || null
             };
         },
 
@@ -63,6 +64,8 @@ define(function(require) {
                 thead, tbody, paginationControls, noResults;
 
             var quickFilter = this.getQuickFilter();
+
+            var advancedFiltersMarkup = this.getAdvancedFilters();
 
             if (this.state.data) {
                 thead = this.state.colDefinitions.map(this.getTableHeaderItem);
@@ -79,6 +82,7 @@ define(function(require) {
                     <div className={containerClasses}>
                         <i className={Utils.getLoaderClasses(this.state.loading, this.props.loadingIconClasses)}></i>
                         {quickFilter}
+                        {advancedFiltersMarkup}
                         {paginationControls}
                         <table>
                             <thead>{thead}</thead>
@@ -146,6 +150,43 @@ define(function(require) {
             }
 
             return <input ref="filter" className="quick-filter" type="text" placeholder={this.props.quickFilterPlaceholder} onChange={this.handleQuickFilterChange} />;
+        },
+
+        /**
+         * Builds the markup for the advanced filters.
+         * @returns {ReactElement} - A React div element containing all of the advanced filters.
+         */
+        getAdvancedFilters: function() {
+            var filtersMarkup = [];
+
+            if (!this.state.advancedFilters || _.isEmpty(this.state.advancedFilters) || this.state.loading) {
+                return null;
+            }
+
+            _.each(this.state.advancedFilters, function(filter, index) {
+                filtersMarkup.push(this.getAdvancedFilterItemMarkup(filter, index));
+            }, this);
+
+            return (
+                <div className="advanced-filters">
+                    {filtersMarkup}
+                </div>
+            );
+        },
+
+        /**
+         * Builds the markup for a signle advanced filter item.
+         * @param {Object} filter - One of the advanced filter items.
+         * @index {Number} index - The position of the filter in the advancedFilters array.
+         * @returns {ReactElement} - A React div element containing an advanced filter item.
+         */
+        getAdvancedFilterItemMarkup: function(filter, index) {
+            return (
+                <div key={index} className="advanced-filter-item">
+                    <span className="no-select">{filter.label}</span>
+                    <input type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
+                </div>
+            );
         },
 
         /**
@@ -233,11 +274,15 @@ define(function(require) {
             var onMouseDown;
             var row = [];
 
-            var hoverClass = React.addons.classSet({
+            var rowClasses = React.addons.classSet({
                 'hover-enabled': this.state.rowClick,
                 'text-select': true,
                 'error-row': rowData.isError
             });
+
+            if (rowData.shownByAdvancedFilters) {
+                rowClasses += ' table-filter-' + rowData.shownByAdvancedFilters.join(' table-filter-');
+            }
 
             _.forIn(this.state.colDefinitions, function(val) {
                 row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, index));
@@ -249,7 +294,7 @@ define(function(require) {
             }
             return (
                 <tr key={'tableRow' + Utils.guid()}
-                    className={hoverClass}
+                    className={rowClasses}
                     onClick={handleRowClick}
                     onMouseDown={onMouseDown}>
                     {row}
@@ -367,6 +412,20 @@ define(function(require) {
          */
         handleQuickFilterChange: function(e) {
             TableActions.filter(this.props.componentId, e.target.value);
+        },
+
+        /**
+         * Triggers advanced filtering of the table's data.
+         * @param {Object} filter - One of the advanced filter items.
+         */
+        handleAdvancedFilterToggle: function(filter) {
+            if (filter.checked === null) {
+                filter.checked = false;
+            }
+
+            filter.checked = !filter.checked;
+
+            TableActions.advancedFilter(this.props.componentId, this.state.advancedFilters);
         },
 
         /**
