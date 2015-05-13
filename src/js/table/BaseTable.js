@@ -51,7 +51,7 @@ define(function(require) {
                 data: null,
                 dataError: false,
                 selectedItems: {},
-                advancedFilters: this.props.definition.advancedFilters ? this.props.definition.advancedFilters : null
+                advancedFilters: this.props.definition.advancedFilters || null
             };
         },
 
@@ -158,35 +158,33 @@ define(function(require) {
          */
         getAdvancedFilters: function() {
             var filtersMarkup = [];
-            var advancedFiltersMarkup;
 
             if (!this.state.advancedFilters || _.isEmpty(this.state.advancedFilters) || this.state.loading) {
                 return null;
             }
 
-            _.each(this.state.advancedFilters, function(filter) {
-                filtersMarkup.push(this.getAdvancedFilterItemMarkup(filter));
+            _.each(this.state.advancedFilters, function(filter, index) {
+                filtersMarkup.push(this.getAdvancedFilterItemMarkup(filter, index));
             }, this);
 
-            advancedFiltersMarkup = (
+            return (
                 <div className="advanced-filters">
                     {filtersMarkup}
                 </div>
             );
-
-            return advancedFiltersMarkup;
         },
 
         /**
          * Builds the markup for a signle advanced filter item.
          * @param {Object} filter - One of the advanced filter items.
+         * @index {Number} index - The position of the filter in the advancedFilters array.
          * @returns {ReactElement} - A React div element containing an advanced filter item.
          */
-        getAdvancedFilterItemMarkup: function(filter) {
+        getAdvancedFilterItemMarkup: function(filter, index) {
             return (
-                <div className="advanced-filter-item">
+                <div key={index} className="advanced-filter-item">
                     <span className="no-select">{filter.label}</span>
-                    <input type="checkbox" checked={filter.checked ? filter.checked : false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
+                    <input type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
                 </div>
             );
         },
