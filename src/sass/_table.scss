@@ -1,6 +1,19 @@
 @import 'vars';
 
 .table-component {
+  .advanced-filter-item {
+    display: inline-block;
+    margin: 3px 5px;
+
+    span {
+      margin: 0 5px;
+    }
+
+    input {
+      margin: 0 3px;
+    }
+  }
+
   // wrapper for the markup inside the table component
   .data-container{
     min-height: 100px;

@@ -6,16 +6,16 @@ define(function(require) {
 
     var testTableData = [
         {"spacecraft": "Amos", "name": "Amos", "mission": 'Communications sat, Israel', "launched": 5, "lastLaunchDate": 832204800000, "lastCommunication": moment().subtract(3, 'minutes').valueOf()},
-        {"spacecraft": "Hipparcos", "name": "Hipparcos", "mission": 'Astrometry (ESA)', "launched": 1, "lastLaunchDate": 618537600000, "lastCommunication": moment().subtract(4, 'minutes').valueOf()},
-        {"spacecraft": "Universitetskiy", "name": "Tatyana", "mission": 'Student satellite, Russia', "launched": 1, "lastLaunchDate": 1253145600000, "lastCommunication": moment().subtract(1, 'minutes').valueOf()},
-        {"spacecraft": "ISS", "name": "Aryabhata", "mission": 'Test satellite (India)', "launched": 1, "lastLaunchDate": 167097600000, "lastCommunication": 167529600000},
-        {"spacecraft": "SEO", "name": "Bhaskara", "mission": 'Earth observing sat (India)', "launched": 1, "lastLaunchDate": 297561600000, "lastCommunication": 624585602301},
+        {"spacecraft": "Hipparcos", "archived": true, "deleted": true, "name": "Hipparcos", "mission": 'Astrometry (ESA)', "launched": 1, "lastLaunchDate": 618537600000, "lastCommunication": moment().subtract(4, 'minutes').valueOf()},
+        {"spacecraft": "Universitetskiy", "deleted": true, "name": "Tatyana", "mission": 'Student satellite, Russia', "launched": 1, "lastLaunchDate": 1253145600000, "lastCommunication": moment().subtract(1, 'minutes').valueOf()},
+        {"spacecraft": "ISS", "archived": true, "name": "Aryabhata", "mission": 'Test satellite (India)', "launched": 1, "lastLaunchDate": 167097600000, "lastCommunication": 167529600000},
+        {"spacecraft": "SEO", "archived": true, "name": "Bhaskara", "mission": 'Earth observing sat (India)', "launched": 1, "lastLaunchDate": 297561600000, "lastCommunication": 624585602301},
         {"spacecraft": "STARS-2", "name": "Kukai", "mission": 'Tether experiment', "launched": 2, "lastLaunchDate": 1393459200000, "lastCommunication": moment().subtract(2, 'minutes').valueOf()},
         {"spacecraft": "Sina", "name": "Sina(h)-1", "mission": 'Test satellite', "launched": 1, "lastLaunchDate": 1130371200000, "lastCommunication": 1145577603301},
         {"spacecraft": "Ghauri", "name": "Ghauri", "mission": 'Missile', "launched": 2, "lastLaunchDate": 924048000000},
         {"spacecraft": "Marcopolo", "name": "Marcopolo", "mission": 'Communications sat, England', "launched": 2, "lastLaunchDate": 650937600000, "lastCommunication": 104353920521},
-        {"spacecraft": "Giotto", "name": "Giotto", "mission": 'Comet probe (ESA)', "launched": 1, "lastLaunchDate": 489110400000, "lastCommunication": 711849600040},
-        {"spacecraft": "MPLM-3", "name": "Donatello", "mission": 'Space station module, not flown', "launched": 0},
+        {"spacecraft": "Giotto", "deleted": true, "name": "Giotto", "mission": 'Comet probe (ESA)', "launched": 1, "lastLaunchDate": 489110400000, "lastCommunication": 711849600040},
+        {"spacecraft": "MPLM-3", "archived": true, "name": "Donatello", "mission": 'Space station module, not flown', "launched": 0},
         {"spacecraft": "XMM", "name": "XMM-Newton", "mission": 'X-ray astronomy', "launched": 1, "lastLaunchDate": 962409610000, "lastCommunication": moment().subtract(1, 'second').valueOf()}
     ];
 
