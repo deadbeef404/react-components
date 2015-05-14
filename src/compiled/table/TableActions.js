@@ -8,6 +8,7 @@ define(function(require) {
             REQUEST_DATA: 'REQUEST_DATA',
             DESTROY_INSTANCE: 'DESTROY_INSTANCE',
             FILTER: 'FILTER',
+            ADVANCED_FILTER: 'ADVANCED_FILTER',
             PAGINATE: 'PAGINATE',
             TABLE_SORT: 'TABLE_SORT',
             TOGGLE_BULK_SELECT: 'TOGGLE_BULK_SELECT',
@@ -58,6 +59,23 @@ define(function(require) {
                 id: id,
                 data: {
                     value: value
+                }
+            });
+        },
+
+        /**
+         * Filters out table data where any property value equals a matching property value on an advanced filter
+         * unless the advanced filter has been checked.
+         * @param {String} id - The unique identifier of the Table instance to request filtering data for.
+         * @param {Array} advancedFilters - The current state of the Table's advanced filters.
+         */
+        advancedFilter: function(id, advancedFilters) {
+            AppDispatcher.dispatchAction({
+                actionType: this.actionTypes.ADVANCED_FILTER,
+                component: 'Table',
+                id: id,
+                data: {
+                    advancedFilters: advancedFilters
                 }
             });
         },

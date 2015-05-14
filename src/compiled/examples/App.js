@@ -69,6 +69,18 @@ define(function(require) {
                 quickFilter: true
             }
         ],
+        advancedFilters: [
+            {
+                dataProperty: 'archived',
+                filterValue: true,
+                label: 'Show Archived'
+            },
+            {
+                dataProperty: 'deleted',
+                filterValue: true,
+                label: 'Show Deleted'
+            }
+        ],
         sortColIndex: 1,
         pagination: {
             cursor: 0,
