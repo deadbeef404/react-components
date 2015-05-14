@@ -29,6 +29,7 @@ define(function(require) {
         this.pagination = definition.pagination;
         this.cursor = definition.cursor;
         this.rowClick = definition.rowClick;
+        this.advancedFilters = definition.advancedFilters;
         this.data = null;
         this.filteredData = null;
         this.displayedData = null;
@@ -95,9 +96,7 @@ define(function(require) {
             var data = _.cloneDeep(this.data);
             this.dataCount = data.length;
 
-            if (this.filterValue) {
-                data = this.filterData(data);
-            }
+            data = this.filterData(data);
 
             this.filteredData = data;
 
@@ -163,11 +162,42 @@ define(function(require) {
         },
 
         /**
+         * Sets the value used for advanced filtering of the Table.
+         * @param {Object} advancedFilters - The current state of the advanced filters from the Table instance.
+         */
+        setAdvancedFilters: function(advancedFilters) {
+            this.advancedFilters = advancedFilters;
+
+            if (this.pagination && this.pagination.cursor !== 0) {
+                this.resetPagination();
+            }
+        },
+
+        /**
+         * Triggers quick filtering and advanced filtering of the data if either of those properties have been set.
+         * @param {Array} data - Cloned Table.data.
+         * @returns {Array} - The subset of fully filtered data.
+         */
+        filterData: function(data) {
+            if (this.filterValue) {
+                data = this.quickFilterData(data);
+            }
+
+            if (this.advancedFilters) {
+                data = this.advancedFilterData(data);
+            }
+
+            this.dataCount = data.length;
+
+            return data;
+        },
+
+        /**
          * Filters out table data that does not match the filter value for table cols that have quickFilter set to true.
          * @param {Array} data - Cloned Table.data.
          * @returns {Array} - The subset of data that matches the filter value.
          */
-        filterData: function(data) {
+        quickFilterData: function(data) {
             var value = this.filterValue;
             var filteredData = [];
             var matches;
@@ -187,7 +217,40 @@ define(function(require) {
                 }
             });
 
-            this.dataCount = filteredData.length;
+            return filteredData;
+        },
+
+        /**
+         * Filters out table data where any property value equals a matching property value on an advanced filter
+         * unless the advanced filter has been checked.
+         * @param {Array} data - Cloned Table.data.
+         * @returns {Array} - The subset of filtered data.
+         */
+        advancedFilterData: function(data) {
+            var filteredData = [];
+
+            _.each(data, function(item) {
+                var shown = true;
+
+                _.each(this.advancedFilters, function(filter) {
+                    if (item[filter.dataProperty] === filter.filterValue) {
+                        if (filter.checked) {
+                            if (!item.shownByAdvancedFilters) {
+                                item.shownByAdvancedFilters = [];
+                            }
+                            item.shownByAdvancedFilters.push(filter.dataProperty);
+                            shown = true;
+                        }
+                        else if (!item.shownByAdvancedFilters) {
+                            shown = false;
+                        }
+                    }
+                }, this);
+
+                if (shown) {
+                    filteredData.push(item);
+                }
+            }, this);
 
             return filteredData;
         },
@@ -289,7 +352,7 @@ define(function(require) {
                     delete this.selectedItems[data[this.selectDataProperty]];
                 }
                 else {
-                    this.selectedItems[data[this.selectDataProperty]] = true;
+                    this.selectedItems[data[this.selectDataProperty]] = data;
                 }
             }, this);
         },
@@ -304,7 +367,7 @@ define(function(require) {
                 delete this.selectedItems[key];
             }
             else {
-                this.selectedItems[key] = true;
+                this.selectedItems[key] = this.displayedData[rowIndex];
             }
         }
     };
@@ -372,6 +435,10 @@ define(function(require) {
                     break;
                 case ActionTypes.FILTER:
                     this.collection[action.id].setFilterValue(action.data.value);
+                    this.emitChange(action.id);
+                    break;
+                case ActionTypes.ADVANCED_FILTER:
+                    this.collection[action.id].setAdvancedFilters(action.data.advancedFilters);
                     this.emitChange(action.id);
                     break;
                 case ActionTypes.PAGINATE:

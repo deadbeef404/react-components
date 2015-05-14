@@ -180,6 +180,14 @@ body {
   }
 }
 
+.table-filter-archived {
+  color: orange !important;
+}
+
+.table-filter-deleted {
+  color: red !important;
+}
+
 .bulk-action-button {
   border: solid 1px $light-grey;
   border-radius: 5px;
