@@ -177,7 +177,7 @@ define(function(require) {
         /**
          * Builds the markup for a signle advanced filter item.
          * @param {Object} filter - One of the advanced filter items.
-         * @index {Number} index - The position of the filter in the advancedFilters array.
+         * @param {Number} index - The position of the filter in the advancedFilters array.
          * @returns {ReactElement} - A React div element containing an advanced filter item.
          */
         getAdvancedFilterItemMarkup: function(filter, index) {

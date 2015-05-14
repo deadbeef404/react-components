@@ -352,7 +352,7 @@ define(function(require) {
                     delete this.selectedItems[data[this.selectDataProperty]];
                 }
                 else {
-                    this.selectedItems[data[this.selectDataProperty]] = true;
+                    this.selectedItems[data[this.selectDataProperty]] = data;
                 }
             }, this);
         },
@@ -367,7 +367,7 @@ define(function(require) {
                 delete this.selectedItems[key];
             }
             else {
-                this.selectedItems[key] = true;
+                this.selectedItems[key] = this.displayedData[rowIndex];
             }
         }
     };
