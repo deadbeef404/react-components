@@ -5,7 +5,7 @@ define(function(require) {
     var ActionTypes = TableActions.actionTypes;
 
     describe('TableActions', function() {
-        describe('requestData function', function() {
+        describe('requestData', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
                 var definition = {testModelType: 'testModelType'};
@@ -29,7 +29,7 @@ define(function(require) {
             });
         });
 
-        describe('destroyInstance function', function() {
+        describe('destroyInstance', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
 
@@ -45,7 +45,7 @@ define(function(require) {
             });
         });
 
-        describe('filter function', function() {
+        describe('filter', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
                 var value = 'testFilter';
@@ -65,7 +65,27 @@ define(function(require) {
             });
         });
 
-        describe('paginate function', function() {
+        describe('advancedFilter', function() {
+            it('should request that an action be dispatched', function() {
+                var id = 'testID';
+                var advancedFilters = [{test: 'filter'}];
+
+                spyOn(AppDispatcher, 'dispatchAction');
+
+                TableActions.advancedFilter(id, advancedFilters);
+
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
+                    actionType: ActionTypes.ADVANCED_FILTER,
+                    component: 'Table',
+                    id: id,
+                    data: {
+                        advancedFilters: advancedFilters
+                    }
+                });
+            });
+        });
+
+        describe('paginate', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
                 var direction = 'testDirection';
@@ -85,7 +105,7 @@ define(function(require) {
             });
         });
 
-        describe('sortChange function', function() {
+        describe('sortChange', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
                 var colIndex = 0;
@@ -107,7 +127,7 @@ define(function(require) {
             });
         });
 
-        describe('toggleBulkSelect function', function() {
+        describe('toggleBulkSelect', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
                 var deselect = false;
@@ -127,7 +147,7 @@ define(function(require) {
             });
         });
 
-        describe('toggleRowSelect function', function() {
+        describe('toggleRowSelect', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
                 var rowIndex = 0;

@@ -149,6 +149,27 @@ define(function(require) {
                 table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
                 expect(table.quickFilterEnabled).toEqual(true);
             });
+
+            it('should initialize the advancedFilters property to null if advancedFilters were set on the table definition', function() {
+                expect(table.state.advancedFilters).toBeNull();
+            });
+
+            it('should initialize the advancedFilters property to what was set on the table definition', function() {
+                var def = _.cloneDeep(definition);
+                def.advancedFilters = {
+                    testFilter: 'testVal'
+                };
+                var props = {
+                    definition: def,
+                    componentId: id,
+                    key: id,
+                    filters: {},
+                    loadingIconClasses: ['icon', 'ion-loading-c']
+                };
+
+                table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
+                expect(table.state.advancedFilters).toEqual(def.advancedFilters);
+            });
         });
 
         describe('componentDidMount function', function() {
@@ -265,6 +286,55 @@ define(function(require) {
                 table.quickFilterEnabled = false;
                 expect(table.getQuickFilter()).toBeNull();
                 table.state.data = null;
+            });
+        });
+
+        describe('getAdvancedFilters', function() {
+            it('should return null if there are no advanced filters', function() {
+                expect(table.getAdvancedFilters()).toBeNull();
+            });
+
+            it('should request the markup for each advanced filter', function() {
+                table.state.loading = false;
+                table.state.advancedFilters = [
+                    {
+                        dataProperty: 'archived',
+                        filterValue: true,
+                        label: 'Show Archived'
+                    },
+                    {
+                        dataProperty: 'deleted',
+                        filterValue: true,
+                        label: 'Show Deleted'
+                    }
+                ];
+                spyOn(table, 'getAdvancedFilterItemMarkup');
+
+                table.getAdvancedFilters();
+
+                expect(table.getAdvancedFilterItemMarkup.calls.count()).toEqual(2);
+                expect(table.getAdvancedFilters().props.className).toEqual('advanced-filters');
+            });
+        });
+
+        describe('getAdvancedFilterItemMarkup', function() {
+            it('should return the markup for an advanced filter', function() {
+                table.state.loading = false;
+                table.state.advancedFilters = [
+                    {
+                        dataProperty: 'archived',
+                        filterValue: true,
+                        label: 'Show Archived'
+                    }
+                ];
+
+                var markup = table.getAdvancedFilterItemMarkup(table.state.advancedFilters[0]);
+
+                expect(markup.props.className).toEqual('advanced-filter-item');
+                expect(markup.props.children[0].props.children).toEqual('Show Archived');
+                expect(markup.props.children[1].type).toEqual('input');
+                expect(markup.props.children[1].props.type).toEqual('checkbox');
+                expect(markup.props.children[1].props.checked).toEqual(false);
             });
         });
 
@@ -409,6 +479,13 @@ define(function(require) {
                 var tableRowComponent = table.getTableRowItem(rowData, index);
 
                 expect(tableRowComponent.props.className).toEqual('text-select');
+            });
+
+            it ('should add classes for advancedFilters', function() {
+                rowData.shownByAdvancedFilters = ['test1', 'test2'];
+                var tableRowComponent = table.getTableRowItem(rowData, index);
+
+                expect(tableRowComponent.props.className).toEqual('text-select table-filter-test1 table-filter-test2');
             });
 
             it('should have an onClick function if row clicks are defined', function() {
@@ -713,6 +790,22 @@ define(function(require) {
                 table.handleQuickFilterChange(event);
 
                 expect(TableActions.filter).toHaveBeenCalledWith(id, event.target.value);
+            });
+        });
+
+        describe('handleAdvancedFilterToggle function', function() {
+            it('should trigger advanced filtering', function() {
+                table.state.advancedFilters = [
+                    {checked: null},{checked: false}
+                ];
+
+                spyOn(TableActions, 'advancedFilter');
+                table.handleAdvancedFilterToggle(table.state.advancedFilters[0]);
+
+                expect(TableActions.advancedFilter).toHaveBeenCalledWith(id, table.state.advancedFilters);
+
+                table.handleAdvancedFilterToggle(table.state.advancedFilters[1]);
+                expect(TableActions.advancedFilter).toHaveBeenCalledWith(id, table.state.advancedFilters);
             });
         });
 

@@ -324,7 +324,74 @@ define(function(require) {
                 });
             });
 
+            describe('setAdvancedFilters', function() {
+                it('should set the advancedFilters and reset pagination if it is in the definition and the cursor is not at 0', function() {
+                    var filters = {test: 'FilterValue'};
+                    var def = _.cloneDeep(definition);
+                    def.pagination.cursor = 4;
+                    table = new TableStore.Table(id, def, null);
+                    spyOn(table, 'resetPagination');
+
+                    table.setAdvancedFilters(filters);
+
+                    expect(table.advancedFilters).toEqual(filters);
+                    expect(table.resetPagination).toHaveBeenCalled();
+                });
+
+                it('should set the filter value and not reset pagination if it is in the definition and the cursor is at 0', function() {
+                    var filters = {test: 'FilterValue'};
+                    var def = _.cloneDeep(definition);
+                    def.pagination.cursor = 0;
+                    table = new TableStore.Table(id, def, null);
+                    spyOn(table, 'resetPagination');
+
+                    table.setAdvancedFilters(filters);
+
+                    expect(table.advancedFilters).toEqual(filters);
+                    expect(table.resetPagination).not.toHaveBeenCalled();
+                });
+
+                it('should set the filter value and not reset pagination if it is not in the definition', function() {
+                    var filters = {test: 'FilterValue'};
+                    var def = _.cloneDeep(definition);
+                    def.pagination = null;
+                    table = new TableStore.Table(id, def, null);
+                    spyOn(table, 'resetPagination');
+
+                    table.setAdvancedFilters(filters);
+
+                    expect(table.advancedFilters).toEqual(filters);
+                    expect(table.resetPagination).not.toHaveBeenCalled();
+                });
+            });
+
             describe('filterData function', function() {
+                it('should trigger quick filtering', function() {
+                    var data = [{test: 'data1'}, {test: 'data2'}];
+                    spyOn(table, 'quickFilterData').and.returnValue(data);
+
+                    table.filterData(data);
+                    expect(table.quickFilterData).not.toHaveBeenCalled();
+
+                    table.filterValue = 'asdf';
+                    table.filterData(data);
+                    expect(table.quickFilterData).toHaveBeenCalled();
+                });
+
+                it('should trigger advanced filtering', function() {
+                    var data = [{test: 'data1'}, {test: 'data2'}];
+                    spyOn(table, 'advancedFilterData').and.returnValue(data);
+
+                    table.filterData(data);
+                    expect(table.advancedFilterData).not.toHaveBeenCalled();
+
+                    table.advancedFilters = [{test1: 'filter1'}, {test2: 'filter1'}];
+                    table.filterData(data);
+                    expect(table.advancedFilterData).toHaveBeenCalled();
+                });
+            });
+
+            describe('quickFilterData', function() {
                 var origDefinition = _.cloneDeep(definition);
 
                 beforeEach(function() {
@@ -337,18 +404,51 @@ define(function(require) {
 
                 it('should filter data for each column that has quickFilter set to true and set the dataCount', function() {
                     table.filterValue = 'a';
-                    expect(table.filterData(definition.data).length).toEqual(6);
-                    expect(table.dataCount).toEqual(6);
+                    expect(table.quickFilterData(definition.data).length).toEqual(6);
                 });
 
                 it('should filter data for each column that has quickFilter set to true and set the dataCount', function() {
                     table.filterValue = 14;
-                    expect(table.filterData(definition.data).length).toEqual(2);
-                    expect(table.dataCount).toEqual(2);
+                    expect(table.quickFilterData(definition.data).length).toEqual(2);
                 });
 
                 // Reset definition
                 definition = origDefinition;
+            });
+
+            describe('advancedFilterData', function() {
+                it('should filter out table data where any property value equals a matching property value on an ' +
+                    'advanced filter unless the advanced filter has been checked.', function() {
+                    var data = [{test1: 'data1', test2: 'data1', test3: 'data1'}, {test1: 'data2', test2: 'data2'}, {test1: 'data3', test2: 'data3'}];
+                    table.advancedFilters = [
+                        {
+                            dataProperty: 'test1',
+                            filterValue: 'data1',
+                            label: 'show test1 data1',
+                            checked: true
+                        }, // show the row
+                        {
+                            dataProperty: 'test2',
+                            filterValue: 'data1',
+                            label: 'show test2 data1',
+                            checked: true
+                        }, // allow a second filter to show the row
+                        {
+                            dataProperty: 'test3',
+                            filterValue: 'data1',
+                            label: 'show test3 data1'
+                        }, // do not hide a row that has been shown by another filter
+                        {
+                            dataProperty: 'test1',
+                            filterValue: 'data3',
+                            label: 'show data4'
+                        }  // hide a row where the filter is not checked
+                    ];
+                    expect(table.advancedFilterData(data)).toEqual([
+                        {test1: 'data1', test2: 'data1', test3: 'data1', shownByAdvancedFilters: ['test1', 'test2']},
+                        {test1: 'data2', test2: 'data2'}
+                    ]);
+                });
             });
 
             describe('paginate function', function() {
@@ -721,6 +821,27 @@ define(function(require) {
                 TableStore.dispatchRegister(payload);
 
                 expect(TableStore.collection['testId'].setFilterValue).toHaveBeenCalledWith(payload.action.data.value);
+                expect(TableStore.emitChange).toHaveBeenCalledWith(payload.action.id);
+            });
+
+            it('should call the filter function and emit a change when the action is requesting that the table be filtered', function() {
+                var payload = {
+                    action: {
+                        actionType: ActionTypes.ADVANCED_FILTER,
+                        component: 'Table',
+                        id: 'testId',
+                        data: {
+                            advancedFilters: [{test: 'filter'}]
+                        }
+                    }
+                };
+                TableStore.collection['testId'] = {setAdvancedFilters: function(){}};
+
+                spyOn(TableStore.collection['testId'], 'setAdvancedFilters');
+                spyOn(TableStore, 'emitChange');
+                TableStore.dispatchRegister(payload);
+
+                expect(TableStore.collection['testId'].setAdvancedFilters).toHaveBeenCalledWith(payload.action.data.advancedFilters);
                 expect(TableStore.emitChange).toHaveBeenCalledWith(payload.action.id);
             });
 
