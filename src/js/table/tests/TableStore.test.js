@@ -685,7 +685,7 @@ define(function(require) {
 
                     table.updateBulkSelection(false);
 
-                    expect(table.selectedItems).toEqual({'test1': true, 'test2': true});
+                    expect(table.selectedItems).toEqual({'test1': {item: 'test1'}, 'test2': {item: 'test2'}});
 
                     table.updateBulkSelection(true);
                     expect(table.selectedItems).toEqual({});
@@ -701,7 +701,7 @@ define(function(require) {
 
                     table.updateRowSelection(0);
 
-                    expect(table.selectedItems).toEqual({'test1': true});
+                    expect(table.selectedItems).toEqual({'test1': {item: 'test1'}});
 
                     table.updateRowSelection(0);
                     expect(table.selectedItems).toEqual({});
