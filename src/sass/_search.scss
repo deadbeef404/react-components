@@ -51,7 +51,7 @@
       position: absolute;
       max-height: 300px;
       &:empty{
-        height: auto;
+        height: 0;
       }
       overflow-y: auto;
       width: 100%;
