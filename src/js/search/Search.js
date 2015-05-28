@@ -488,7 +488,7 @@ define(function(require) {
                         <i className={searchIconClasses}/>
                         <input ref="searchInput"
                                value={this.state.inputValue}
-                               type="text"
+                               type="search"
                                autoComplete="off"
                                placeholder={placeholderText}
                                disabled={this.state.disabled}

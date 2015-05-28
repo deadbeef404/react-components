@@ -34,7 +34,12 @@ definition
         type: object
         required: false
         description: Sent as data with requests to the server
-            
+
+    advancedFilters
+        type: array
+        required: false
+        description: Array of advanced filters that provide toggles to hide/show certain elements in the table results. 
+
     pagination
         type: object
         required: false
@@ -209,6 +214,13 @@ var tableDefinition = {
             timeFormat: 'MMM Do, h:mm A YYYY',
             width: '20%',
             quickFilter: true
+        }
+    ],
+    advancedFilters: [
+        {
+            dataProperty: 'archived', //Name of the property that will determine whether column is visible or not
+            filterValue: true, //Value to check against when checkbox is selected. In this example, if the row "archived" property is true, it will show when the checkbox is selected, otherwise it will be hidden
+            label: 'Show Archived' //Label to display next to checkbox
         }
     ],
     sortColIndex: 1,

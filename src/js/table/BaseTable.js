@@ -149,7 +149,7 @@ define(function(require) {
                 return null;
             }
 
-            return <input ref="filter" className="quick-filter" type="text" placeholder={this.props.quickFilterPlaceholder} onChange={this.handleQuickFilterChange} />;
+            return <input ref="filter" className="quick-filter" type="search" placeholder={this.props.quickFilterPlaceholder} onChange={this.handleQuickFilterChange} />;
         },
 
         /**
@@ -284,8 +284,8 @@ define(function(require) {
                 rowClasses += ' table-filter-' + rowData.shownByAdvancedFilters.join(' table-filter-');
             }
 
-            _.forIn(this.state.colDefinitions, function(val) {
-                row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, index));
+            _.forIn(this.state.colDefinitions, function(val, colIndex) {
+                row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, colIndex));
             }.bind(this));
 
             if (this.state.rowClick) {
@@ -293,7 +293,7 @@ define(function(require) {
                 onMouseDown = this.onMouseDown;
             }
             return (
-                <tr key={'tableRow' + Utils.guid()}
+                <tr key={'tr-' + index}
                     className={rowClasses}
                     onClick={handleRowClick}
                     onMouseDown={onMouseDown}>
@@ -326,7 +326,7 @@ define(function(require) {
             return (
                 <th className={headerClasses}
                     title={colData.headerLabel}
-                    key={'tableHeader' + Utils.guid()}
+                    key={'th-' + index}
                     style={{width: colData.width}}
                     onClick={onClick}>{colData.headerLabel}
                     {icon}
@@ -383,14 +383,14 @@ define(function(require) {
                 return (
                     <td className="select-column-td no-select"
                         title={this.state.selectedItems && this.state.selectedItems[val] ? "Deselect" : "Select"}
-                        key={'tableData' + Utils.guid()}
+                        key={'td-' + index}
                         onClick={this.handleSelectClick}>
                         <i className={iconClassString}></i>
                     </td>
                 );
             }
 
-            if (meta.dataType === 'status') {
+            if (meta.dataType === 'status' && this.state.data[index]) {
                 contentClasses += ' before-icon';
                 iconClassString = this.state.data[index].online ? this.iconClasses.statusOn + ' status-on' : this.iconClasses.statusOff + ' status-off';
 
@@ -399,7 +399,7 @@ define(function(require) {
             hoverValue = hoverValue || val;
 
             return (
-                <td className="status" key={'tableData' + Utils.guid()}>
+                <td className="status" key={'td-' + index}>
                     <span className={contentClasses} title={hoverValue}>{val}</span>
                     {afterIcon}
                 </td>
