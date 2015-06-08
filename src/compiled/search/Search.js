@@ -488,7 +488,7 @@ define(function(require) {
                         React.createElement("i", {className: searchIconClasses}), 
                         React.createElement("input", {ref: "searchInput", 
                                value: this.state.inputValue, 
-                               type: "text", 
+                               type: "search", 
                                autoComplete: "off", 
                                placeholder: placeholderText, 
                                disabled: this.state.disabled, 
