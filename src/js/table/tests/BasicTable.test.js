@@ -709,11 +709,8 @@ define(function(require) {
 
             it('should render fa-circle icons after the status of an online user', function() {
                 var val = Date.now() - 899999;
-                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A', online: true};
-                table.state.data = [];
-                table.state.data.push(meta);
-                var tableDataComponent = table.getTableData(val, meta, null, 0);
-
+                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A'};
+                var tableDataComponent = table.getTableData(val, meta, null, 0, true);
 
                 expect(tableDataComponent.props.children[1].props.className).toEqual('after-icon fa fa-circle status-on');
             });
@@ -731,20 +728,16 @@ define(function(require) {
                 table.onDataReceived();
 
                 var val = Date.now() - 899999;
-                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A', online: true};
-                table.state.data = [];
-                table.state.data.push(meta);
-                var tableDataComponent = table.getTableData(val, meta, null, 0);
+                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A'};
+                var tableDataComponent = table.getTableData(val, meta, null, 0, true);
 
                 expect(tableDataComponent.props.children[1].props.className).toEqual('after-icon test-status-on status-on');
             });
 
             it('should render fa-circle-o icons after the status of an offline user', function() {
                 var val = Date.now() - 900001;
-                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A', online: false};
-                table.state.data = [];
-                table.state.data.push(meta);
-                var tableDataComponent = table.getTableData(val, meta, null, 0);
+                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A'};
+                var tableDataComponent = table.getTableData(val, meta, null, 0, false);
 
                 expect(tableDataComponent.props.children[1].props.className).toEqual('after-icon fa fa-circle-o status-off');
             });
@@ -762,10 +755,8 @@ define(function(require) {
                 table.onDataReceived();
 
                 var val = Date.now() - 900001;
-                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A', online: false};
-                table.state.data = [];
-                table.state.data.push(meta);
-                var tableDataComponent = table.getTableData(val, meta, null, 0);
+                var meta = {dataType: 'status', timeFormat: 'MMM Do, h A'};
+                var tableDataComponent = table.getTableData(val, meta, null, 0, false);
 
                 expect(tableDataComponent.props.children[1].props.className).toEqual('after-icon test-status-off status-off');
             });
