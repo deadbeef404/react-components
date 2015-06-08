@@ -149,7 +149,7 @@ define(function(require) {
                 return null;
             }
 
-            return <input ref="filter" className="quick-filter" type="text" placeholder={this.props.quickFilterPlaceholder} onChange={this.handleQuickFilterChange} />;
+            return <input ref="filter" className="quick-filter" type="search" placeholder={this.props.quickFilterPlaceholder} onChange={this.handleQuickFilterChange} />;
         },
 
         /**
@@ -284,8 +284,8 @@ define(function(require) {
                 rowClasses += ' table-filter-' + rowData.shownByAdvancedFilters.join(' table-filter-');
             }
 
-            _.forIn(this.state.colDefinitions, function(val) {
-                row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, index));
+            _.forIn(this.state.colDefinitions, function(val, colIndex) {
+                row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, colIndex, rowData.online));
             }.bind(this));
 
             if (this.state.rowClick) {
@@ -293,7 +293,7 @@ define(function(require) {
                 onMouseDown = this.onMouseDown;
             }
             return (
-                <tr key={'tableRow' + Utils.guid()}
+                <tr key={'tr-' + index}
                     className={rowClasses}
                     onClick={handleRowClick}
                     onMouseDown={onMouseDown}>
@@ -326,7 +326,7 @@ define(function(require) {
             return (
                 <th className={headerClasses}
                     title={colData.headerLabel}
-                    key={'tableHeader' + Utils.guid()}
+                    key={'th-' + index}
                     style={{width: colData.width}}
                     onClick={onClick}>{colData.headerLabel}
                     {icon}
@@ -366,24 +366,25 @@ define(function(require) {
 
         /**
          * Creates a table data element.
-         * @param  {Mixed} val - The value for the current cell
-         * @param  {Object} meta - Details about the value (format, type, etc).
-         * @param  {Mixed=} hoverValue - Optional value to show in hover state of cell.
-         * @param {Number} index - The current column index.
-         * @return {Object} - A React table data element.
+         * @param  {Mixed}  val        The value for the current cell
+         * @param  {Object} meta       Details about the value (format, type, etc).
+         * @param  {Mixed=} hoverValue Optional value to show in hover state of cell.
+         * @param  {Number} index      The current column index.
+         * @param  {Bool}   online     Online field for the current row
+         * @return {Object}            A React table data element.
          */
-        getTableData: function(val, meta, hoverValue, index) {
+        getTableData: function(val, meta, hoverValue, index, online) {
             var afterIcon, iconClassString;
             var contentClasses = 'content';
 
             // This is a select column
-            if (meta.dataType && meta.dataType === 'select') {
+            if (meta.dataType === 'select') {
                 iconClassString = this.state.selectedItems && this.state.selectedItems[val] ? this.iconClasses.selectOn + ' on' : this.iconClasses.selectOff + ' off';
 
                 return (
                     <td className="select-column-td no-select"
                         title={this.state.selectedItems && this.state.selectedItems[val] ? "Deselect" : "Select"}
-                        key={'tableData' + Utils.guid()}
+                        key={'td-' + index}
                         onClick={this.handleSelectClick}>
                         <i className={iconClassString}></i>
                     </td>
@@ -392,14 +393,14 @@ define(function(require) {
 
             if (meta.dataType === 'status') {
                 contentClasses += ' before-icon';
-                iconClassString = this.state.data[index].online ? this.iconClasses.statusOn + ' status-on' : this.iconClasses.statusOff + ' status-off';
+                iconClassString = online ? this.iconClasses.statusOn + ' status-on' : this.iconClasses.statusOff + ' status-off';
 
                 afterIcon = <i className={'after-icon ' + iconClassString} />;
             }
             hoverValue = hoverValue || val;
 
             return (
-                <td className="status" key={'tableData' + Utils.guid()}>
+                <td className="status" key={'td-' + index}>
                     <span className={contentClasses} title={hoverValue}>{val}</span>
                     {afterIcon}
                 </td>
