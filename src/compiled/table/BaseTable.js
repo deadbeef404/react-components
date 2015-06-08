@@ -285,7 +285,7 @@ define(function(require) {
             }
 
             _.forIn(this.state.colDefinitions, function(val, colIndex) {
-                row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, colIndex));
+                row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, colIndex, rowData.online));
             }.bind(this));
 
             if (this.state.rowClick) {
@@ -366,18 +366,19 @@ define(function(require) {
 
         /**
          * Creates a table data element.
-         * @param  {Mixed} val - The value for the current cell
-         * @param  {Object} meta - Details about the value (format, type, etc).
-         * @param  {Mixed=} hoverValue - Optional value to show in hover state of cell.
-         * @param {Number} index - The current column index.
-         * @return {Object} - A React table data element.
+         * @param  {Mixed}  val        The value for the current cell
+         * @param  {Object} meta       Details about the value (format, type, etc).
+         * @param  {Mixed=} hoverValue Optional value to show in hover state of cell.
+         * @param  {Number} index      The current column index.
+         * @param  {Bool}   online     Online field for the current row
+         * @return {Object}            A React table data element.
          */
-        getTableData: function(val, meta, hoverValue, index) {
+        getTableData: function(val, meta, hoverValue, index, online) {
             var afterIcon, iconClassString;
             var contentClasses = 'content';
 
             // This is a select column
-            if (meta.dataType && meta.dataType === 'select') {
+            if (meta.dataType === 'select') {
                 iconClassString = this.state.selectedItems && this.state.selectedItems[val] ? this.iconClasses.selectOn + ' on' : this.iconClasses.selectOff + ' off';
 
                 return (
@@ -390,9 +391,9 @@ define(function(require) {
                 );
             }
 
-            if (meta.dataType === 'status' && this.state.data[index]) {
+            if (meta.dataType === 'status') {
                 contentClasses += ' before-icon';
-                iconClassString = this.state.data[index].online ? this.iconClasses.statusOn + ' status-on' : this.iconClasses.statusOff + ' status-off';
+                iconClassString = online ? this.iconClasses.statusOn + ' status-on' : this.iconClasses.statusOff + ' status-off';
 
                 afterIcon = React.createElement("i", {className: 'after-icon ' + iconClassString});
             }
