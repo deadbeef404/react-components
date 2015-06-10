@@ -16,16 +16,19 @@ define(function(require) {
             getTableRowItem: function(rowData, index) {
                 var rows = [];
                 var rowDataElements = [];
+                var subRowIndex = 0;
+                var dataIndex = 0;
+                var nestedDataIndex = 0;
 
                 // Build the table data elements for the table row
                 _.forIn(this.state.colDefinitions, function(val) {
-                    rowDataElements.push(this.getTableData(rowData, val, index));
+                    rowDataElements.push(this.getTableData(rowData, val, dataIndex++));
                 }.bind(this));
 
                 // Build the table row element
                 rows.push(
                     <tr data-index={index}
-                        key={'tableRow' + Utils.guid()}
+                        key={'tableRow' + index}
                         className="hover-enabled text-select"
                         onClick={this.handleGroupRowClick}>{rowDataElements}
                     </tr>
@@ -37,12 +40,12 @@ define(function(require) {
                         var subRowData = [];
 
                         _.forIn(this.state.colDefinitions, function(val) {
-                            subRowData.push(this.getNestedRowTableData(action, val));
+                            subRowData.push(this.getNestedRowTableData(action, val, nestedDataIndex++));
                         }.bind(this));
 
                         rows.push(
                             <tr data-flowid={action.flowID}
-                                key={'tableRow' + Utils.guid()}
+                                key={'tableSubRow' + subRowIndex++}
                                 className="hover-enabled text-select sub-action"
                                 onClick={this.handleRowClick}>{subRowData}
                             </tr>
@@ -56,7 +59,7 @@ define(function(require) {
             getTableData: function(rowData, meta, index) {
                 var val = rowData[meta.dataProperty];
                 var beforeVal, statusIconClasses, expandedRowIndicatorClasses;
-                var spanClasses = React.addons.classSet({
+                var spanClasses = Utils.classSet({
                     content: true,
                     'group-date': meta.dataProperty === 'groupDate'
                 });
@@ -68,7 +71,7 @@ define(function(require) {
                     // Date has count and chevron, but not in a sep column.
                     statusIconClasses = this.state.selectedIndex === index ? this.iconClasses.rowsExpanded : this.iconClasses.rowsCollapsed;
 
-                    expandedRowIndicatorClasses = React.addons.classSet({
+                    expandedRowIndicatorClasses = Utils.classSet({
                         'before-icon': true,
                         'expanded-row-indicator': true,
                         inactive: this.state.selectedIndex !== index
@@ -80,7 +83,7 @@ define(function(require) {
                 }
 
                 return (
-                    <td key={'tableData' + Utils.guid()}>
+                    <td key={'tableData' + index}>
                         {beforeVal}
                         <span className={spanClasses} title={val}>{val}</span>
                     </td>
@@ -104,9 +107,9 @@ define(function(require) {
                 }
             },
 
-            getNestedRowTableData: function(action, meta) {
+            getNestedRowTableData: function(action, meta, index) {
                 var val = '--';
-                var spanClasses = React.addons.classSet({
+                var spanClasses = Utils.classSet({
                     content: true,
                     'nested-text': meta.dataProperty === 'groupDate'
                 });
@@ -128,7 +131,7 @@ define(function(require) {
                 }
 
                 return (
-                    <td key={'tableData' + Utils.guid()}>
+                    <td key={'nestedTableData' + index}>
                         <span className={spanClasses} title={val}>{val}</span>
                     </td>
                 );

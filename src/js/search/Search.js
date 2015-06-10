@@ -1,10 +1,11 @@
 define(function(require) {
     'use strict';
 
+    var $ = require('jquery');
     var _ = require('lodash');
     var React = require('react');
     var RequestHandler = require('RequestHandler');
-    var $ = require('jquery');
+    var Utils = require('drc/utils/Utils');
 
     var Search = React.createClass({
         /**
@@ -474,7 +475,7 @@ define(function(require) {
 
         render: function() {
             var autoCompleteMarkup = (this.props.rowFormatter || this.getAutocompleteComponents)(this.state.shownList, this.handleListMouseEnter),
-                searchIconClasses = React.addons.classSet({
+                searchIconClasses = Utils.classSet({
                     fa: true,
                     'fa-search': true,
                     focused: this.state.inputFocused
