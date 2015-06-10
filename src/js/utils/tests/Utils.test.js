@@ -82,6 +82,34 @@ define(function(require) {
             });
         });
 
+        describe('classSet function', function(){
+            it('returns empty string when no parameters or invalid parameters', function(){
+                expect(Utils.classSet()).toEqual('');
+                expect(Utils.classSet(null)).toEqual('');
+                expect(Utils.classSet(false)).toEqual('');
+                expect(Utils.classSet(true, true, true)).toEqual('');
+            });
+
+            it('returns classnames for literal strings or numbers', function(){
+                expect(Utils.classSet(1)).toEqual('1');
+                expect(Utils.classSet('foo')).toEqual('foo');
+                expect(Utils.classSet(1, 'one', 2, 'two')).toEqual('1 one 2 two');
+            });
+
+            it('returns classnames for objects with truthy values', function(){
+                expect(Utils.classSet({foo: 'bar'})).toEqual('foo');
+                expect(Utils.classSet({foo: 1})).toEqual('foo');
+                expect(Utils.classSet({foo: true})).toEqual('foo');
+                expect(Utils.classSet({foo: [1]})).toEqual('foo');
+
+                expect(Utils.classSet({foo: 1, bar: 0})).toEqual('foo');
+                expect(Utils.classSet({foo: 1, bar: false})).toEqual('foo');
+                expect(Utils.classSet({foo: 1, bar: null})).toEqual('foo');
+
+                expect(Utils.classSet({foo: 1, bar: true, baz: 'yes'})).toEqual('foo bar baz');
+            });
+        });
+
         describe('extendReactClass function', function() {
             var base = {
                 keepMe: function() {
