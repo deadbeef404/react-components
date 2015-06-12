@@ -70,7 +70,7 @@ define(function(require) {
                         }
 
                         // Need to keep track of the original timestamp for column sorting to work properly.
-                        item.timestamp = item[col.dataProperty] ? item[col.dataProperty] : null;
+                        item[col.dataProperty + 'Timestamp'] = item[col.dataProperty] ? item[col.dataProperty] : null;
                         item[col.dataProperty] = item[col.dataProperty] ? moment(item[col.dataProperty]).format(col.timeFormat) : '--';
                     }
                 });
@@ -293,7 +293,7 @@ define(function(require) {
             var key;
 
             if (dataType === 'time' || dataType === 'status') {
-                key = 'timestamp';
+                key = this.cols[this.sortColIndex].dataProperty + 'Timestamp';
             }
             else {
                 key = this.cols[this.sortColIndex].dataProperty;

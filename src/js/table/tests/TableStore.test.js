@@ -116,7 +116,7 @@ define(function(require) {
                         table.onDataReceived(definition.data);
 
                         expect(table.data[0].time).toBeNonEmptyString();
-                        expect(table.data[0].timestamp).toEqual(1416591981);
+                        expect(table.data[0].timeTimestamp).toEqual(1416591981);
                     });
                 });
 
@@ -152,7 +152,7 @@ define(function(require) {
                         table.onDataReceived(definition.data);
 
                         expect(table.data[0].status).toBeNonEmptyString();
-                        expect(table.data[0].timestamp).toEqual(1416591981);
+                        expect(table.data[0].statusTimestamp).toEqual(1416591981);
                     });
 
                     it('should set the online attribute of a data element to true if the time is within the onlineLimit', function() {
@@ -635,24 +635,24 @@ define(function(require) {
 
                 it('should sort objects on a key with timestamps in ascending order if some timestamps are undefined', function() {
                     table.sortData(3, 'ascending');
-                    expect(table.data[0].timestamp).toBeNull();
-                    expect(table.data[1].timestamp).toBeNull();
-                    expect(table.data[2].timestamp).toBeNull();
-                    expect(table.data[3].timestamp).toEqual(1406479597);
-                    expect(table.data[4].timestamp).toEqual(1416591981);
-                    expect(table.data[5].timestamp).toEqual(1417455952);
-                    expect(table.data[6].timestamp).toEqual(1417715098);
+                    expect(table.data[0].timeTimestamp).toBeNull();
+                    expect(table.data[1].timeTimestamp).toBeNull();
+                    expect(table.data[2].timeTimestamp).toBeNull();
+                    expect(table.data[3].timeTimestamp).toEqual(1406479597);
+                    expect(table.data[4].timeTimestamp).toEqual(1416591981);
+                    expect(table.data[5].timeTimestamp).toEqual(1417455952);
+                    expect(table.data[6].timeTimestamp).toEqual(1417715098);
                 });
 
                 it('should sort objects on a key with timestamps in descending order if some timestamps are undefined', function() {
                     table.sortData(3, 'descending');
-                    expect(table.data[0].timestamp).toEqual(1417715098);
-                    expect(table.data[1].timestamp).toEqual(1417455952);
-                    expect(table.data[2].timestamp).toEqual(1416591981);
-                    expect(table.data[3].timestamp).toEqual(1406479597);
-                    expect(table.data[4].timestamp).toBeNull();
-                    expect(table.data[5].timestamp).toBeNull();
-                    expect(table.data[6].timestamp).toBeNull();
+                    expect(table.data[0].timeTimestamp).toEqual(1417715098);
+                    expect(table.data[1].timeTimestamp).toEqual(1417455952);
+                    expect(table.data[2].timeTimestamp).toEqual(1416591981);
+                    expect(table.data[3].timeTimestamp).toEqual(1406479597);
+                    expect(table.data[4].timeTimestamp).toBeNull();
+                    expect(table.data[5].timeTimestamp).toBeNull();
+                    expect(table.data[6].timeTimestamp).toBeNull();
                 });
             });
 
