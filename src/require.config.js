@@ -12,6 +12,7 @@ require.config({
         lodash: '../../bower_components/lodash/lodash',
         moment: '../../bower_components/moment/moment',
         react: '../../bower_components/react/react-with-addons',
+        'react-router': '../../bower_components/react-router/build/umd/ReactRouter',
         flux: '../../bower_components/flux/dist/Flux'
     }
 });

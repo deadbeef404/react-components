@@ -4,18 +4,6 @@ if (process.platform === 'darwin') {
     sedOptions += " ''";
 }
 
-var buildCommands = function() {
-    return [
-        './init.sh',
-        'grunt test',
-        'grunt compass',
-        'chmod 777 dist',
-        'grunt uglify:min',
-        // Modify require paths to use minified files.
-        "find src\/compiled -name \'*.min.js\' -print0 | xargs -0 sed " + sedOptions + " \"s#\\(require[(][\'|\\\"]drc\/[^\'\\\"]*\\)#\\1.min#g\""
-    ];
-};
-
 module.exports = function(grunt, options) {
     return {
         tasks: {
@@ -40,8 +28,14 @@ module.exports = function(grunt, options) {
             shell:{
                 build: {
                     command: [
-                        buildCommands().join('&&')
-                    ],
+                        './init.sh',
+                        'grunt test',
+                        'grunt compass',
+                        'chmod 777 dist',
+                        'grunt uglify:min',
+                        // Modify require paths to use minified files.
+                        "find src\/compiled -name \'*.min.js\' -print0 | xargs -0 sed " + sedOptions + " \"s#\\(require[(][\'|\\\"]drc\/[^\'\\\"]*\\)#\\1.min#g\""
+                    ].join('&&'),
                     options: {
                         async: false
                     }

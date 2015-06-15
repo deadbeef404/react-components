@@ -1,5 +1,5 @@
 define(function(require) {
-    var Helpers = require('drc/tests/helpers');
+    var ExpandedTestUtils = require('ExpandedTestUtils');
     var React = require('react');
     var Table = require('drc/table/Table');
     var TableActions = require('drc/table/TableActions');
@@ -35,7 +35,7 @@ define(function(require) {
 
         describe('getDefaultProps function', function() {
             it('should set the default table type to basic if no type was declared.', function() {
-                Helpers.mockReactComponent('BasicTable', {className: 'fake-basic-table'});
+                ExpandedTestUtils.mockReactComponent('BasicTable', {className: 'fake-basic-table'});
                 table = TestUtils.renderIntoDocument(<Table />);
 
                 expect(table.props.type).toEqual('basic');
@@ -45,7 +45,7 @@ define(function(require) {
         describe('getTable function', function() {
             it('should attempt to render a basic table.', function() {
                 props.type="basic";
-                Helpers.mockReactComponent('BasicTable', {className: 'fake-basic-table'});
+                ExpandedTestUtils.mockReactComponent('BasicTable', {className: 'fake-basic-table'});
                 table = TestUtils.renderIntoDocument(<Table {...props} />);
 
                 expect(React.createElement.calls.argsFor(1)[1].type).toEqual('basic');
@@ -53,7 +53,7 @@ define(function(require) {
 
             it('should attempt to render a grouped actions table.', function() {
                 props.type="groupedActions";
-                Helpers.mockReactComponent('GroupedActionsTable', {className: 'fake-grouped-actions-table'});
+                ExpandedTestUtils.mockReactComponent('GroupedActionsTable', {className: 'fake-grouped-actions-table'});
                 table = TestUtils.renderIntoDocument(<Table {...props} />);
 
                 expect(React.createElement.calls.argsFor(1)[1].type).toEqual('groupedActions');

@@ -20,7 +20,7 @@
         "valid-jsdoc": [2, {"requireReturn": false}],
         "complexity": [2, 11],
         "no-else-return": 2,
-        "indent": [4, 4],
+        "indent": 2,
         "no-lonely-if": 2,
         "no-multiple-empty-lines": [2, {"max": 2}],
 
