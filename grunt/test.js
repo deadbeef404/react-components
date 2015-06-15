@@ -69,7 +69,6 @@ module.exports = function(grunt, options) {
                                     require(['instrumented'], function () {
                                         var oldLoad = requirejs.load;
                                         requirejs.load = function (context, moduleName, url) {
-                                            console.log(url);
                                             if (url.indexOf('bower_components') !== -1 ||
                                                 url.indexOf('dist') !== -1 ||
                                                 url.indexOf('EventEmitter') !== -1) {
