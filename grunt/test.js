@@ -10,9 +10,9 @@ var jasmineConfig = {
     requireConfigFile: 'src/require.config.js',
     compiledDir: 'src/compiled',
     paths: {
-        RequestHandler: '../../src/compiled/utils/RequestHandler',
         'drc/lib/EventEmitter': '../../src/compiled/lib/EventEmitter',
-        'drc/tests/helpers': '../../src/compiled/tests/helpers'
+        ExpandedTestUtils: '../../bower_components/expanded-react-test-utils/dist/ExpandedTestUtils.min',
+        RequestHandler: '../../src/compiled/utils/RequestHandler'
     }
 };
 
@@ -72,7 +72,6 @@ module.exports = function(grunt, options) {
                                             console.log(url);
                                             if (url.indexOf('bower_components') !== -1 ||
                                                 url.indexOf('dist') !== -1 ||
-                                                url.indexOf('tests/helpers') !== -1 ||
                                                 url.indexOf('EventEmitter') !== -1) {
                                                 url = url.substring(48);
                                             }
