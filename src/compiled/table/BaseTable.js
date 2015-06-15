@@ -56,7 +56,7 @@ define(function(require) {
         },
 
         render: function() {
-            var containerClasses = React.addons.classSet({
+            var containerClasses = Utils.classSet({
                     'data-container': true,
                     'masked-darker': this.state.loading || this.state.dataError,
                     error: this.state.dataError
@@ -216,7 +216,7 @@ define(function(require) {
                 handlePageRightClick = this.handlePageRightClick;
             }
 
-            var cx = React.addons.classSet;
+            var cx = Utils.classSet;
             var leftControl = cx({
                 'left-control': true,
                 'disabled': disableLeft,
@@ -274,7 +274,7 @@ define(function(require) {
             var onMouseDown;
             var row = [];
 
-            var rowClasses = React.addons.classSet({
+            var rowClasses = Utils.classSet({
                 'hover-enabled': this.state.rowClick,
                 'text-select': true,
                 'error-row': rowData.isError
@@ -355,7 +355,7 @@ define(function(require) {
          * @returns {XML} - A React icon element.
          */
         getSortIcon: function(index) {
-            var defaultIconClasses = React.addons.classSet({
+            var defaultIconClasses = Utils.classSet({
                 'sorting-indicator': true,
                 'active': this.state.sortColIndex === index
             });

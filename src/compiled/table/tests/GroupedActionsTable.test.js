@@ -2,6 +2,7 @@ define(function(require) {
     var GroupedActionsTable = require('drc/table/GroupedActionsTable');
     var Moment = require('moment');
     var React = require('react');
+    var RequestHandler = require('RequestHandler');
     var TableActions = require('drc/table/TableActions');
     var TableStore = require('drc/table/TableStore');
     var Utils = require('drc/utils/Utils');
@@ -106,6 +107,10 @@ define(function(require) {
             rowsCollapsed: 'test-rows-collapsed',
             rowsExpanded: 'test-rows-expanded'
         };
+
+        beforeAll(function() {
+            spyOn(RequestHandler, 'request');
+        });
 
         beforeEach(function() {
             id = 'table-' + Utils.guid();

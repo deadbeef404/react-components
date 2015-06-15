@@ -1,5 +1,5 @@
 define(function(require) {
-    var RequestHandler = require('../RequestHandler.js');
+    var RequestHandler = require('RequestHandler');
 
     var TestResponses = {
         test: {
