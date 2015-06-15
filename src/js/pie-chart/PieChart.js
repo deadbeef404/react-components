@@ -274,8 +274,7 @@ define(function(require) {
             if(selectedRow && selectedRow.prop('rowIndex') !== undefined){
                 var rowIndex = selectedRow.prop('rowIndex'),
                     scrollHeight = 0;
-                //We only scroll items past the first 4 since we can always see 4 items
-                //in the list
+                //We only scroll items past the first 4 since we can always see 4 items in the list
                 if(rowIndex > 3){
                     //Rows are either 46 or 48 px wide (odd vs even rows) so split the distance. We also
                     //only scroll every 4th item
@@ -289,7 +288,7 @@ define(function(require) {
 
         /**
          * Generates markup for table to display data list
-         * @returns {Array} - The rows for the data list
+         * @returns {Array|Boolean} - The rows for the data list
          */
         getRowDisplay: function(){
             var rows = [],
@@ -306,20 +305,21 @@ define(function(require) {
                     color = {backgroundColor: this.colors[i]},
                     isSelected = this.state.selectedRowName === data.name,
                     rowBackground = isSelected ? {'borderLeft': "solid 6px " + this.colors[i]} : {},
-                    rowClasses = React.addons.classSet({
+                    rowClasses = Utils.classSet({
                         'table-even': i % 2,
                         'table-odd': i % 2 === 0,
                         'selected': isSelected
                     });
 
                 rows.push(
-                    <tr key={'table-row-' + Utils.guid()} className={rowClasses}><td>
+                    <tr key={'table-row-' + i} className={rowClasses}><td>
                         <div className="row-container" style={rowBackground}>
                             <span className="color-legend" style={color}></span>
                             <span className="table-key">{data.name}</span>
                             <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>
                         </div>
-                    </td></tr>);
+                    </td></tr>
+                );
             }
             return rows;
         },
@@ -333,7 +333,7 @@ define(function(require) {
                 breadCrumb = <span className="breadCrumb" onClick={this.drillOut}><i className="ion ion-chevron-left"></i>{currentData.label}</span>;
             }
 
-            var containerClasses = React.addons.classSet({
+            var containerClasses = Utils.classSet({
                 'data-container': true,
                 masked: this.state.loading || this.state.dataError,
                 error: this.state.dataError
@@ -367,7 +367,7 @@ define(function(require) {
                         </div>
                     </div>
                 </div>
-                );
+            );
         }
     });
 

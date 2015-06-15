@@ -1,5 +1,20 @@
 var port = '9001';
 var connect = require('../node_modules/grunt-contrib-connect/tasks/connect');
+var jasmineConfig = {
+    src: ['src/compiled/**/*.js', '!src/compiled/examples/main.js', '!src/compiled/**/tests/*.js',
+          '!src/compiled/examples/**/*.js', '!src/compiled/lib/EventEmitter.js'],
+    specs: ['src/compiled/**/*.test.js'],
+    helpers: ['src/compiled/tests/bind-polyfill.js', 'src/compiled/tests/mock-ajax.js',
+              //Expanded Jasmine assertions - https://github.com/JamieMason/Jasmine-Matchers
+              'bower_components/jasmine-expect/dist/jasmine-matchers.js'],
+    requireConfigFile: 'src/require.config.js',
+    compiledDir: 'src/compiled',
+    paths: {
+        'drc/lib/EventEmitter': '../../src/compiled/lib/EventEmitter',
+        ExpandedTestUtils: '../../bower_components/expanded-react-test-utils/dist/ExpandedTestUtils.min',
+        RequestHandler: '../../src/compiled/utils/RequestHandler'
+    }
+};
 
 module.exports = function(grunt, options) {
     return { tasks: {
@@ -7,60 +22,63 @@ module.exports = function(grunt, options) {
          * Jasmine client side JS test tasks
          */
         jasmine: {
-            src: ['src/compiled/**/*.js',
-                '!src/compiled/examples/main.js', '!src/compiled/**/tests/*.js',
-                '!src/compiled/examples/**/*.js', '!src/compiled/lib/EventEmitter.js'],
-            options: {
-                specs: ['src/compiled/**/*.test.js'],
-                helpers: [
-                    'src/compiled/tests/bind-polyfill.js',
-                    'src/compiled/tests/mock-ajax.js',
-                    //Expanded Jasmine assertions - https://github.com/JamieMason/Jasmine-Matchers
-                    'bower_components/jasmine-expect/dist/jasmine-matchers.js'
-                ],
-                template: require('grunt-template-jasmine-istanbul'),
-                templateOptions: {
-                    coverage: 'bin/coverage/src/coverage.json',
-                    report: 'bin/coverage/src',
+            debug: {
+                src: jasmineConfig.src,
+                options: {
+                    specs: jasmineConfig.specs,
+                    keepRunner: true,
+                    helpers: jasmineConfig.helpers,
                     template: require('grunt-template-jasmine-requirejs'),
                     templateOptions: {
-                        requireConfigFile: 'src/require.config.js',
+                        requireConfigFile: jasmineConfig.requireConfigFile,
                         requireConfig: {
-                            baseUrl: 'src/compiled/',
-                            paths: {
-                                d3: '../../../bower_components/d3/d3',
-                                jquery: '../../../bower_components/jquery/dist/jquery',
-                                lodash: '../../../bower_components/lodash/lodash',
-                                moment: '../../../bower_components/moment/moment',
-                                react: '../../../bower_components/react/react-with-addons',
-                                flux: '../../../bower_components/flux/dist/Flux',
-                                testUtil: '../../../src/compiled/tests/util',
-                                RequestHandler: '../../../src/compiled/utils/RequestHandler',
-                                'drc/lib/EventEmitter': '../../../src/compiled/lib/EventEmitter'
-                            },
-                            callback: function () {
-                                define('instrumented', ['module'], function (module) {
-                                    return module.config().src;
-                                });
-                                require(['instrumented'], function () {
-                                    var oldLoad = requirejs.load;
-                                    requirejs.load = function (context, moduleName, url) {
-                                        // normalize paths
-                                        // changes src/compiled/../../../bower_components/* to bower_components/*
-                                        if (url.indexOf('src/compiled/../../../') === 0) {
-                                            url = url.substring(22);
-                                        }
-                                        // changes src/compiled/../../.grunt/grunt-contrib-jasmine/src/compiled/* to grunt/grunt-contrib-jasmine/src/compiled/*
-                                        else if (url.indexOf('src/compiled/../../.') === 0) {
-                                            url = url.substring(19);
-                                        }
-                                        // changes src/compiled/* to .grunt/grunt-contrib-jasmine/src/compiled/* without altering test files
-                                        else if (url.indexOf('src/compiled/') === 0 && url.indexOf('test') === -1) {
-                                            url = '.grunt/grunt-contrib-jasmine/' + url;
-                                        }
-                                        return oldLoad.apply(this, [context, moduleName, url]);
-                                    };
-                                });
+                            baseUrl: jasmineConfig.compiledDir,
+                            paths: jasmineConfig.paths
+                        }
+                    }
+                }
+            },
+
+            cov: {
+                src: jasmineConfig.src,
+                options: {
+                    specs: jasmineConfig.specs,
+                    summary: true,
+                    helpers: jasmineConfig.helpers,
+                    template: require('grunt-template-jasmine-istanbul'),
+                    templateOptions: {
+                        replace: false,
+                        coverage: 'bin/coverage/src/coverage.json',
+                        report: 'bin/coverage/src',
+                        thresholds: grunt.cli.tasks[0] === "test" ? {
+                            lines: 98,
+                            statements: 98,
+                            branches: 98,
+                            functions: 98
+                        } : {},
+                        template: require('grunt-template-jasmine-requirejs'),
+                        templateOptions: {
+                            requireConfigFile: jasmineConfig.requireConfigFile,
+                            requireConfig: {
+                                baseUrl: '.grunt/grunt-contrib-jasmine/' + jasmineConfig.compiledDir,
+                                paths: jasmineConfig.paths,
+                                callback: function () {
+                                    define('instrumented', ['module'], function (module) {
+                                        return module.config().src;
+                                    });
+                                    require(['instrumented'], function () {
+                                        var oldLoad = requirejs.load;
+                                        requirejs.load = function (context, moduleName, url) {
+                                            if (url.indexOf('bower_components') !== -1 ||
+                                                url.indexOf('dist') !== -1 ||
+                                                url.indexOf('EventEmitter') !== -1) {
+                                                url = url.substring(48);
+                                            }
+
+                                            return oldLoad.apply(this, [context, moduleName, url]);
+                                        };
+                                    });
+                                }
                             }
                         }
                     }
@@ -69,8 +87,7 @@ module.exports = function(grunt, options) {
         },
 
         /**
-         * ESLint configuration. See http://eslint.org and .eslintrc files
-         * for details
+         * ESLint configuration. See http://eslint.org and .eslintrc files for details.
          */
         eslint:{
             target: [
@@ -83,7 +100,7 @@ module.exports = function(grunt, options) {
         },
 
         /**
-         * Static web server. Used to server code coverage result files
+         * Static web server used to server code coverage result files.
          */
         connect: {
             all: {
@@ -96,11 +113,14 @@ module.exports = function(grunt, options) {
         },
 
         /**
-         * Opens users browser to a specific URL
+         * Opens users browser to a specific URL.
          * @type {Object}
          */
         open: {
-            all: {
+            test: {
+                path: 'http://localhost:<%= connect.all.options.port%>/_SpecRunner.html'
+            },
+            cov: {
                 // Gets the port from the connect configuration
                 path: 'http://localhost:<%= connect.all.options.port%>/bin/'
             }
