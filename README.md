@@ -101,8 +101,7 @@ $ git checkout master
 
 * [Jasmine](http://jasmine.github.io/2.2/introduction.html) Behavior-driven development framework for testing JavaScript code
 * [Istanbul](https://github.com/gotwarlost/istanbul) JavaScript statement, line, function, and branch code coverage when running unit tests
-* [JSHint](http://jshint.com/) Detect errors and potential problems in JavaScript code and enforce your team's coding conventions
-* [JSCS](http://jscs.info/) JavaScript Code Style checker
+* [ESLint](http://eslint.org/) The pluggable linting utility for JavaScript and JSX
 
 #### Install Dependencies
 
@@ -211,7 +210,7 @@ The developers that made this project possible by contributing to the the follow
 
 [React](http://facebook.github.io/react/), [Flux](https://facebook.github.io/flux/), [Compass](http://compass-style.org/), 
 [Sass](http://sass-lang.com/), [Require](http://requirejs.org/), [Grunt](http://gruntjs.com/), [Jasmine](http://jasmine.github.io/2.2/introduction.html),
-[Istanbul](https://github.com/gotwarlost/istanbul), [JSHint](http://jshint.com/), [JSCS](http://jscs.info/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
+[Istanbul](https://github.com/gotwarlost/istanbul), [ESLint](http://eslint.org/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
 [d3](http://d3js.org/), [lodash](https://lodash.com/docs), [jQuery](http://jquery.com/), and [Moment](http://momentjs.com/docs/)
 
 [bower-image]: https://badge.fury.io/bo/react-components.svg
