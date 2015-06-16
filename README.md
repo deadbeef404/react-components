@@ -177,22 +177,28 @@ Same as the default grunt task, however it will reinstall dependencies.
 $ grunt init
 ```
 
-Run Jasmine unit tests, JSHint, and JSCS.
+Run Jasmine unit tests, JSHint, and JSCS
 
 ```
 $ grunt test
-```
-
-Run Jasmine unit tests on a single file.
-
-```
-$ grunt jasmine --filter filename
 ```
 
 Same as grunt test, however, this task will run code coverage and launch the code coverage in your browser.
 
 ```
 $ grunt test:cov
+```
+
+Run unit tests in the browser on actual source rather than instrumented files from istanbul.
+
+```
+$ grunt jasmineDebug --filter {/folder|file}
+```
+
+Run unit tests for a filtered set of folders or files without code coverage thresholds.
+
+```
+$ grunt jasmineFilter --filter {/folder|file}
 ```
 
 ## License
