@@ -80,7 +80,7 @@ define(function(require) {
                 expect(modal.props.closeModalCallback.calls.count()).toEqual(1);
             });
 
-            it('should not close the modal backgroundClickToClose was set to false on props', function() {
+            it('should not close the modal if backgroundClickToClose was set to false on props', function() {
                 spyOn(modal.props, 'closeModalCallback');
                 modal.props.backgroundClickToClose = false;
                 TestUtils.Simulate.click(document.getElementById('modal-container'), {});
