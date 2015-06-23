@@ -15,10 +15,20 @@ define(function(require) {
         },
 
         /**
+         * Displays a confirmation dialog if the value of portalConfirmOnCloseMessage has been set to a string.
+         * @param {String|Null} message - The text to display in the confirm dialog or null to clear.
+         */
+        setPortalConfirmOnClose: function(message) {
+            this.portalConfirmOnCloseMessage = message;
+        },
+
+        /**
          * Unmounts the components rendered in the portal and removes the associated DOM node.
          */
         closePortal: function() {
-            if (this.portalNode && this.portalNode.parentNode) {
+            var close = typeof this.portalConfirmOnCloseMessage === 'string' ? confirm(this.portalConfirmOnCloseMessage) : true;
+
+            if (this.portalNode && this.portalNode.parentNode && close) {
                 React.unmountComponentAtNode(this.portalNode);
                 this.portalNode.parentNode.removeChild(this.portalNode);
                 this.portalNode = null;
