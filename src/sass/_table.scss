@@ -79,6 +79,18 @@
         i {
           position: relative;
           right: -5px;
+
+        }
+
+        .asc {
+          top: -9px;
+        }
+
+        .desc {
+          top: -2px;
+        }
+
+        .sort-off {
           top: -5px;
         }
       }
