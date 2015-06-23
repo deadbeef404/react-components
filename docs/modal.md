@@ -15,6 +15,12 @@ closeModalCallback
     required: false
     description: Triggered when the modal is closed by clicking on the close button or pressing escape
         
+backgroundClickToClose
+    type: boolean
+    required: false
+    default: true
+    description: Used to disable closing the modal when the background is clicked
+
 iconClasses
     type: object
     required: false
