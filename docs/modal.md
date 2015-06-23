@@ -19,7 +19,7 @@ backgroundClickToClose
     type: boolean
     required: false
     default: true
-    description: Used to disable closing the modal when the background is clicked
+    description: Used to control whether or not a click outside the modal will cause it to close
 
 iconClasses
     type: object

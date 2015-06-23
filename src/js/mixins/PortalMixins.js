@@ -15,7 +15,8 @@ define(function(require) {
         },
 
         /**
-         * Displays a confirmation dialog if the value of portalConfirmOnCloseMessage has been set to a string.
+         * When passed a string, a confirmation dialog will show with the string before the dialog is about to close.
+         * Provides a way to make the user confirm that they want to close the modal.
          * @param {String|Null} message - The text to display in the confirm dialog or null to clear.
          */
         setPortalConfirmOnClose: function(message) {
