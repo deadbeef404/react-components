@@ -96,6 +96,7 @@ definition
             selectOff: 'fa fa-square-o',
             sortAsc: 'fa fa-sort-asc',
             sortDesc: 'fa fa-sort-desc',
+            sortInactive: 'fa fa-sort',
             statusOn: 'fa fa-circle',
             statusOff: 'fa fa-circle-o'
         }

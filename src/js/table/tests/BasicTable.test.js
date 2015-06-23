@@ -19,6 +19,7 @@ define(function(require) {
             selectAll: 'test-select-all',
             sortAsc: 'test-sort-asc',
             sortDesc: 'test-sort-desc',
+            sortInactive: 'test-sort-inactive',
             statusOn: 'test-status-on',
             statusOff: 'test-status-off'
         };
@@ -625,76 +626,52 @@ define(function(require) {
             });
         });
 
-        describe('getSortIcon function', function() {
-            beforeEach(function() {
+        describe('getSortIcon', function() {
+            it('should append the correct default classNames to the icon', function() {
+                var iconMarkup, propsWithCustomIcons;
                 spyOnTableGetCalls(tableData, tableData.length, definition.cols, definition.sortColIndex, undefined, undefined);
-            });
 
-            it('should display the fa-sort-asc icon and be active', function() {
-                table.onDataReceived();
+                table.state.sortColIndex = 0;
+                table.state.colSortDirections = ['ascending'];
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.type).toEqual('i');
+                expect(iconMarkup.props.className).toEqual('sorting-indicator active fa fa-sort-asc asc');
 
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active fa fa-sort-asc')}).not.toThrow();
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active fa fa-sort-desc')}).toThrow();
-            });
+                table.state.colSortDirections = ['descending'];
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.props.className).toEqual('sorting-indicator active fa fa-sort-desc desc');
 
-            it('should display the sort asc icon passed in on props and be active', function() {
-                var props = {
+                table.state.sortColIndex = 1;
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.props.className).toEqual('sorting-indicator fa fa-sort sort-inactive');
+
+                id = 'table-' + Utils.guid();
+                propsWithCustomIcons = {
                     definition: definition,
+                    dataFormatter: dataFormatter,
                     componentId: id,
                     key: id,
                     filters: {},
                     iconClasses: iconClasses,
                     loadingIconClasses: ['icon', 'ion-loading-c']
                 };
-                table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
-                table.onDataReceived();
 
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active test-sort-asc')}).not.toThrow();
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active test-sort-desc')}).toThrow();
-            });
+                table = TestUtils.renderIntoDocument(<BasicTable {...propsWithCustomIcons} />);
+                table.requestData();
 
-            it('should display the fa-sort-desc icon and be active', function() {
-                definition.cols[0].sortDirection = 'descending';
-                table.onDataReceived();
+                table.state.sortColIndex = 0;
+                table.state.colSortDirections = ['ascending'];
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.type).toEqual('i');
+                expect(iconMarkup.props.className).toEqual('sorting-indicator active test-sort-asc asc');
 
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active fa fa-sort-asc')}).toThrow();
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active fa fa-sort-desc')}).not.toThrow();
+                table.state.colSortDirections = ['descending'];
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.props.className).toEqual('sorting-indicator active test-sort-desc desc');
 
-                // reset data
-                definition.cols[0].sortDirection = 'ascending';
-            });
-
-            it('should display the sort desc icon passed in on props and be active', function() {
-                var props = {
-                    definition: definition,
-                    componentId: id,
-                    key: id,
-                    filters: {},
-                    iconClasses: iconClasses,
-                    loadingIconClasses: ['icon', 'ion-loading-c']
-                };
-                definition.cols[0].sortDirection = 'descending';
-                table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
-                table.onDataReceived();
-
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active test-sort-asc')}).toThrow();
-                expect(function(){TestUtils.findRenderedDOMComponentWithClass(table, 'active test-sort-desc')}).not.toThrow();
-
-                // reset data
-                definition.cols[0].sortDirection = 'ascending';
-            });
-
-            it('should display the fa-sort-desc icon for all columns defaulting to a ascending sort', function() {
-                table.onDataReceived();
-
-                expect(TestUtils.scryRenderedDOMComponentsWithClass(table, 'fa-sort-asc').length).toEqual(3);
-
-            });
-
-            it('should display the fa-sort-desc icon for all columns defaulting to a descending sort', function() {
-                table.onDataReceived();
-
-                expect(TestUtils.scryRenderedDOMComponentsWithClass(table, 'fa-sort-desc').length).toEqual(2);
+                table.state.sortColIndex = 1;
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.props.className).toEqual('sorting-indicator test-sort-inactive sort-inactive');
             });
         });
 
