@@ -15,10 +15,23 @@ define(function(require) {
         },
 
         /**
+         * When passed a string, a confirmation dialog will show with the string before the dialog is about to close.
+         * Provides a way to make the user confirm that they want to close the modal.
+         * @param {String|Null} message - The text to display in the confirm dialog or null to clear.
+         */
+        setPortalConfirmOnClose: function(message) {
+            this.portalConfirmOnCloseMessage = message;
+        },
+
+        /**
          * Unmounts the components rendered in the portal and removes the associated DOM node.
          */
         closePortal: function() {
-            if (this.portalNode && this.portalNode.parentNode) {
+            /* eslint-disable no-alert */
+            var close = typeof this.portalConfirmOnCloseMessage === 'string' ? confirm(this.portalConfirmOnCloseMessage) : true;
+            /* eslint-enable no-alert */
+
+            if (this.portalNode && this.portalNode.parentNode && close) {
                 React.unmountComponentAtNode(this.portalNode);
                 this.portalNode.parentNode.removeChild(this.portalNode);
                 this.portalNode = null;
