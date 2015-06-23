@@ -19,6 +19,7 @@ define(function(require) {
             selectAll: 'test-select-all',
             sortAsc: 'test-sort-asc',
             sortDesc: 'test-sort-desc',
+            sortInactive: 'test-sort-inactive',
             statusOn: 'test-status-on',
             statusOff: 'test-status-off'
         };
@@ -627,7 +628,7 @@ define(function(require) {
 
         describe('getSortIcon', function() {
             it('should append the correct default classNames to the icon', function() {
-                var iconMarkup;
+                var iconMarkup, propsWithCustomIcons;
                 spyOnTableGetCalls(tableData, tableData.length, definition.cols, definition.sortColIndex, undefined, undefined);
 
                 table.state.sortColIndex = 0;
@@ -642,7 +643,35 @@ define(function(require) {
 
                 table.state.sortColIndex = 1;
                 iconMarkup = table.getSortIcon(0);
-                expect(iconMarkup.props.className).toEqual('sorting-indicator fa fa-sort sort-off');
+                expect(iconMarkup.props.className).toEqual('sorting-indicator fa fa-sort sort-inactive');
+
+                id = 'table-' + Utils.guid();
+                propsWithCustomIcons = {
+                    definition: definition,
+                    dataFormatter: dataFormatter,
+                    componentId: id,
+                    key: id,
+                    filters: {},
+                    iconClasses: iconClasses,
+                    loadingIconClasses: ['icon', 'ion-loading-c']
+                };
+
+                table = TestUtils.renderIntoDocument(<BasicTable {...propsWithCustomIcons} />);
+                table.requestData();
+
+                table.state.sortColIndex = 0;
+                table.state.colSortDirections = ['ascending'];
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.type).toEqual('i');
+                expect(iconMarkup.props.className).toEqual('sorting-indicator active test-sort-asc asc');
+
+                table.state.colSortDirections = ['descending'];
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.props.className).toEqual('sorting-indicator active test-sort-desc desc');
+
+                table.state.sortColIndex = 1;
+                iconMarkup = table.getSortIcon(0);
+                expect(iconMarkup.props.className).toEqual('sorting-indicator test-sort-inactive sort-inactive');
             });
         });
 

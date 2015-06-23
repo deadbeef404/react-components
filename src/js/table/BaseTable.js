@@ -19,7 +19,7 @@ define(function(require) {
         selectOff: 'fa fa-square-o',
         sortAsc: 'fa fa-sort-asc',
         sortDesc: 'fa fa-sort-desc',
-        sortOff: 'fa fa-sort',
+        sortInactive: 'fa fa-sort',
         statusOn: 'fa fa-circle',
         statusOff: 'fa fa-circle-o'
     };
@@ -373,8 +373,8 @@ define(function(require) {
                 }
             }
             else {
-                classes[this.iconClasses.sortOff] = true;
-                classes['sort-off'] = true;
+                classes[this.iconClasses.sortInactive] = true;
+                classes['sort-inactive'] = true;
             }
 
             return <i className={Utils.classSet(classes)} />;
