@@ -26,7 +26,9 @@ define(function(require) {
          * Unmounts the components rendered in the portal and removes the associated DOM node.
          */
         closePortal: function() {
+            /* eslint-disable no-alert */
             var close = typeof this.portalConfirmOnCloseMessage === 'string' ? confirm(this.portalConfirmOnCloseMessage) : true;
+            /* eslint-enable no-alert */
 
             if (this.portalNode && this.portalNode.parentNode && close) {
                 React.unmountComponentAtNode(this.portalNode);
