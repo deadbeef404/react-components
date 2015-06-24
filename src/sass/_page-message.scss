@@ -1,0 +1,81 @@
+@import 'vars';
+
+.page-message {
+  .message {
+    box-sizing: border-box;
+    border: solid 1px $lighter-grey;
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: inline-block;
+    max-width: 50%;
+    min-width: 200px;
+    min-height: 35px;
+    padding: 10px 20px;
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    z-index: 9000;
+
+    -ms-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+
+    .close {
+      color: $lighter-grey;
+      cursor: pointer;
+      display: inline-block;
+      padding: 3px;
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      &:hover {
+        color: $off-white;
+      }
+    }
+  }
+
+  .success {
+    background-color: $success-green-bg;
+    color: $success-green;
+  }
+
+  .error {
+    background-color: $error-pink-bg;
+    color: $error-pink;
+  }
+
+  .warning {
+    background-color: $warning-yellow-bg;
+    color: $warning-yellow;
+  }
+
+  .info {
+    background-color: $info-blue-bg;
+    color: $info-blue;
+  }
+
+  .custom {
+    background-color: mediumpurple;
+    color: purple;
+  }
+}
+
+.message-appear {
+  top: -200px;
+  transition: top 0.3s cubic-bezier(0, 1.05, 0, 1);
+}
+
+.message-appear.message-appear-active {
+  top: 0;
+}
+
+.message-leave {
+  top: 0;
+  transition: top 0.3s ease-in;
+}
+
+.message-leave.message-leave-active {
+  top: -200px;
+}

@@ -214,6 +214,22 @@ body {
   &.modal {
     text-align: center;
   }
+
+  > button {
+    border: solid 1px $light-grey;
+    border-radius: 5px;
+    background-color: $darker-grey;
+    color: $off-white;
+    margin-right: 15px;
+
+    &:hover {
+      color: $light-blue;
+    }
+
+    &:active, &:focus {
+      outline: 0;
+    }
+  }
 }
 
 .search-component {
@@ -227,17 +243,3 @@ body {
   left: 227px !important;
 }
 
-.modal-button {
-  border: solid 1px $light-grey;
-  border-radius: 5px;
-  background-color: $darker-grey;
-  color: $off-white;
-
-  &:hover {
-    color: $light-blue;
-  }
-
-  &:active {
-    outline: 0;
-  }
-}
