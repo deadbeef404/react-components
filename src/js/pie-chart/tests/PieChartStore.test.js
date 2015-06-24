@@ -35,9 +35,10 @@ define(function(require) {
 
             describe('createInstance function', function() {
                 it('should create an instance of the PieChart class and add it to the collection.', function() {
-                    PieChartStore.createInstance(id, {test: 'definition'});
+                    var instance = PieChartStore.createInstance(id, {test: 'definition'});
+                    expect(instance).toBeObject();
                     expect(_.size(PieChartStore.collection)).toEqual(1);
-                    expect(PieChartStore.collection[id]).toBeObject();
+                    expect(PieChartStore.collection[id]).toEqual(instance);
                 });
             });
 

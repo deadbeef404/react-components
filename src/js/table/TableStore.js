@@ -76,6 +76,8 @@ define(function(require) {
                 });
             }, this);
 
+            this.selectedItems = {};
+
             if (typeof this.sortColIndex === 'number') {
                 this.sortData(this.sortColIndex, this.cols[this.sortColIndex].sortDirection);
             }
@@ -380,12 +382,14 @@ define(function(require) {
 
         /**
          * Creates an instance of Table.
-         * @param {String} id - The unique identifier used to access the Table instance.
-         * @param {String} definition - A defined Table.
-         * @param {Function} dataFormatter - A function that will allow for post processing of data from the server.
+         * @param  {String} id - The unique identifier used to access the Table instance.
+         * @param  {String} definition - A defined Table.
+         * @param  {Function} dataFormatter - A function that will allow for post processing of data from the server.
+         * @return {object}                   The newly created Table instance
          */
         createInstance: function(id, definition, dataFormatter) {
             this.collection[id] = new Table(id, definition, dataFormatter);
+            return this.collection[id];
         },
 
         /**

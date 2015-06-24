@@ -103,6 +103,15 @@ define(function(require) {
                     expect(table.dataFormatter).toHaveBeenCalled();
                 });
 
+                it('should reset selected items', function(){
+                    spyOn(table, 'sortData');
+                    expect(table.data).toBeNull();
+                    table.selectedItems = {foo: 'bar'};
+                    table.onDataReceived(data);
+                    expect(table.data).not.toBeNull();
+                    expect(table.selectedItems).toEqual({});
+                });
+
                 describe('percent formatter', function() {
                     it('should correctly format a percent dataType', function() {
                         table.onDataReceived(definition.data);
@@ -711,7 +720,11 @@ define(function(require) {
 
         describe('createInstance function', function() {
             it('should create an instance of the Table class', function() {
-                expect(TableStore.collection[id]).toBeTruthy();
+                var instance = TableStore.createInstance('foo', {test: 'definition'});
+                expect(instance).toBeObject();
+                expect(TableStore.collection.foo).toEqual(instance);
+
+                delete TableStore.collection.foo;
             });
         });
 

@@ -36,6 +36,19 @@ define(function(require) {
         },
 
         /**
+         * Refresh the table data of the given table ID. This will cause the table to re-request data
+         * from the server with the same filters it was created with.
+         * @param {String} id Unique ID of exisiting table instance
+         */
+        refreshData: function(id){
+            AppDispatcher.dispatchAction({
+                actionType: this.actionTypes.REQUEST_DATA,
+                component: 'Table',
+                id: id
+            });
+        },
+
+        /**
          * Destroys an instance of Table.
          * @param {String} id - The unique identifier of the Table instance to be destroyed.
          */
