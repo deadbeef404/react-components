@@ -63,11 +63,13 @@ define(function(require) {
 
         /**
          * Creates an instance of PieChart
-         * @param {string} id - The unique identifier used to access the PieChart instance.
-         * @param {string} definition - A configuration object for the PieChart.
+         * @param  {string} id - The unique identifier used to access the PieChart instance.
+         * @param  {string} definition - A configuration object for the PieChart.
+         * @return {object}              The newly created PieChart instance
          */
         createInstance: function(id, definition) {
             this.collection[id] = new PieChart(id, definition);
+            return this.collection[id];
         },
 
         /**
