@@ -8,6 +8,7 @@ define(function(require) {
     var Search = require('drc/search/Search');
     var Table = require('drc/table/Table');
     var TableStore = require('drc/table/TableStore');
+    var Utils = require('drc/utils/Utils');
 
     var tableDefinition = {
         url: '/test/table',
@@ -139,7 +140,22 @@ define(function(require) {
                 case 'modal':
                     componentSet = (
                         React.createElement("div", {className: "component modal"}, 
-                            React.createElement("input", {type: "button", className: "modal-button", onClick: this.openModal, value: "Open Modal"})
+                            React.createElement("button", {type: "button", onClick: this.openModal}, "Open Modal")
+                        )
+                    );
+                    break;
+                case 'pageMessage':
+                    componentSet = (
+                        React.createElement("div", {className: "component"}, 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Success')}, "Success"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Error')}, "Error"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Warning')}, "Warning"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Info')}, "Info"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Lorem ipsum dolor sit amet, ' +
+                                'consectetur adipiscing elit. Sed condimentum quis velit eget varius. Cras a risus tortor. ' +
+                                'Praesent sed ante dui. Nullam iaculis laoreet nulla, sit amet fringilla ante mattis quis. ' +
+                                'Nullam id augue eu urna ornare tincidunt. Vestibulum venenatis nibh a mi fringilla egestas. ' +
+                                'Duis eget elementum elit.')}, "Custom")
                         )
                     );
                     break;
@@ -169,6 +185,7 @@ define(function(require) {
                                    quickFilterPlaceholder: "Quick Filter"})
                         )
                     );
+                    break;
             }
 
             return (
@@ -185,6 +202,8 @@ define(function(require) {
                         React.createElement("ul", {className: "nav no-select"}, 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'modal' ? 'active' : null, 
                                 onClick: this.handleLinkClick.bind(this, 'modal')}, "Modal"), 
+                            React.createElement("li", {className: this.state.selectedComponentSet === 'pageMessage' ? 'active' : null, 
+                                onClick: this.handleLinkClick.bind(this, 'pageMessage')}, "Page Message"), 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'piechart' ? 'active' : null, 
                                 onClick: this.handleLinkClick.bind(this, 'piechart')}, "Pie Chart"), 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'search' ? 'active' : null, 
@@ -222,6 +241,20 @@ define(function(require) {
             this.setState({
                 selectedComponentSet: link
             });
+        },
+
+        handleMessageClick: function(message) {
+            switch(message) {
+                case 'Success':
+                case 'Error':
+                case 'Warning':
+                case 'Info':
+                    Utils.pageMessage(message, message.toLowerCase());
+                    break;
+                default:
+                    Utils.pageMessage(message, 'custom', {icon: 'fa fa-star', closeIcon: 'fa fa-times-circle', duration: 10000});
+                    break;
+            }
         }
     });
 });

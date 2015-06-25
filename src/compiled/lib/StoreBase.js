@@ -84,19 +84,32 @@ define(function(require) {
          * @param {object} action - Action details.
          */
         handleRequestDataAction: function(action) {
-            var id = action.id;
+            var id = action.id,
+                instance;
+            action.data = action.data || {};
 
             // we only care about actions that are for the component tied to this model
             if (!this.shouldHandleAction(action.component)) {
                 return;
             }
 
-            if (!_.find(this.collection, id) && !this.collection[id]) {
-                this.createInstance(id, action.data.definition, action.data.dataFormatter);
+            if(this.collection[id]){
+                instance = this.collection[id];
+            }
+            else if(action.data.definition){
+                instance = this.createInstance(id, action.data.definition, action.data.dataFormatter);
+            }
+            else{
+                //Not an existing instance ID and no definition sent, bail out
+                return;
+            }
+
+            if(action.data.filters){
+                instance.requestFilters = action.data.filters;
             }
 
             if (action.actionType === 'REQUEST_DATA') {
-                this.requestData(id, action.data.filters, _.bind(function(error) {
+                this.requestData(id, instance.requestFilters, _.bind(function(error) {
                     if (error) {
                         this.emitFail(id);
                     }

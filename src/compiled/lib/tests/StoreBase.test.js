@@ -175,8 +175,10 @@ define(function(require) {
             expect(StoreBase.handleRequestDataAction(action)).toBeUndefined();
         });
 
-        it('throws error if modelType is unsupported', function(){
+        it('bails out if modelType is unsupported', function(){
             var handleSpy = spyOn(StoreBase, 'shouldHandleAction').and.returnValue(true);
+            var createInstanceSpy = jasmine.createSpy();
+            StoreBase.createInstance = createInstanceSpy;
 
             var action = {
                 id: 'foo',
@@ -186,10 +188,12 @@ define(function(require) {
             };
             StoreBase.modelTypes = {};
 
-            expect(function(){StoreBase.handleRequestDataAction(action);}).toThrow();
+            StoreBase.handleRequestDataAction(action);
+            expect(createInstanceSpy).not.toHaveBeenCalled();
 
             StoreBase.modelTypes = {BAR: 'foo'};
-            expect(function(){StoreBase.handleRequestDataAction(action);}).toThrow();
+            StoreBase.handleRequestDataAction(action);
+            expect(createInstanceSpy).not.toHaveBeenCalled();
 
             StoreBase.modelTypes = undefined;
         });
@@ -216,16 +220,15 @@ define(function(require) {
         it('calls request data if action type is correct', function(){
             var handleSpy = spyOn(StoreBase, 'shouldHandleAction').and.returnValue(true);
             StoreBase.createInstance = function(){};
-            var createInstanceSpy = spyOn(StoreBase, 'createInstance');
+            var createInstanceSpy = spyOn(StoreBase, 'createInstance').and.returnValue({});
             var requestDataSpy = spyOn(StoreBase, 'requestData');
 
             StoreBase.modelTypes = {foo: 'bar'};
-            StoreBase.collection.foo = "random value";
+            StoreBase.collection.foo = {};
 
             var action = {
                 id: 'foo',
                 data: {
-                    modelType: 'foo',
                     filters: {filter: 'value'}
                 },
                 actionType: 'REQUEST_DATA'
@@ -253,7 +256,69 @@ define(function(require) {
             expect(changeSpy).toHaveBeenCalledWith('foo');
             expect(failSpy.calls.count()).toEqual(0);
             failSpy.calls.reset();
+        });
 
+        it('uses existing filters on instance if present', function(){
+            spyOn(StoreBase, 'shouldHandleAction').and.returnValue(true);
+            var requestDataSpy = spyOn(StoreBase, 'requestData');
+
+            StoreBase.collection.foo = {
+                requestFilters: {filter: 'value'}
+            };
+
+            var action = {
+                id: 'foo',
+                actionType: 'REQUEST_DATA'
+            };
+
+            expect(StoreBase.handleRequestDataAction(action)).toBeUndefined();
+            expect(requestDataSpy).toHaveBeenCalled();
+            var reqDataArgs = requestDataSpy.calls.allArgs()[0];
+            expect(reqDataArgs[0]).toEqual('foo');
+            expect(reqDataArgs[1]).toEqual({filter: 'value'});
+        });
+
+        it('calls create instance when one doesnt exist', function(){
+            var handleSpy = spyOn(StoreBase, 'shouldHandleAction').and.returnValue(true);
+            StoreBase.createInstance = function(){};
+            var createInstanceSpy = spyOn(StoreBase, 'createInstance').and.returnValue({});
+            var requestDataSpy = spyOn(StoreBase, 'requestData');
+
+            StoreBase.collection = {};
+
+            var action = {
+                id: 'foo',
+                data: {
+                    definition: 'def',
+                    dataFormatter: 'formatter',
+                    filters: {filter: 'value'}
+                },
+                actionType: 'REQUEST_DATA'
+            };
+
+            StoreBase.handleRequestDataAction(action);
+
+            expect(createInstanceSpy).toHaveBeenCalledWith('foo', 'def', 'formatter');
+        });
+
+        it('bails when no instance and no definition provided', function(){
+            var handleSpy = spyOn(StoreBase, 'shouldHandleAction').and.returnValue(true);
+            var requestDataSpy = spyOn(StoreBase, 'requestData');
+
+            StoreBase.collection = {};
+
+            var action = {
+                id: 'foo',
+                data: {
+                    dataFormatter: 'formatter',
+                    filters: {filter: 'value'}
+                },
+                actionType: 'REQUEST_DATA'
+            };
+
+            StoreBase.handleRequestDataAction(action);
+
+            expect(requestDataSpy).not.toHaveBeenCalled();
         });
     });
 });

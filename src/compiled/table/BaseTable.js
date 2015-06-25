@@ -19,6 +19,7 @@ define(function(require) {
         selectOff: 'fa fa-square-o',
         sortAsc: 'fa fa-sort-asc',
         sortDesc: 'fa fa-sort-desc',
+        sortInactive: 'fa fa-sort',
         statusOn: 'fa fa-circle',
         statusOff: 'fa fa-circle-o'
     };
@@ -355,13 +356,28 @@ define(function(require) {
          * @returns {XML} - A React icon element.
          */
         getSortIcon: function(index) {
-            var defaultIconClasses = Utils.classSet({
-                'sorting-indicator': true,
-                'active': this.state.sortColIndex === index
-            });
-            var iconClassString = this.state.colSortDirections[index] === 'ascending' ? this.iconClasses.sortAsc + ' asc' : this.iconClasses.sortDesc + ' desc';
+            var classes = {
+                'sorting-indicator': true
+            };
 
-            return React.createElement("i", {className: defaultIconClasses + ' ' + iconClassString});
+            if (this.state.sortColIndex === index) {
+                classes.active = true;
+
+                if (this.state.colSortDirections[index] === 'ascending') {
+                    classes[this.iconClasses.sortAsc] = true;
+                    classes.asc = true;
+                }
+                else {
+                    classes[this.iconClasses.sortDesc] = true;
+                    classes.desc = true;
+                }
+            }
+            else {
+                classes[this.iconClasses.sortInactive] = true;
+                classes['sort-inactive'] = true;
+            }
+
+            return React.createElement("i", {className: Utils.classSet(classes)});
         },
 
         /**

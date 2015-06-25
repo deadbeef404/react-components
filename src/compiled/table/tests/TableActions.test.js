@@ -29,6 +29,20 @@ define(function(require) {
             });
         });
 
+        describe('refreshData function', function(){
+            it('should request action with only ID', function(){
+                spyOn(AppDispatcher, 'dispatchAction');
+
+                TableActions.refreshData('foo');
+
+                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
+                    actionType: ActionTypes.REQUEST_DATA,
+                    component: 'Table',
+                    id: 'foo'
+                });
+            });
+        });
+
         describe('destroyInstance', function() {
             it('should request that an action be dispatched', function() {
                 var id = 'testID';
