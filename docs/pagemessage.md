@@ -2,6 +2,8 @@
 
 ### Usage
 
+##### This component is not meant to be used directly. This leverages the portalMixins and is accessed by using the pageMessage utility function.
+
 ```
 message
     type: string
