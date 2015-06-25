@@ -13,7 +13,7 @@ message
 type
     type: string
     required: true
-    description: The type of message (success, error, warning, info, or some customer type).
+    description: The type of message (success, error, warning, info, or some custom type).
     
 options
     type: object
@@ -33,7 +33,7 @@ options
     duration
         type: number
         required: false
-        description: How long the message will be displayed before automatically dismissing itself.
+        description: How long the message will be displayed before automatically dismissing itself. Set to 0 to force user to dismiss manually.
         default: 3000
 ```
 

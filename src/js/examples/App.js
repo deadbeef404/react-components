@@ -151,7 +151,11 @@ define(function(require) {
                             <button type="button" onClick={this.handleMessageClick.bind(this, 'Error')}>Error</button>
                             <button type="button" onClick={this.handleMessageClick.bind(this, 'Warning')}>Warning</button>
                             <button type="button" onClick={this.handleMessageClick.bind(this, 'Info')}>Info</button>
-                            <button type="button" onClick={this.handleMessageClick.bind(this, 'Custom')}>Custom</button>
+                            <button type="button" onClick={this.handleMessageClick.bind(this, 'Lorem ipsum dolor sit amet, ' +
+                                'consectetur adipiscing elit. Sed condimentum quis velit eget varius. Cras a risus tortor. ' +
+                                'Praesent sed ante dui. Nullam iaculis laoreet nulla, sit amet fringilla ante mattis quis. ' +
+                                'Nullam id augue eu urna ornare tincidunt. Vestibulum venenatis nibh a mi fringilla egestas. ' +
+                                'Duis eget elementum elit.')}>Custom</button>
                         </div>
                     );
                     break;
@@ -242,19 +246,13 @@ define(function(require) {
         handleMessageClick: function(message) {
             switch(message) {
                 case 'Success':
-                    Utils.pageMessage(message, 'success');
-                    break;
                 case 'Error':
-                    Utils.pageMessage(message, 'error');
-                    break;
                 case 'Warning':
-                    Utils.pageMessage(message, 'warning');
-                    break;
                 case 'Info':
-                    Utils.pageMessage(message, 'info');
+                    Utils.pageMessage(message, message.toLowerCase());
                     break;
-                case 'Custom':
-                    Utils.pageMessage(message, 'custom', {closeIcon: 'fa fa-close'});
+                default:
+                    Utils.pageMessage(message, 'custom', {icon: 'fa fa-star', closeIcon: 'fa fa-times-circle', duration: 10000});
                     break;
             }
         }

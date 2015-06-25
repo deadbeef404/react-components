@@ -29,9 +29,11 @@ define(function(require) {
 
         componentDidMount: function() {
             // Dismiss the message with animation after the duration time if the message was not already closed manually.
-            this.timeout = setTimeout(function() {
-                this.dismiss(true);
-            }.bind(this), this.props.duration);
+            if (this.props.duration > 0) {
+                this.timeout = setTimeout(function() {
+                    this.dismiss(true);
+                }.bind(this), this.props.duration);
+            }
         },
 
         componentWillUnmount: function() {
@@ -41,12 +43,10 @@ define(function(require) {
         },
 
         render: function() {
-            var message = this.getMessageMarkup();
-
             return (
                 <div className="page-message">
                     <ReactCSSTransitionGroup transitionName="message" transitionAppear={true}>
-                        {message}
+                        {this.getMessageMarkup()}
                     </ReactCSSTransitionGroup>
                 </div>
             );
@@ -57,13 +57,13 @@ define(function(require) {
          * @returns {ReactElement|Null} - The element containing the message.
          */
         getMessageMarkup: function() {
-            var closeIcon = this.props.closeIcon ? <i className={this.props.closeIcon + ' close'} onClick={this.dismiss.bind(this, false)} /> : null;
-            var icon = this.props.icon ? <i className={this.props.icon} /> : null;
-
             // When null is returned, the message will remain in the DOM until the animation has completed if an animation was requested.
             if (this.state.leaving) {
                 return null;
             }
+
+            var closeIcon = this.props.closeIcon ? <i className={this.props.closeIcon + ' close'} onClick={this.dismiss.bind(this, false)} /> : null;
+            var icon = this.props.icon ? <i className={this.props.icon} /> : null;
 
             return (
                 <div className={"message " + this.props.type}>

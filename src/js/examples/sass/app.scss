@@ -243,3 +243,13 @@ body {
   left: 227px !important;
 }
 
+.page-message {
+  .custom {
+    background-color: aliceblue;
+    color: darkblue;
+
+    .close:hover {
+      color: dimgrey;
+    }
+  }
+}
