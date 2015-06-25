@@ -1,7 +1,5 @@
 # Table Component
 
-<img src="../src/js/examples/images/demo/table.gif" />
-
 ### Usage
 
 ```

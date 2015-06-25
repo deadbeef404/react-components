@@ -1,7 +1,5 @@
 # Search Component
 
-<img src="../src/js/examples/images/demo/search.gif" />
-
 ### Usage
 
 ```

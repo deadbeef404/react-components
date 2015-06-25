@@ -28,15 +28,14 @@ define(function(require) {
         },
 
         componentDidMount: function() {
-            if (this.props.duration) {
-                this.timeout = setTimeout(function() {
-                    this.dismiss(true);
-                }.bind(this), this.props.duration);
-            }
+            this.timeout = setTimeout(function() {
+                this.dismiss(true);
+            }.bind(this), this.props.duration);
         },
 
         componentWillUnmount: function() {
             clearTimeout(this.timeout);
+            this.timeout = null;
         },
 
         render: function() {
@@ -60,7 +59,7 @@ define(function(require) {
             }
 
             return (
-                <div ref="message" className={"message " + this.props.type}>
+                <div className={"message " + this.props.type}>
                     {closeIcon}
                     <span>{icon} {this.props.message}</span>
                 </div>
