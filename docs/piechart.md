@@ -1,7 +1,5 @@
 # Pie Chart Component
 
-<img src="../src/js/examples/images/demo/piechart.gif" />
-
 ### Usage
 
 ```
