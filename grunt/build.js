@@ -28,8 +28,8 @@ module.exports = function(grunt, options) {
             shell:{
                 build: {
                     command: [
-                        //'./init.sh',
-                        //'grunt test',
+                        './init.sh',
+                        'grunt test',
                         'grunt compass',
                         'chmod 777 dist',
                         'grunt uglify:min',
