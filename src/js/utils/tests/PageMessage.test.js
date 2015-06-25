@@ -46,7 +46,6 @@ define(function(require) {
                 pageMessage = TestUtils.renderIntoDocument(<PageMessage message='Message' type='message' duration={0} />);
                 spyOn(pageMessage, 'dismiss');
 
-                expect(pageMessage.dismiss).not.toHaveBeenCalled();
                 jasmine.clock().tick(10000);
                 expect(pageMessage.dismiss).not.toHaveBeenCalled();
             });
