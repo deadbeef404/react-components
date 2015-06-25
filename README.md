@@ -28,6 +28,10 @@ Display complex data with our pie chart's drill in/out functionality, hover anim
 
 A simple single page modal that renders in it's own DOM tree and operates outside the render cycles of an application.
 
+#### [Page Message Component](./docs/pagemessage.md)
+
+A page level component that animates in and out for success, error, warning, info, and custom messages.
+
 ## Getting Started
 
 #### Install Bower if it is not already installed
@@ -101,8 +105,7 @@ $ git checkout master
 
 * [Jasmine](http://jasmine.github.io/2.2/introduction.html) Behavior-driven development framework for testing JavaScript code
 * [Istanbul](https://github.com/gotwarlost/istanbul) JavaScript statement, line, function, and branch code coverage when running unit tests
-* [JSHint](http://jshint.com/) Detect errors and potential problems in JavaScript code and enforce your team's coding conventions
-* [JSCS](http://jscs.info/) JavaScript Code Style checker
+* [ESLint](http://eslint.org/) The pluggable linting utility for JavaScript and JSX
 
 #### Install Dependencies
 
@@ -177,22 +180,28 @@ Same as the default grunt task, however it will reinstall dependencies.
 $ grunt init
 ```
 
-Run Jasmine unit tests, JSHint, and JSCS.
+Run Jasmine unit tests, JSHint, and JSCS
 
 ```
 $ grunt test
-```
-
-Run Jasmine unit tests on a single file.
-
-```
-$ grunt jasmine --filter filename
 ```
 
 Same as grunt test, however, this task will run code coverage and launch the code coverage in your browser.
 
 ```
 $ grunt test:cov
+```
+
+Run unit tests in the browser on actual source rather than instrumented files from istanbul.
+
+```
+$ grunt jasmineDebug --filter {/folder|file}
+```
+
+Run unit tests for a filtered set of folders or files without code coverage thresholds.
+
+```
+$ grunt jasmineFilter --filter {/folder|file}
 ```
 
 ## License
@@ -205,7 +214,7 @@ The developers that made this project possible by contributing to the the follow
 
 [React](http://facebook.github.io/react/), [Flux](https://facebook.github.io/flux/), [Compass](http://compass-style.org/), 
 [Sass](http://sass-lang.com/), [Require](http://requirejs.org/), [Grunt](http://gruntjs.com/), [Jasmine](http://jasmine.github.io/2.2/introduction.html),
-[Istanbul](https://github.com/gotwarlost/istanbul), [JSHint](http://jshint.com/), [JSCS](http://jscs.info/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
+[Istanbul](https://github.com/gotwarlost/istanbul), [ESLint](http://eslint.org/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
 [d3](http://d3js.org/), [lodash](https://lodash.com/docs), [jQuery](http://jquery.com/), and [Moment](http://momentjs.com/docs/)
 
 [bower-image]: https://badge.fury.io/bo/react-components.svg

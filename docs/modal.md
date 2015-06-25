@@ -1,7 +1,5 @@
 # Modal Component
 
-<img src="../src/js/examples/images/demo/modal.gif" />
-
 ### Usage
 
 ```
@@ -15,6 +13,12 @@ closeModalCallback
     required: false
     description: Triggered when the modal is closed by clicking on the close button or pressing escape
         
+backgroundClickToClose
+    type: boolean
+    required: false
+    default: true
+    description: Used to control whether or not a click outside the modal will cause it to close
+
 iconClasses
     type: object
     required: false

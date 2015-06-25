@@ -1,13 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var Modal = require('drc/modal/Modal.min');
-    var PieChart = require('drc/pie-chart/PieChart.min');
-    var PortalMixins = require('drc/mixins/PortalMixins.min');
+    var Modal = require('drc/modal/Modal');
+    var PieChart = require('drc/pie-chart/PieChart');
+    var PortalMixins = require('drc/mixins/PortalMixins');
     var React = require('react');
-    var Search = require('drc/search/Search.min');
-    var Table = require('drc/table/Table.min');
-    var TableStore = require('drc/table/TableStore.min');
+    var Search = require('drc/search/Search');
+    var Table = require('drc/table/Table');
+    var TableStore = require('drc/table/TableStore');
+    var Utils = require('drc/utils/Utils');
 
     var tableDefinition = {
         url: '/test/table',
@@ -91,12 +92,12 @@ define(function(require) {
                 var idx = event.currentTarget.rowIndex;
                 /* eslint-disable no-alert */
                 alert(
-                    'You just clicked on ' + state.data[idx][state.rowClick.labelKey || 'name'] + '.' +
-                    'We just executed the user defined rowClick.callback:\n\n' +
-                    'callback: function(event, props, state) {\n' +
-                    '    var idx = event.currentTarget.rowIndex;\n' +
-                    '    alert(\'You just clicked on +\'\n    state.data[idx][state.rowClick.labelKey \n    || \'name\'] + \'.\');\n' +
-                    '}'
+                        'You just clicked on ' + state.data[idx][state.rowClick.labelKey || 'name'] + '.' +
+                        'We just executed the user defined rowClick.callback:\n\n' +
+                        'callback: function(event, props, state) {\n' +
+                        '    var idx = event.currentTarget.rowIndex;\n' +
+                        '    alert(\'You just clicked on +\'\n    state.data[idx][state.rowClick.labelKey \n    || \'name\'] + \'.\');\n' +
+                        '}'
                 );
                 /* eslint-enable no-alert */
             }
@@ -139,36 +140,52 @@ define(function(require) {
                 case 'modal':
                     componentSet = (
                         React.createElement("div", {className: "component modal"}, 
-                            React.createElement("input", {type: "button", className: "modal-button", onClick: this.openModal, value: "Open Modal"})
+                            React.createElement("button", {type: "button", onClick: this.openModal}, "Open Modal")
                         )
-                    );
+                        );
+                    break;
+                case 'pageMessage':
+                    componentSet = (
+                        React.createElement("div", {className: "component"}, 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Success')}, "Success"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Error')}, "Error"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Warning')}, "Warning"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Info')}, "Info"), 
+                            React.createElement("button", {type: "button", onClick: this.handleMessageClick.bind(this, 'Lorem ipsum dolor sit amet, ' +
+                                'consectetur adipiscing elit. Sed condimentum quis velit eget varius. Cras a risus tortor. ' +
+                                'Praesent sed ante dui. Nullam iaculis laoreet nulla, sit amet fringilla ante mattis quis. ' +
+                                'Nullam id augue eu urna ornare tincidunt. Vestibulum venenatis nibh a mi fringilla egestas. ' +
+                                'Duis eget elementum elit.')}, "Custom")
+                        )
+                        );
                     break;
                 case 'piechart':
                     componentSet = (
                         React.createElement("div", {className: "component"}, 
                             React.createElement(PieChart, {definition: pieChartDefinition, 
-                                      componentId: 'pieChartId', 
-                                      key: 'pieChartId', 
-                                      loadingIconClasses: ['icon', 'ion-loading-c']})
+                            componentId: 'pieChartId', 
+                            key: 'pieChartId', 
+                            loadingIconClasses: ['icon', 'ion-loading-c']})
                         )
-                    );
+                        );
                     break;
                 case 'search':
                     componentSet = (
                         React.createElement(Search, {url: '/test/search', onSelect: searchSubmitCallback, isFullDataResponse: true, minLength: 1})
-                    );
+                        );
                     break;
                 case 'table':
                     componentSet = (
                         React.createElement("div", {className: "component"}, 
                             React.createElement("div", {className: "bulk-action-button", onClick: this.handleBulkActionClick}, "Bulk Action"), 
                             React.createElement(Table, {definition: tableDefinition, 
-                                   componentId: "tableId", 
-                                   key: "tableId", 
-                                   loadingIconClasses: ['icon', 'ion-loading-c'], 
-                                   quickFilterPlaceholder: "Quick Filter"})
+                            componentId: "tableId", 
+                            key: "tableId", 
+                            loadingIconClasses: ['icon', 'ion-loading-c'], 
+                            quickFilterPlaceholder: "Quick Filter"})
                         )
-                    );
+                        );
+                    break;
             }
 
             return (
@@ -184,30 +201,32 @@ define(function(require) {
                     React.createElement("div", {className: "sidebar"}, 
                         React.createElement("ul", {className: "nav no-select"}, 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'modal' ? 'active' : null, 
-                                onClick: this.handleLinkClick.bind(this, 'modal')}, "Modal"), 
+                            onClick: this.handleLinkClick.bind(this, 'modal')}, "Modal"), 
+                            React.createElement("li", {className: this.state.selectedComponentSet === 'pageMessage' ? 'active' : null, 
+                            onClick: this.handleLinkClick.bind(this, 'pageMessage')}, "Page Message"), 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'piechart' ? 'active' : null, 
-                                onClick: this.handleLinkClick.bind(this, 'piechart')}, "Pie Chart"), 
+                            onClick: this.handleLinkClick.bind(this, 'piechart')}, "Pie Chart"), 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'search' ? 'active' : null, 
-                                onClick: this.handleLinkClick.bind(this, 'search')}, "Search"), 
+                            onClick: this.handleLinkClick.bind(this, 'search')}, "Search"), 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'table' ? 'active' : null, 
-                                onClick: this.handleLinkClick.bind(this, 'table')}, "Table")
+                            onClick: this.handleLinkClick.bind(this, 'table')}, "Table")
                         )
                     ), 
                     React.createElement("div", {className: "content-component"}, 
                         componentSet
                     )
                 )
-            );
+                );
         },
 
         openModal: function() {
             this.openPortal(
                 React.createElement(Modal, {title: "Modal Title", closeModalCallback: this.closePortal}, 
-                    "Paleo hella meditation Thundercats. Artisan Wes Anderson plaid, meggings trust fund sartorial" + ' ' +
-                    "slow-carb flexitarian direct trade skateboard. Gentrify sriracha Kickstarter Godard butcher" + ' ' +
-                    "McSweeney's. Etsy keffiyeh hoodie irony vinyl. Ugh VHS hella, mlkshk craft beer meh banh mi." + ' ' +
-                    "Whatever normcore Truffaut sustainable lo-fi literally, Vice leggings XOXO. Wayfarers Austin" + ' ' +
-                    "tattooed mlkshk asymmetrical plaid butcher, chia stumptown post-ironic."
+                "Paleo hella meditation Thundercats. Artisan Wes Anderson plaid, meggings trust fund sartorial" + ' ' +
+                "slow-carb flexitarian direct trade skateboard. Gentrify sriracha Kickstarter Godard butcher" + ' ' +
+                "McSweeney's. Etsy keffiyeh hoodie irony vinyl. Ugh VHS hella, mlkshk craft beer meh banh mi." + ' ' +
+                "Whatever normcore Truffaut sustainable lo-fi literally, Vice leggings XOXO. Wayfarers Austin" + ' ' +
+                "tattooed mlkshk asymmetrical plaid butcher, chia stumptown post-ironic."
                 )
             );
         },
@@ -222,6 +241,20 @@ define(function(require) {
             this.setState({
                 selectedComponentSet: link
             });
+        },
+
+        handleMessageClick: function(message) {
+            switch(message) {
+                case 'Success':
+                case 'Error':
+                case 'Warning':
+                case 'Info':
+                    Utils.pageMessage(message, message.toLowerCase());
+                    break;
+                default:
+                    Utils.pageMessage(message, 'custom', {icon: 'fa fa-star', closeIcon: 'fa fa-times-circle', duration: 10000});
+                    break;
+            }
         }
     });
 });

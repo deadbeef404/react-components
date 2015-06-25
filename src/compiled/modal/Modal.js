@@ -13,8 +13,15 @@ define(function(require) {
 
         propTypes: {
             closeModalCallback: React.PropTypes.func,
+            backgroundClickToClose: React.PropTypes.bool,
             iconClasses: React.PropTypes.object,
             title: React.PropTypes.string
+        },
+
+        getDefaultProps: function() {
+            return {
+                backgroundClickToClose: true
+            };
         },
 
         getInitialState: function() {
@@ -65,7 +72,7 @@ define(function(require) {
          * @param {Object} e - The simulated React event.
          */
         backgroundClickHandler: function(e) {
-            if (e.target.getAttribute('data-clickcatcher')) {
+            if (this.props.backgroundClickToClose && e.target.getAttribute('data-clickcatcher')) {
                 this.closeModalHandler(e);
             }
         },

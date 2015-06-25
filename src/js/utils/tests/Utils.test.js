@@ -1,12 +1,12 @@
 define(function(require) {
-    var Moment = require('moment');
+    var PortalMixins = require('drc/mixins/PortalMixins');
     var React = require('react');
     var Utils = require('drc/utils/Utils');
 
     var TestUtils = React.addons.TestUtils;
 
     describe('Utils', function() {
-        describe('guid function', function() {
+        describe('guid', function() {
             it('should generate a unique identifier', function() {
                 var id1 = Utils.guid();
                 var id2 = Utils.guid();
@@ -15,7 +15,7 @@ define(function(require) {
             });
         });
 
-        describe('calculateTimeString function', function() {
+        describe('calculateTimeString', function() {
             var start = '2015-02-04T15:25:34.931Z';
             var end = '2015-02-04T15:30:05.553Z';
             it('should lead with a space, contain a colon and AM/PM in times, and not include a date if the date bool is false or missing.', function() {
@@ -52,7 +52,7 @@ define(function(require) {
             });
         });
 
-        describe('getLoaderClasses function', function() {
+        describe('getLoaderClasses', function() {
             var firstClass = 'test-class';
             var secondClass = 'test-class-two';
             it('should use default icon classes.', function() {
@@ -110,7 +110,7 @@ define(function(require) {
             });
         });
 
-        describe('extendReactClass function', function() {
+        describe('extendReactClass', function() {
             var base = {
                 keepMe: function() {
                     return 'kept';
@@ -154,6 +154,28 @@ define(function(require) {
 
             it('should create a React class.', function() {
                 expect(React.createClass).toHaveBeenCalled();
+            });
+        });
+
+        describe('pageMessage', function() {
+            it('should close any open portals and open a new portal with a PageMessage component', function() {
+                spyOn(PortalMixins, 'closePortal');
+                spyOn(PortalMixins, 'openPortal');
+
+                Utils.pageMessage('mssg', 'type', {option: 'val'});
+
+                expect(PortalMixins.closePortal.calls.count()).toEqual(1);
+                expect(PortalMixins.openPortal.calls.count()).toEqual(1);
+                expect(PortalMixins.openPortal.calls.argsFor(0)[0].props.message).toEqual('mssg');
+                expect(PortalMixins.openPortal.calls.argsFor(0)[0].props.type).toEqual('type');
+                expect(PortalMixins.openPortal.calls.argsFor(0)[0].props.option).toEqual('val');
+            });
+
+            it('should use a message of a pre-configured type', function() {
+                spyOn(PortalMixins, 'closePortal');
+                spyOn(PortalMixins, 'openPortal');
+
+                expect(function() {Utils.pageMessage('mssg', 'success', {option: 'val'})}).not.toThrow();
             });
         });
     });
