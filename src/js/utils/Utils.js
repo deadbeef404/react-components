@@ -3,7 +3,31 @@ define(function(require) {
 
     var _ = require('lodash');
     var moment = require('moment');
+    var PageMessage = require('drc/utils/PageMessage');
+    var PortalMixins = require('drc/mixins/PortalMixins');
     var React = require('react');
+
+    var pageMessageOptions = {
+        success: {
+            duration: 1500,
+            icon: 'fa fa-check'
+        },
+        error: {
+            duration: 5000,
+            icon: 'fa fa-exclamation-circle',
+            closeIcon: 'fa fa-close'
+        },
+        warning: {
+            duration: 5000,
+            icon: 'fa fa-warning',
+            closeIcon: 'fa fa-close'
+        },
+        info: {
+            duration: 5000,
+            icon: 'fa fa-info-circle',
+            closeIcon: 'fa fa-close'
+        }
+    };
 
     var Utils = {
         guid: function() {
@@ -114,6 +138,21 @@ define(function(require) {
             add.mixins = [_.extend(_.cloneDeep(base), clobber)];
 
             return React.createClass(add);
+        },
+
+        /**
+         * Opens a portal to display a PageMessage for the user.
+         * @param {String} message - The text to be displayed inside of PageMessage.
+         * @param {String} type - The kind of message to be displayed such as success, error, warning, or info.
+         * @param {Object} options - Optional PageMessage configurations.
+         */
+        pageMessage: function(message, type, options) {
+            if (pageMessageOptions[type]) {
+                options = _.merge(_.clone(pageMessageOptions[type]), options);
+            }
+
+            PortalMixins.closePortal();
+            PortalMixins.openPortal(<PageMessage message={message.toLowerCase()} type={type} {...options} />);
         }
     };
 
