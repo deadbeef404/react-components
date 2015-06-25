@@ -41,6 +41,15 @@ define(function(require) {
                 expect(pageMessage.dismiss.calls.count()).toEqual(1);
                 expect(pageMessage.dismiss).toHaveBeenCalledWith(true);
             });
+
+            it('should not call dismiss with animation after the set duration if the duration is 0', function() {
+                pageMessage = TestUtils.renderIntoDocument(<PageMessage message='Message' type='message' duration={0} />);
+                spyOn(pageMessage, 'dismiss');
+
+                expect(pageMessage.dismiss).not.toHaveBeenCalled();
+                jasmine.clock().tick(10000);
+                expect(pageMessage.dismiss).not.toHaveBeenCalled();
+            });
         });
 
         describe('componentWillUnmount', function() {
