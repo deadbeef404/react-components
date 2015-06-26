@@ -152,7 +152,7 @@ define(function(require) {
             }
 
             PortalMixins.closePortal();
-            PortalMixins.openPortal(<PageMessage message={message.toLowerCase()} type={type} {...options} />);
+            PortalMixins.openPortal(<PageMessage message={message} type={type.toLowerCase()} {...options} />);
         }
     };
 
