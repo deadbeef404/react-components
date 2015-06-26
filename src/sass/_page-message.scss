@@ -1,6 +1,9 @@
 @import 'vars';
 
 .page-message {
+  position: absolute;
+  top: 0;
+
   .message {
     box-sizing: border-box;
     border: solid 1px $lighter-grey;
@@ -12,7 +15,7 @@
     min-width: 200px;
     min-height: 35px;
     padding: 10px 20px;
-    position: absolute;
+    position: fixed;
     text-align: center;
     left: 50%;
     z-index: 9000;
