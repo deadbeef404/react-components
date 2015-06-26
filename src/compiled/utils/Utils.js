@@ -152,7 +152,7 @@ define(function(require) {
             }
 
             PortalMixins.closePortal();
-            PortalMixins.openPortal(React.createElement(PageMessage, React.__spread({message: message.toLowerCase(), type: type},  options)));
+            PortalMixins.openPortal(React.createElement(PageMessage, React.__spread({message: message, type: type.toLowerCase()},  options)));
         }
     };
 
