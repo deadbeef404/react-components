@@ -11,7 +11,7 @@ var jasmineConfig = {
     compiledDir: 'src/compiled',
     paths: {
         'drc/lib/EventEmitter': '../../src/compiled/lib/EventEmitter',
-        ExpandedTestUtils: '../../bower_components/expanded-react-test-utils/dist/ExpandedTestUtils.min',
+        ExpandedTestUtils: '../../bower_components/expanded-react-test-utils/dist/ExpandedTestUtils',
         RequestHandler: '../../src/compiled/utils/RequestHandler'
     }
 };
