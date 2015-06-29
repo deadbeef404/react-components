@@ -1,7 +1,5 @@
 # Modal Component
 
-<img src="../src/js/examples/images/demo/modal.gif" />
-
 ### Usage
 
 ```
