@@ -28,6 +28,10 @@ Display complex data with our pie chart's drill in/out functionality, hover anim
 
 A simple single page modal that renders in it's own DOM tree and operates outside the render cycles of an application.
 
+#### [Confirm Dialog Component](./docs/confirmdialog.md)
+
+A page level component that displays a confirmation dialog to the user with OK/Cancel buttons.
+
 #### [Page Message Component](./docs/pagemessage.md)
 
 A page level component that animates in and out for success, error, warning, info, and custom messages.
