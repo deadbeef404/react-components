@@ -4,6 +4,8 @@ define(function(require) {
     var _ = require('lodash');
     var moment = require('moment');
     var PageMessage = require('drc/utils/PageMessage');
+    var ConfirmDialog = require('drc/utils/ConfirmDialog');
+    var Modal = require('drc/modal/Modal');
     var PortalMixins = require('drc/mixins/PortalMixins');
     var React = require('react');
 
@@ -153,6 +155,33 @@ define(function(require) {
 
             PortalMixins.closePortal();
             PortalMixins.openPortal(React.createElement(PageMessage, React.__spread({message: message, type: type.toLowerCase()},  options)));
+        },
+
+        /**
+         * Displays a confirmation dialog to the user in a modal. Dialog will show two buttons (OK/Cancel by default).
+         * Modal will not close when background is clicked nor will it have the close button in the top right.
+         * @param  {String}    title         Text to show as title of modal dialog
+         * @param  {String?}   subTitle      Subtext to show within dialog
+         * @param  {Function?} okHandler     Function handler when ok button is clicked. After this function is run the dialog will
+         *                                   automatically be closed unless this method explicitly returns false.
+         * @param  {Function?} cancelHandler Function handler when cancel button is clicked. After this function is run the dialog will
+         *                                   automatically be closed unless this method explicitly returns false.
+         * @param  {Object?}   options       Props to provide for the ConfirmDialog component to set button labels, icons, etc
+         */
+        confirmDialog: function(title, subTitle, okHandler, cancelHandler, options){
+            options = options || {};
+            if(okHandler){
+                options.okButtonClickHandler = okHandler;
+            }
+            if(cancelHandler){
+                options.cancelButtonClickHandler = cancelHandler;
+            }
+            PortalMixins.closePortal();
+            PortalMixins.openPortal(
+                React.createElement(Modal, {title: title, showCloseIcon: false, backgroundClickToClose: false}, 
+                    React.createElement(ConfirmDialog, React.__spread({message: subTitle},  options))
+                )
+            );
         }
     };
 

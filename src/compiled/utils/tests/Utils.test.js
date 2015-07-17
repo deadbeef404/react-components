@@ -178,5 +178,47 @@ define(function(require) {
                 expect(function() {Utils.pageMessage('mssg', 'success', {option: 'val'})}).not.toThrow();
             });
         });
+
+        describe('confirmDialog', function(){
+            it('copies over ok handler if provided', function(){
+                spyOn(PortalMixins, 'closePortal');
+                spyOn(PortalMixins, 'openPortal');
+
+                var okHandler = function(){};
+
+                Utils.confirmDialog('title', 'subtitle', okHandler);
+
+                expect(PortalMixins.closePortal).toHaveBeenCalled();
+
+                var modal = PortalMixins.openPortal.calls.argsFor(0)[0];
+                var confirmDialog = modal.props.children;
+                expect(confirmDialog.props.okButtonClickHandler).toEqual(okHandler);
+                expect(confirmDialog.props.cancelButtonClickHandler).toBeFunction();//Pulls empty function from default props
+            });
+
+            it('copies over cancel handler if provided', function(){
+                spyOn(PortalMixins, 'closePortal');
+                spyOn(PortalMixins, 'openPortal');
+
+                var cancelHandler = function(){};
+
+                Utils.confirmDialog('title', 'subtitle', null, cancelHandler);
+
+                var modal = PortalMixins.openPortal.calls.argsFor(0)[0];
+                var confirmDialog = modal.props.children;
+                expect(confirmDialog.props.cancelButtonClickHandler).toEqual(cancelHandler);
+            });
+
+            it('sets correct props on modal', function(){
+                spyOn(PortalMixins, 'closePortal');
+                spyOn(PortalMixins, 'openPortal');
+
+                Utils.confirmDialog('title', 'subtitle');
+
+                var modal = PortalMixins.openPortal.calls.argsFor(0)[0];
+                expect(modal.props.showCloseIcon).toBeFalse();
+                expect(modal.props.backgroundClickToClose).toBeFalse();
+            });
+        });
     });
 });
