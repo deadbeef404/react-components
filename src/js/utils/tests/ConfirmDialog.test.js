@@ -16,8 +16,8 @@ define(function(require) {
                 cancelButtonText: 'Nope',
                 okButtonClickHandler: okButtonSpy,
                 cancelButtonClickHandler: cancelButtonSpy,
-                okIcon: 'okClass',
-                cancelIcon: 'cancelClass'
+                okIconClasses: 'okClass',
+                cancelIconClasses: 'cancelClass'
             };
 
             confirmDialog = TestUtils.renderIntoDocument(<ConfirmDialog {...props} />);

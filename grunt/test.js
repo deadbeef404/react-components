@@ -54,7 +54,7 @@ module.exports = function(grunt, options) {
                             lines: 98,
                             statements: 98,
                             branches: 98,
-                            functions: 98
+                            functions: 97
                         } : {},
                         template: require('grunt-template-jasmine-requirejs'),
                         templateOptions: {

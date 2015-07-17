@@ -40,12 +40,12 @@ options
         default: 'Cancel'
         description: The label to display for the cancel button
 
-    okIcon
+    okIconClasses
         type: string
         default: 'okButton fa fa-check'
         description: The class names to use for the OK button icon. Set to null to remove icon.
 
-    okButtonText
+    cancelIconClasses
         type: string
         default: 'cancelButton fa fa-ban'
         description: The class names to use for the cancel button icon. Set to null to remove icon.
@@ -73,7 +73,7 @@ Utils.confirmDialog('Are you sure you want to delete this?', null, function(){
 }, {
     okButtonText: 'Confirm',
     cancelButtonText: 'Nope',
-    okIcon: 'okButton fa fa-check-circle',
-    cancelIcon: null //Clear cancel icon
+    okIconClasses: 'okButton fa fa-check-circle',
+    cancelIconClasses: null //Clear cancel icon
 });
 ```

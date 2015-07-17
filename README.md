@@ -30,7 +30,7 @@ A simple single page modal that renders in it's own DOM tree and operates outsid
 
 #### [Confirm Dialog Component](./docs/confirmdialog.md)
 
-A page level component that displays a confirmationd dialog to the user with OK/Cancel buttons.
+A page level component that displays a confirmation dialog to the user with OK/Cancel buttons.
 
 #### [Page Message Component](./docs/pagemessage.md)
 

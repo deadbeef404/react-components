@@ -147,7 +147,7 @@ define(function(require) {
                 case 'confirmDialog':
                     componentSet = (
                         <div className="component modal">
-                            <button tpye="button" onClick={this.showConfirmDialog}>Confirm Dialog</button>
+                            <button type="button" onClick={this.showConfirmDialog}>Confirm Dialog</button>
                         </div>
                     );
                     break;

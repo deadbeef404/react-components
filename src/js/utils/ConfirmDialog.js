@@ -12,8 +12,8 @@ define(function(require) {
             cancelButtonText: React.PropTypes.string,
             okButtonClickHandler: React.PropTypes.func,
             cancelButtonClickHandler: React.PropTypes.func,
-            okIcon: React.PropTypes.string,
-            cancelIcon: React.PropTypes.string
+            okIconClasses: React.PropTypes.string,
+            cancelIconClasses: React.PropTypes.string
         },
 
         getDefaultProps: function() {
@@ -22,8 +22,8 @@ define(function(require) {
                 cancelButtonText: 'Cancel',
                 okButtonClickHandler: function(){},
                 cancelButtonClickHandler: function(){},
-                okIcon: 'okButton fa fa-check',
-                cancelIcon: ' cancelButton fa fa-ban'
+                okIconClasses: 'okButton fa fa-check',
+                cancelIconClasses: 'cancelButton fa fa-ban'
             };
         },
 
@@ -80,8 +80,8 @@ define(function(require) {
                         {this.props.message}
                     </div>
                     <div className="confirm-buttons">
-                        <button className="button" onClick={this.handleOkClick}>{this.getButtonText(this.props.okIcon, this.props.okButtonText)}</button>
-                        <button className="button" onClick={this.handleCancelClick}>{this.getButtonText(this.props.cancelIcon, this.props.cancelButtonText)}</button>
+                        <button className="button" onClick={this.handleOkClick}>{this.getButtonText(this.props.okIconClasses, this.props.okButtonText)}</button>
+                        <button className="button" onClick={this.handleCancelClick}>{this.getButtonText(this.props.cancelIconClasses, this.props.cancelButtonText)}</button>
                     </div>
                 </div>
             );
