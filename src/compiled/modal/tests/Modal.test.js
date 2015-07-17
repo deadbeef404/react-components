@@ -53,6 +53,20 @@ define(function(require) {
             });
         });
 
+        describe('getCloseIconMarkup', function(){
+            it('returns null when not showing icon', function(){
+                modal = React.render(React.createElement(Modal, React.__spread({},  props, {showCloseIcon: false}), React.createElement("span", {id: "text"}, "Text")), node);
+
+                expect(modal.getCloseIconMarkup()).toBeNull();
+            });
+
+            it('returns ReactElement for close content', function(){
+                modal = React.render(React.createElement(Modal, React.__spread({},  props), React.createElement("span", {id: "text"}, "Text")), node);
+
+                expect(modal.getCloseIconMarkup()).toBeObject();
+            });
+        });
+
         describe('keyDownHandler function', function() {
             it('should close the modal if the escape key is pressed', function() {
                 spyOn(modal.props, 'closeModalCallback');
@@ -64,6 +78,16 @@ define(function(require) {
                 TestUtils.Simulate.keyDown(document.activeElement, {keyCode: 13});
 
                 expect(modal.props.closeModalCallback.calls.count()).toEqual(1);
+            });
+
+            it('should do nothing if not showing close icon', function(){
+                modal = React.render(React.createElement(Modal, React.__spread({},  props, {showCloseIcon: false}), React.createElement("span", {id: "text"}, "Text")), node);
+
+                spyOn(modal, 'closeModalHandler');
+
+                TestUtils.Simulate.keyDown(document.activeElement, {keyCode: 27});
+
+                expect(modal.closeModalHandler).not.toHaveBeenCalled();
             });
         });
 

@@ -144,6 +144,13 @@ define(function(require) {
                         </div>
                         );
                     break;
+                case 'confirmDialog':
+                    componentSet = (
+                        <div className="component modal">
+                            <button type="button" onClick={this.showConfirmDialog}>Confirm Dialog</button>
+                        </div>
+                    );
+                    break;
                 case 'pageMessage':
                     componentSet = (
                         <div className="component">
@@ -201,7 +208,9 @@ define(function(require) {
                     <div className="sidebar">
                         <ul className="nav no-select">
                             <li className={this.state.selectedComponentSet === 'modal' ? 'active' : null}
-                            onClick={this.handleLinkClick.bind(this, 'modal')}>Modal</li>
+                                onClick={this.handleLinkClick.bind(this, 'modal')}>Modal</li>
+                            <li className={this.state.selectedComponentSet === 'confirmDialog' ? 'active' : null}
+                                onClick={this.handleLinkClick.bind(this, 'confirmDialog')}>Confirm Dialog</li>
                             <li className={this.state.selectedComponentSet === 'pageMessage' ? 'active' : null}
                             onClick={this.handleLinkClick.bind(this, 'pageMessage')}>Page Message</li>
                             <li className={this.state.selectedComponentSet === 'piechart' ? 'active' : null}
@@ -229,6 +238,10 @@ define(function(require) {
                 tattooed mlkshk asymmetrical plaid butcher, chia stumptown post-ironic.
                 </Modal>
             );
+        },
+
+        showConfirmDialog: function(){
+            Utils.confirmDialog('Confirm Delete', 'Are you sure you want to delete this?');
         },
 
         handleBulkActionClick: function() {

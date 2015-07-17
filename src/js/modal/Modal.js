@@ -15,12 +15,14 @@ define(function(require) {
             closeModalCallback: React.PropTypes.func,
             backgroundClickToClose: React.PropTypes.bool,
             iconClasses: React.PropTypes.object,
+            showCloseIcon: React.PropTypes.bool,
             title: React.PropTypes.string
         },
 
         getDefaultProps: function() {
             return {
-                backgroundClickToClose: true
+                backgroundClickToClose: true,
+                showCloseIcon: true
             };
         },
 
@@ -38,15 +40,29 @@ define(function(require) {
             this.refs.content.getDOMNode().focus();
         },
 
+        /**
+         * Gets markup to display close icon in upper right corner. Only returns markup if
+         * the showCloseIcon prop is set.
+         * @return {null|ReactElement} Icon markup or null
+         */
+        getCloseIconMarkup: function(){
+            if(!this.props.showCloseIcon){
+                return null;
+            }
+            return (
+                <span className="close" onClick={this.closeModalHandler}>
+                    <span className="close-text">esc to close</span> | <i className={this.iconClasses.close} />
+                </span>
+            );
+        },
+
         render: function() {
             return (
                 <div onClick={this.backgroundClickHandler} id="modal-container" data-clickcatcher="true">
                     <div ref="content" className="content" tabIndex="-1" onKeyDown={this.keyDownHandler}>
                         <div className="header">
                             <span className="title">{this.props.title}</span>
-                            <span className="close" onClick={this.closeModalHandler}>
-                                <span className="close-text">esc to close</span> | <i className={this.iconClasses.close} />
-                            </span>
+                            {this.getCloseIconMarkup()}
                         </div>
                         <div className="body">
                             {this.props.children}
@@ -57,12 +73,12 @@ define(function(require) {
         },
 
         /**
-         * If the key pressed is the escape key, the close modal handler will be called.
+         * If the key pressed is the escape key and the close icon is being shown, the close modal handler will be called.
          * @param {object} e - The simulated React event.
          */
         keyDownHandler: function(e) {
             // escape key pressed
-            if (e.keyCode === 27) {
+            if (e.keyCode === 27 && this.props.showCloseIcon) {
                 this.closeModalHandler(e);
             }
         },

@@ -144,6 +144,13 @@ define(function(require) {
                         )
                         );
                     break;
+                case 'confirmDialog':
+                    componentSet = (
+                        React.createElement("div", {className: "component modal"}, 
+                            React.createElement("button", {type: "button", onClick: this.showConfirmDialog}, "Confirm Dialog")
+                        )
+                    );
+                    break;
                 case 'pageMessage':
                     componentSet = (
                         React.createElement("div", {className: "component"}, 
@@ -201,7 +208,9 @@ define(function(require) {
                     React.createElement("div", {className: "sidebar"}, 
                         React.createElement("ul", {className: "nav no-select"}, 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'modal' ? 'active' : null, 
-                            onClick: this.handleLinkClick.bind(this, 'modal')}, "Modal"), 
+                                onClick: this.handleLinkClick.bind(this, 'modal')}, "Modal"), 
+                            React.createElement("li", {className: this.state.selectedComponentSet === 'confirmDialog' ? 'active' : null, 
+                                onClick: this.handleLinkClick.bind(this, 'confirmDialog')}, "Confirm Dialog"), 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'pageMessage' ? 'active' : null, 
                             onClick: this.handleLinkClick.bind(this, 'pageMessage')}, "Page Message"), 
                             React.createElement("li", {className: this.state.selectedComponentSet === 'piechart' ? 'active' : null, 
@@ -229,6 +238,10 @@ define(function(require) {
                 "tattooed mlkshk asymmetrical plaid butcher, chia stumptown post-ironic."
                 )
             );
+        },
+
+        showConfirmDialog: function(){
+            Utils.confirmDialog('Confirm Delete', 'Are you sure you want to delete this?');
         },
 
         handleBulkActionClick: function() {

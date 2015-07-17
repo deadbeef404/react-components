@@ -11,7 +11,7 @@ var jasmineConfig = {
     compiledDir: 'src/compiled',
     paths: {
         'drc/lib/EventEmitter': '../../src/compiled/lib/EventEmitter',
-        ExpandedTestUtils: '../../bower_components/expanded-react-test-utils/dist/ExpandedTestUtils.min',
+        ExpandedTestUtils: '../../bower_components/expanded-react-test-utils/dist/ExpandedTestUtils',
         RequestHandler: '../../src/compiled/utils/RequestHandler'
     }
 };
@@ -54,7 +54,7 @@ module.exports = function(grunt, options) {
                             lines: 98,
                             statements: 98,
                             branches: 98,
-                            functions: 98
+                            functions: 97
                         } : {},
                         template: require('grunt-template-jasmine-requirejs'),
                         templateOptions: {
@@ -93,6 +93,7 @@ module.exports = function(grunt, options) {
             target: [
                 'src/**/*.js',
                 '!src/compiled/**/*.js',
+                '!src/js/examples/*.js',
                 '!src/js/tests/*.js',
                 '!src/js/lib/EventEmitter.js',
                 '!src/**/*.test.js'

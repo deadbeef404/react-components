@@ -1,6 +1,6 @@
 {
   "name": "react-components",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "main": "dist/react-components.css",
   "keywords": [
     "react-component"
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/dataminr/react-components",
   "devDependencies": {
-    "expanded-react-test-utils": "0.1.0",
+    "expanded-react-test-utils": "0.2.0",
     "jasmine-expect": "1.22.3",
     "react-router": "0.13.3"
   },

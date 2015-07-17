@@ -1,0 +1,20 @@
+.confirm-dialog{
+  .confirm-buttons{
+    float: right;
+    margin-top: 10px;
+
+    button{
+      margin: 15px 5px;
+      i{
+        margin-right: 3px;
+      }
+
+      .okButton{
+        color: $success-green;
+      }
+      .cancelButton{
+        color: $error-dark-red;
+      }
+    }
+  }
+}
