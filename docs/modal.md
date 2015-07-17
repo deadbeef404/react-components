@@ -19,6 +19,12 @@ backgroundClickToClose
     default: true
     description: Used to control whether or not a click outside the modal will cause it to close
 
+showCloseIcon
+    type: boolean  
+    required: false
+    default: true
+    description: Used to control whether the modal should show a close text and icon in the top right. Also disables using the escape key to close the modal.
+
 iconClasses
     type: object
     required: false
