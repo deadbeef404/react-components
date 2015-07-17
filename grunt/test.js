@@ -93,6 +93,7 @@ module.exports = function(grunt, options) {
             target: [
                 'src/**/*.js',
                 '!src/compiled/**/*.js',
+                '!src/js/examples/*.js',
                 '!src/js/tests/*.js',
                 '!src/js/lib/EventEmitter.js',
                 '!src/**/*.test.js'
