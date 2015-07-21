@@ -112,6 +112,15 @@ define(function(require) {
                     expect(table.selectedItems).toEqual({});
                 });
 
+                it('should reset quick filter data', function(){
+                    spyOn(table, 'sortData');
+                    expect(table.data).toBeNull();
+                    table.filterValue = 'abc';
+                    table.onDataReceived(data);
+                    expect(table.data).not.toBeNull();
+                    expect(table.filterValue).toBeNull();
+                });
+
                 describe('percent formatter', function() {
                     it('should correctly format a percent dataType', function() {
                         table.onDataReceived(definition.data);
