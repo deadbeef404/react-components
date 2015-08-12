@@ -40,7 +40,6 @@
     "src/js",
     "src/sass",
     "src/compiled/**/tests",
-    "!src/compiled/tests",
     "src/compiled/examples"
   ],
   "dependencies": {
