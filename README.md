@@ -50,6 +50,12 @@ $ npm install -g bower
 $ bower install react-components --save
 ```
 
+#### NPM Install react-components
+
+```
+$ npm install dataminr-react-components --save
+```
+
 #### Include the following in require config (alias names must match)
 
 ```
