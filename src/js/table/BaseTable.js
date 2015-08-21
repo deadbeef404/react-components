@@ -184,8 +184,8 @@ define(function(require) {
         getAdvancedFilterItemMarkup: function(filter, index) {
             return (
                 <div key={index} className="advanced-filter-item">
-                    <span className="no-select">{filter.label}</span>
-                    <input type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
+                    <label htmlFor={"filter-" + index} className="no-select">{filter.label}</label>
+                    <input id={"filter-" + index} type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
                 </div>
             );
         },
