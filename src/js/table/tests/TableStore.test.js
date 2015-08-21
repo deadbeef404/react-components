@@ -421,13 +421,11 @@ define(function(require) {
                 });
 
                 it('should filter data for each column that has quickFilter set to true and set the dataCount', function() {
-                    table.filterValue = 'a';
-                    expect(table.quickFilterData(definition.data).length).toEqual(6);
+                    expect(table.quickFilterData(definition.data, 'a').length).toEqual(6);
                 });
 
                 it('should filter data for each column that has quickFilter set to true and set the dataCount', function() {
-                    table.filterValue = 14;
-                    expect(table.quickFilterData(definition.data).length).toEqual(2);
+                    expect(table.quickFilterData(definition.data, 14).length).toEqual(2);
                 });
 
                 // Reset definition
@@ -438,7 +436,7 @@ define(function(require) {
                 it('should filter out table data where any property value equals a matching property value on an ' +
                     'advanced filter unless the advanced filter has been checked.', function() {
                     var data = [{test1: 'data1', test2: 'data1', test3: 'data1'}, {test1: 'data2', test2: 'data2'}, {test1: 'data3', test2: 'data3'}];
-                    table.advancedFilters = [
+                    var filters = [
                         {
                             dataProperty: 'test1',
                             filterValue: 'data1',
@@ -462,7 +460,7 @@ define(function(require) {
                             label: 'show data4'
                         }  // hide a row where the filter is not checked
                     ];
-                    expect(table.advancedFilterData(data)).toEqual([
+                    expect(table.advancedFilterData(data, filters)).toEqual([
                         {test1: 'data1', test2: 'data1', test3: 'data1', shownByAdvancedFilters: ['test1', 'test2']},
                         {test1: 'data2', test2: 'data2'}
                     ]);
