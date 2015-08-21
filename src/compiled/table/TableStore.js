@@ -77,6 +77,9 @@ define(function(require) {
             }, this);
 
             this.selectedItems = {};
+            //Reset the filter value on data change to clear any filtered state. Anytime new data comes in we want to clear all quick filters
+            //that might applied and show the full result set.
+            this.filterValue = null;
 
             if (typeof this.sortColIndex === 'number') {
                 this.sortData(this.sortColIndex, this.cols[this.sortColIndex].sortDirection);
@@ -95,19 +98,9 @@ define(function(require) {
          * @returns {Array} - A potentially filtered and paginated subset of table data.
          */
         getData: function() {
-            var data = _.cloneDeep(this.data);
-            this.dataCount = data.length;
-
-            data = this.filterData(data);
-
-            this.filteredData = data;
-
-            if (this.pagination) {
-                data = this.sliceData(data);
-            }
-
-            this.displayedData = data;
-
+            this.dataCount = this.data.length;
+            this.filteredData = this.filterData(this.data);
+            this.displayedData = this.pagination ? this.sliceData(this.filteredData) : this.filteredData;
             return this.displayedData;
         },
 
@@ -182,11 +175,11 @@ define(function(require) {
          */
         filterData: function(data) {
             if (this.filterValue) {
-                data = this.quickFilterData(data);
+                data = this.quickFilterData(data, this.filterValue);
             }
 
             if (this.advancedFilters) {
-                data = this.advancedFilterData(data);
+                data = this.advancedFilterData(data, this.advancedFilters);
             }
 
             this.dataCount = data.length;
@@ -196,47 +189,47 @@ define(function(require) {
 
         /**
          * Filters out table data that does not match the filter value for table cols that have quickFilter set to true.
-         * @param {Array} data - Cloned Table.data.
-         * @returns {Array} - The subset of data that matches the filter value.
+         * @param  {Array}  data        Data to filter
+         * @param  {String} filterValue Value to filter data with
+         * @return {Array}              The subset of data that matches the filter value.
          */
-        quickFilterData: function(data) {
-            var value = this.filterValue;
-            var filteredData = [];
-            var matches;
+        quickFilterData: function(data, filterValue) {
+            filterValue = filterValue.toString().toLowerCase();
+            var filterProperties = [];
 
-            _.forEach(this.cols, function(col) {
-                if (col.quickFilter) {
-                    matches = _.remove(data, function(item) {
-                        if (typeof item[col.dataProperty] === 'string') {
-                            return item[col.dataProperty].toLowerCase().indexOf(value.toString().toLowerCase()) !== -1;
-                        }
-                        else if (typeof item[col.dataProperty] === 'number') {
-                            return item[col.dataProperty].toString().indexOf(value.toString()) !== -1;
-                        }
-                    });
-
-                    filteredData = filteredData.concat(matches);
+            //Collect all of the data properties we're going to check for filtering
+            _.each(this.cols, function(col){
+                if(col.quickFilter){
+                    filterProperties.push(col.dataProperty);
                 }
             });
-
-            return filteredData;
+            if(filterProperties.length){
+                //Iterate over the data set and remove items that don't match the filter
+                return _.filter(data, function(item){
+                    //Use some so that we return as soon as we find a column that matches the value
+                    return _.some(filterProperties, function(propName){
+                        return item[propName].toString().toLowerCase().indexOf(filterValue) > -1;
+                    });
+                });
+            }
+            return data;
         },
 
         /**
          * Filters out table data where any property value equals a matching property value on an advanced filter
          * unless the advanced filter has been checked.
-         * @param {Array} data - Cloned Table.data.
-         * @returns {Array} - The subset of filtered data.
+         * @param  {Array} data    Cloned Table.data.
+         * @param  {Array} filters Array of advanced filters
+         * @return {Array} The subset of filtered data.
          */
-        advancedFilterData: function(data) {
-            var filteredData = [];
-
-            _.each(data, function(item) {
+        advancedFilterData: function(data, filters) {
+            return _.filter(_.map(data, function(item) {
                 var shown = true;
 
-                _.each(this.advancedFilters, function(filter) {
+                _.each(filters, function(filter) {
                     if (item[filter.dataProperty] === filter.filterValue) {
                         if (filter.checked) {
+                            item = _.cloneDeep(item); //Clone this item since we're going to modify it
                             if (!item.shownByAdvancedFilters) {
                                 item.shownByAdvancedFilters = [];
                             }
@@ -247,14 +240,12 @@ define(function(require) {
                             shown = false;
                         }
                     }
-                }, this);
+                });
 
                 if (shown) {
-                    filteredData.push(item);
+                    return item;
                 }
-            }, this);
-
-            return filteredData;
+            }));
         },
 
         /**

@@ -184,8 +184,8 @@ define(function(require) {
         getAdvancedFilterItemMarkup: function(filter, index) {
             return (
                 React.createElement("div", {key: index, className: "advanced-filter-item"}, 
-                    React.createElement("span", {className: "no-select"}, filter.label), 
-                    React.createElement("input", {type: "checkbox", checked: filter.checked || false, onChange: this.handleAdvancedFilterToggle.bind(this, filter)})
+                    React.createElement("label", {htmlFor: "filter-" + index, className: "no-select"}, filter.label), 
+                    React.createElement("input", {id: "filter-" + index, type: "checkbox", checked: filter.checked || false, onChange: this.handleAdvancedFilterToggle.bind(this, filter)})
                 )
             );
         },
