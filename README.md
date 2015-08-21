@@ -1,6 +1,8 @@
-[![Bower version][bower-image]][bower-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
-
 # react-components
+
+A collection of reusable React components with their own Flux lifecycle.
+
+[![Bower version][bower-image]][bower-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
 ## Just getting your project started?
 
@@ -48,6 +50,12 @@ $ npm install -g bower
 
 ```
 $ bower install react-components --save
+```
+
+#### NPM Install react-components
+
+```
+$ npm install dataminr-react-components --save
 ```
 
 #### Include the following in require config (alias names must match)
