@@ -1,6 +1,8 @@
-[![Bower version][bower-image]][bower-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
-
 # react-components
+
+A collection of reusable React components with their own Flux lifecycle.
+
+[![Bower version][bower-image]][bower-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
 ## Just getting your project started?
 
