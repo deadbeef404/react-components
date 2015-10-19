@@ -670,6 +670,20 @@ define(function(require) {
                     expect(table.data[5].timeTimestamp).toBeNull();
                     expect(table.data[6].timeTimestamp).toBeNull();
                 });
+
+                it('should handle string type fields that are undefined', function(){
+                    table.data[0].string = undefined;
+                    table.data[3].string = null;
+
+                    table.sortData(0, 'ascending');
+                    expect(table.data[0].string).toBeUndefined();
+                    expect(table.data[1].string).toBeNull();
+                    expect(table.data[2].string).toEqual('aa');
+                    expect(table.data[3].string).toEqual('aaa');
+                    expect(table.data[4].string).toEqual('ab');
+                    expect(table.data[5].string).toEqual('aba');
+                    expect(table.data[6].string).toEqual('b');
+                });
             });
 
             describe('getSelectedItems', function() {
