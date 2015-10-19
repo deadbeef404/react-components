@@ -295,18 +295,18 @@ define(function(require) {
             if (this.pagination) {
                 this.resetPagination();
             }
-
+            /* eslint-disable complexity */
             this.data.sort(function(a, b) {
                 var first = a[key];
                 var second = b[key];
 
                 if (dataType === 'string') {
-                    first = first.toLowerCase();
-                    second = second.toLowerCase();
+                    first = first ? first.toLowerCase() : "";
+                    second = second ? second.toLowerCase() : "";
                 }
                 if (dataType === 'time' || dataType === 'status') {
-                    first = first ? first : 0;
-                    second = second ? second : 0;
+                    first = first || 0;
+                    second = second || 0;
                 }
                 if (first > second) {
                     return direction === 'ascending' ? 1 : -1;
@@ -317,6 +317,7 @@ define(function(require) {
                 // a must be equal to b
                 return 0;
             });
+            /* eslint-enable complexity */
         },
 
         /**
