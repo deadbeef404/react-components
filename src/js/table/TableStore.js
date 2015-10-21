@@ -308,14 +308,19 @@ define(function(require) {
 
                 // undefined/null values are sorted to the end of the table when the sort direction is equal to the default
                 // sort direction, and to the top of the table when the sort direction is opposite of default
-                if (!first) {
-                    if (!second) {
+                if (first === null || first === undefined) {
+                    if (second === null || second === undefined) {
                         return 0;
                     }
                     return defaultDirection.valueOf() === direction.valueOf() ? 1 : -1;
                 }
-                if (!second) {
+                if (second === null || second === undefined) {
                     return defaultDirection.valueOf() === direction.valueOf() ? -1 : 1;
+                }
+
+                if (dataType === 'string') {
+                    first = first.toLowerCase();
+                    second = second.toLowerCase();
                 }
 
                 if (first > second) {
