@@ -56,6 +56,8 @@ define(function(require) {
 
             // Run data through built in data formatters.
             _.forEach(this.cols, function(col) {
+                // store the original passed in sort direction
+                col.defaultSortDirection = col.sortDirection;
                 // Default to 15 minutes if the onlineLimit for the col was not set or was set incorrectly.
                 if (col.dataType === 'status' && (typeof col.onlineLimit !== 'number' || col.onlineLimit < 1)) {
                     col.onlineLimit = 15;
@@ -208,6 +210,9 @@ define(function(require) {
                 return _.filter(data, function(item){
                     //Use some so that we return as soon as we find a column that matches the value
                     return _.some(filterProperties, function(propName){
+                        if(!item[propName]) {
+                            return false;
+                        }
                         return item[propName].toString().toLowerCase().indexOf(filterValue) > -1;
                     });
                 });
@@ -282,6 +287,7 @@ define(function(require) {
             this.sortColIndex = colIndex;
             this.cols[colIndex].sortDirection = direction;
 
+            var defaultDirection = this.cols[colIndex].defaultSortDirection;
             var dataType = this.cols[this.sortColIndex].dataType;
             var key;
 
@@ -300,14 +306,18 @@ define(function(require) {
                 var first = a[key];
                 var second = b[key];
 
-                if (dataType === 'string') {
-                    first = first ? first.toLowerCase() : "";
-                    second = second ? second.toLowerCase() : "";
+                // undefined/null values are sorted to the end of the table when the sort direction is equal to the default
+                // sort direction, and to the top of the table when the sort direction is opposite of default
+                if (!first) {
+                    if (!second) {
+                        return 0;
+                    }
+                    return defaultDirection.valueOf() === direction.valueOf() ? 1 : -1;
                 }
-                if (dataType === 'time' || dataType === 'status') {
-                    first = first || 0;
-                    second = second || 0;
+                if (!second) {
+                    return defaultDirection.valueOf() === direction.valueOf() ? -1 : 1;
                 }
+
                 if (first > second) {
                     return direction === 'ascending' ? 1 : -1;
                 }

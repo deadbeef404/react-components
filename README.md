@@ -153,6 +153,7 @@ $ npm install -g react-tools
 
 ```
 $ cd ~/path/to/react-components/root
+$ npm install
 $ grunt init
 ```
 
