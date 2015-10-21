@@ -58,7 +58,7 @@ define(function(require) {
 
         render: function() {
             return (
-                React.createElement("div", {onClick: this.backgroundClickHandler, id: "modal-container", 'data-clickcatcher': "true"}, 
+                React.createElement("div", {onClick: this.backgroundClickHandler, id: "modal-container", "data-clickcatcher": "true"}, 
                     React.createElement("div", {ref: "content", className: "content", tabIndex: "-1", onKeyDown: this.keyDownHandler}, 
                         React.createElement("div", {className: "header"}, 
                             React.createElement("span", {className: "title"}, this.props.title), 

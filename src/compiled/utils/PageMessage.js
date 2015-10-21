@@ -6,7 +6,7 @@ define(function(require) {
 
     var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-    var PageMessage = React.createClass({displayName: 'PageMessage',
+    var PageMessage = React.createClass({displayName: "PageMessage",
         propTypes: {
             message: React.PropTypes.string.isRequired,
             type: React.PropTypes.string.isRequired,

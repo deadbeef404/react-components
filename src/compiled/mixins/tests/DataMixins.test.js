@@ -13,7 +13,7 @@ define(function(require) {
             removeListener: function() {}
         };
 
-        var MockChild = React.createClass({displayName: 'MockChild',
+        var MockChild = React.createClass({displayName: "MockChild",
             mixins: [
                 DataMixins.dataRequest,
                 DataMixins.destroySelfOnUnmount(MockActions),
@@ -24,7 +24,7 @@ define(function(require) {
             },
             requestData: function() {}
         });
-        var Mock = React.createClass({displayName: 'Mock',
+        var Mock = React.createClass({displayName: "Mock",
             getInitialState: function() {
                 return {
                     updated: false,
@@ -89,14 +89,14 @@ define(function(require) {
                 var UpdateMockChild, UpdateMockParent;
 
                 beforeEach(function () {
-                    UpdateMockChild = React.createClass({displayName: 'UpdateMockChild',
+                    UpdateMockChild = React.createClass({displayName: "UpdateMockChild",
                         mixins: [DataMixins.dataRequest],
                         render: function() {
                             return React.createElement("div", null, "Mock Child");
                         },
                         requestData: function(){}
                     });
-                    UpdateMockParent = React.createClass({displayName: 'UpdateMockParent',
+                    UpdateMockParent = React.createClass({displayName: "UpdateMockParent",
                         render: function() {
                             return React.createElement(UpdateMockChild, {ref: "mockChild", filters: {foo: 'bar'}});
                         }

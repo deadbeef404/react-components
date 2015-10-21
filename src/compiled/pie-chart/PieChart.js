@@ -28,7 +28,7 @@ define(function(require) {
     /**
      * PieChart React Class
      */
-    var PieChart = React.createClass({displayName: 'PieChart',
+    var PieChart = React.createClass({displayName: "PieChart",
         propTypes: {
             componentId: React.PropTypes.string.isRequired,
             colors: React.PropTypes.array,
