@@ -312,10 +312,10 @@ define(function(require) {
                     if (second === null || second === undefined) {
                         return 0;
                     }
-                    return defaultDirection.valueOf() === direction.valueOf() ? 1 : -1;
+                    return defaultDirection === direction ? 1 : -1;
                 }
                 if (second === null || second === undefined) {
-                    return defaultDirection.valueOf() === direction.valueOf() ? -1 : 1;
+                    return defaultDirection === direction ? -1 : 1;
                 }
 
                 if (dataType === 'string') {
