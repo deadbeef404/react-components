@@ -185,6 +185,7 @@ define(function(require) {
                     componentSet = (
                         <div className="component">
                             <div className="bulk-action-button" onClick={this.handleBulkActionClick}>Bulk Action</div>
+                            <button type="button">Group Filter</button>
                             <Table definition={tableDefinition}
                                    componentId='tableId'
                                    key='tableId'

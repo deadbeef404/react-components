@@ -124,6 +124,7 @@ define(function(require) {
                 colSortDirections: this.getColSortDirections(colDefs),
                 dataCount: table.getDataCount(),
                 data: data,
+                quickFilterValue: table.getQuickFilterValue(),
                 filteredData: table.getFilteredData(),
                 loading: false,
                 pagination: table.getPaginationData(),
@@ -150,7 +151,7 @@ define(function(require) {
                 return null;
             }
 
-            return <input ref="filter" className="quick-filter" type="search" placeholder={this.props.quickFilterPlaceholder} onChange={this.handleQuickFilterChange} />;
+            return <input ref="filter" className="quick-filter" type="search" placeholder={this.props.quickFilterPlaceholder} value={this.state.quickFilterValue} onChange={this.handleQuickFilterChange} />;
         },
 
         /**
