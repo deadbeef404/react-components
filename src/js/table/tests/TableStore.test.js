@@ -20,23 +20,27 @@ define(function(require) {
             definition.sortColIndex = 0;
             definition.cols = [
                 {
+                    headerLabel: 'string',
                     dataProperty: 'string',
                     dataType: 'string',
                     sortDirection: 'ascending',
                     quickFilter: true
                 },
                 {
+                    headerLabel: 'integer',
                     dataProperty: 'integer',
                     dataType: 'number',
                     sortDirection: 'descending',
                     quickFilter: true
                 },
                 {
+                    headerLabel: 'mixedCase',
                     dataProperty: 'mixedCase',
                     dataType: 'string',
                     sortDirection: 'ascending'
                 },
                 {
+                    headerLabel: 'time',
                     dataProperty: 'time',
                     dataType: 'time',
                     timeFormat: 'MMM Do, h A',
@@ -44,12 +48,14 @@ define(function(require) {
                     quickFilter: true
                 },
                 {
+                    headerLabel: 'percent',
                     dataProperty: 'percent',
                     dataType: 'percent',
                     sortDirection: 'descending',
                     quickFilter: true
                 },
                 {
+                    headerLabel: 'status',
                     dataProperty: 'status',
                     dataType: 'status',
                     timeFormat: 'MMM Do, h A',
@@ -303,6 +309,16 @@ define(function(require) {
                 });
             });
 
+            describe('getQuickFilterValue function', function() {
+                it('should retrieve quick filter value for the table', function() {
+                    var filterValue = "quick filter value";
+
+                    table.filterValue = filterValue;
+
+                    expect(table.getQuickFilterValue()).toEqual(filterValue);
+                });
+            });
+
             describe('setFilterValue', function() {
                 it('should set the filter value and reset pagination if it is in the definition and the cursor is not at 0', function() {
                     var val = 'testFilterValue';
@@ -428,6 +444,11 @@ define(function(require) {
 
                 it('should filter data for each column that has quickFilter set to true and set the dataCount', function() {
                     expect(table.quickFilterData(definition.data, 14).length).toEqual(2);
+                });
+
+                it('should filter by specified column', function() {
+                    // getting all results back instead of just the two desired ones
+                    expect(table.quickFilterData(definition.data, 'integer:1').length).toEqual(2);
                 });
 
                 // Reset definition
