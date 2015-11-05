@@ -148,7 +148,7 @@ define(function(require) {
 
         /**
          * Retrieves the value used for filtering the Table.
-         * @returns {String|Number} value - The string or number used to filter out table rows that are not a match.
+         * @returns {String} value - The string or number used to filter out table rows that are not a match.
          */
         getQuickFilterValue: function() {
             return this.filterValue;

@@ -20,7 +20,6 @@ define(function(require) {
             definition.sortColIndex = 0;
             definition.cols = [
                 {
-                    headerLabel: 'string',
                     dataProperty: 'string',
                     dataType: 'string',
                     sortDirection: 'ascending',
@@ -34,13 +33,11 @@ define(function(require) {
                     quickFilter: true
                 },
                 {
-                    headerLabel: 'mixedCase',
                     dataProperty: 'mixedCase',
                     dataType: 'string',
                     sortDirection: 'ascending'
                 },
                 {
-                    headerLabel: 'time',
                     dataProperty: 'time',
                     dataType: 'time',
                     timeFormat: 'MMM Do, h A',
@@ -48,14 +45,12 @@ define(function(require) {
                     quickFilter: true
                 },
                 {
-                    headerLabel: 'percent',
                     dataProperty: 'percent',
                     dataType: 'percent',
                     sortDirection: 'descending',
                     quickFilter: true
                 },
                 {
-                    headerLabel: 'status',
                     dataProperty: 'status',
                     dataType: 'status',
                     timeFormat: 'MMM Do, h A',
