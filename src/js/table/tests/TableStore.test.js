@@ -447,8 +447,10 @@ define(function(require) {
                 });
 
                 it('should filter by specified column', function() {
-                    // getting all results back instead of just the two desired ones
-                    expect(table.quickFilterData(definition.data, 'integer:1').length).toEqual(2);
+                    var filteredResults = table.quickFilterData(definition.data, 'integer:1');
+                    expect(filteredResults.length).toEqual(2);
+                    expect(filteredResults[0].integer).toEqual(1);
+                    expect(filteredResults[1].integer).toEqual(1);
                 });
 
                 // Reset definition

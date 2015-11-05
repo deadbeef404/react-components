@@ -199,6 +199,8 @@ define(function(require) {
 
         /**
          * Filters out table data that does not match the filter value for table cols that have quickFilter set to true.
+         * Also checks to see if there is a specified column to apply the filter to - denoted by filterValue being
+         * separated by ":".
          * @param  {Array}  data        Data to filter
          * @param  {String} filterValue Value to filter data with
          * @return {Array}              The subset of data that matches the filter value.
