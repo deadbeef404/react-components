@@ -26,6 +26,7 @@ define(function(require) {
                     quickFilter: true
                 },
                 {
+                    headerLabel: 'integer',
                     dataProperty: 'integer',
                     dataType: 'number',
                     sortDirection: 'descending',
@@ -303,6 +304,16 @@ define(function(require) {
                 });
             });
 
+            describe('getQuickFilterValue function', function() {
+                it('should retrieve quick filter value for the table', function() {
+                    var filterValue = "quick filter value";
+
+                    table.filterValue = filterValue;
+
+                    expect(table.getQuickFilterValue()).toEqual(filterValue);
+                });
+            });
+
             describe('setFilterValue', function() {
                 it('should set the filter value and reset pagination if it is in the definition and the cursor is not at 0', function() {
                     var val = 'testFilterValue';
@@ -428,6 +439,13 @@ define(function(require) {
 
                 it('should filter data for each column that has quickFilter set to true and set the dataCount', function() {
                     expect(table.quickFilterData(definition.data, 14).length).toEqual(2);
+                });
+
+                it('should filter by specified column', function() {
+                    var filteredResults = table.quickFilterData(definition.data, 'integer:1');
+                    expect(filteredResults.length).toEqual(2);
+                    expect(filteredResults[0].integer).toEqual(1);
+                    expect(filteredResults[1].integer).toEqual(1);
                 });
 
                 // Reset definition
