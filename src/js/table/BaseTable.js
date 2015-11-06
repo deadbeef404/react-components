@@ -124,6 +124,7 @@ define(function(require) {
                 colSortDirections: this.getColSortDirections(colDefs),
                 dataCount: table.getDataCount(),
                 data: data,
+                quickFilterValue: table.getQuickFilterValue(),
                 filteredData: table.getFilteredData(),
                 loading: false,
                 pagination: table.getPaginationData(),
@@ -150,7 +151,7 @@ define(function(require) {
                 return null;
             }
 
-            return <input ref="filter" className="quick-filter" type="search" placeholder={this.props.quickFilterPlaceholder} onChange={this.handleQuickFilterChange} />;
+            return <input ref="filter" className="quick-filter" type="search" placeholder={this.props.quickFilterPlaceholder} value={this.state.quickFilterValue} onChange={this.handleQuickFilterChange} />;
         },
 
         /**
@@ -176,7 +177,7 @@ define(function(require) {
         },
 
         /**
-         * Builds the markup for a signle advanced filter item.
+         * Builds the markup for a single advanced filter item.
          * @param {Object} filter - One of the advanced filter items.
          * @param {Number} index - The position of the filter in the advancedFilters array.
          * @returns {ReactElement} - A React div element containing an advanced filter item.

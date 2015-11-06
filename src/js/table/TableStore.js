@@ -147,6 +147,14 @@ define(function(require) {
         },
 
         /**
+         * Retrieves the value used for filtering the Table.
+         * @returns {String} value - The string or number used to filter out table rows that are not a match.
+         */
+        getQuickFilterValue: function() {
+            return this.filterValue;
+        },
+
+        /**
          * Sets the value used for filtering the Table.
          * @param {String|Number} value - The string or number used to filter out table rows that are not a match.
          */
@@ -191,20 +199,34 @@ define(function(require) {
 
         /**
          * Filters out table data that does not match the filter value for table cols that have quickFilter set to true.
+         * Also checks to see if there is a specified column to apply the filter to - denoted by filterValue being
+         * separated by ":".
          * @param  {Array}  data        Data to filter
          * @param  {String} filterValue Value to filter data with
          * @return {Array}              The subset of data that matches the filter value.
          */
         quickFilterData: function(data, filterValue) {
-            filterValue = filterValue.toString().toLowerCase();
+            var filterCol;
+            filterValue = filterValue.toString().toLowerCase().split(':');
+            if (filterValue.length > 1) {
+                filterCol = filterValue[0];
+                filterValue = filterValue[1];
+            }
+            else {
+                filterValue = filterValue[0];
+            }
+
+
             var filterProperties = [];
 
             //Collect all of the data properties we're going to check for filtering
             _.each(this.cols, function(col){
-                if(col.quickFilter){
+                var headerLabel = col.headerLabel ? col.headerLabel.toLowerCase() : '';
+                if(col.quickFilter && (!filterCol || headerLabel === filterCol)){
                     filterProperties.push(col.dataProperty);
                 }
             });
+
             if(filterProperties.length){
                 //Iterate over the data set and remove items that don't match the filter
                 return _.filter(data, function(item){
@@ -212,6 +234,9 @@ define(function(require) {
                     return _.some(filterProperties, function(propName){
                         if(!item[propName]) {
                             return false;
+                        }
+                        if (filterCol) {
+                            return item[propName].toString().toLowerCase() === filterValue;
                         }
                         return item[propName].toString().toLowerCase().indexOf(filterValue) > -1;
                     });
