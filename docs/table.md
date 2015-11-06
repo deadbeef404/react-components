@@ -134,7 +134,9 @@ definition
         quickFilter
             type: boolean
             required: false
-            description: Depicts if the column is filterable (defaults to False)
+            description: Setting this to true will cause a quick filter input to display where users can client-side filter data.
+            Searching in the form {header_name}:{search_term} will limit search results to just rows where the {header_name}
+            column value exactly matches {search_term}
         
         sortDirection
             type: string
