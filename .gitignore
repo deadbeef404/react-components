@@ -1,6 +1,7 @@
 **/node_modules
 **/bower_components
 .jshintrc
+.idea
 .sass-cache/
 .grunt/
 _SpecRunner.html
