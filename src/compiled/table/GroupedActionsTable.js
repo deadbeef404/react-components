@@ -27,7 +27,7 @@ define(function(require) {
 
                 // Build the table row element
                 rows.push(
-                    React.createElement("tr", {'data-index': index, 
+                    React.createElement("tr", {"data-index": index, 
                         key: 'tableRow' + index, 
                         className: "hover-enabled text-select", 
                         onClick: this.handleGroupRowClick}, rowDataElements
@@ -44,7 +44,7 @@ define(function(require) {
                         }.bind(this));
 
                         rows.push(
-                            React.createElement("tr", {'data-flowid': action.flowID, 
+                            React.createElement("tr", {"data-flowid": action.flowID, 
                                 key: 'tableSubRow' + subRowIndex++, 
                                 className: "hover-enabled text-select sub-action", 
                                 onClick: this.handleRowClick}, subRowData

@@ -56,6 +56,8 @@ define(function(require) {
 
             // Run data through built in data formatters.
             _.forEach(this.cols, function(col) {
+                // store the original passed in sort direction
+                col.defaultSortDirection = col.sortDirection;
                 // Default to 15 minutes if the onlineLimit for the col was not set or was set incorrectly.
                 if (col.dataType === 'status' && (typeof col.onlineLimit !== 'number' || col.onlineLimit < 1)) {
                     col.onlineLimit = 15;
@@ -145,6 +147,14 @@ define(function(require) {
         },
 
         /**
+         * Retrieves the value used for filtering the Table.
+         * @returns {String} value - The string or number used to filter out table rows that are not a match.
+         */
+        getQuickFilterValue: function() {
+            return this.filterValue;
+        },
+
+        /**
          * Sets the value used for filtering the Table.
          * @param {String|Number} value - The string or number used to filter out table rows that are not a match.
          */
@@ -189,25 +199,45 @@ define(function(require) {
 
         /**
          * Filters out table data that does not match the filter value for table cols that have quickFilter set to true.
+         * Also checks to see if there is a specified column to apply the filter to - denoted by filterValue being
+         * separated by ":".
          * @param  {Array}  data        Data to filter
          * @param  {String} filterValue Value to filter data with
          * @return {Array}              The subset of data that matches the filter value.
          */
         quickFilterData: function(data, filterValue) {
-            filterValue = filterValue.toString().toLowerCase();
+            var filterCol;
+            filterValue = filterValue.toString().toLowerCase().split(':');
+            if (filterValue.length > 1) {
+                filterCol = filterValue[0];
+                filterValue = filterValue[1];
+            }
+            else {
+                filterValue = filterValue[0];
+            }
+
+
             var filterProperties = [];
 
             //Collect all of the data properties we're going to check for filtering
             _.each(this.cols, function(col){
-                if(col.quickFilter){
+                var headerLabel = col.headerLabel ? col.headerLabel.toLowerCase() : '';
+                if(col.quickFilter && (!filterCol || headerLabel === filterCol)){
                     filterProperties.push(col.dataProperty);
                 }
             });
+
             if(filterProperties.length){
                 //Iterate over the data set and remove items that don't match the filter
                 return _.filter(data, function(item){
                     //Use some so that we return as soon as we find a column that matches the value
                     return _.some(filterProperties, function(propName){
+                        if(!item[propName]) {
+                            return false;
+                        }
+                        if (filterCol) {
+                            return item[propName].toString().toLowerCase() === filterValue;
+                        }
                         return item[propName].toString().toLowerCase().indexOf(filterValue) > -1;
                     });
                 });
@@ -282,6 +312,7 @@ define(function(require) {
             this.sortColIndex = colIndex;
             this.cols[colIndex].sortDirection = direction;
 
+            var defaultDirection = this.cols[colIndex].defaultSortDirection;
             var dataType = this.cols[this.sortColIndex].dataType;
             var key;
 
@@ -295,19 +326,28 @@ define(function(require) {
             if (this.pagination) {
                 this.resetPagination();
             }
-
+            /* eslint-disable complexity */
             this.data.sort(function(a, b) {
                 var first = a[key];
                 var second = b[key];
+
+                // undefined/null values are sorted to the end of the table when the sort direction is equal to the default
+                // sort direction, and to the top of the table when the sort direction is opposite of default
+                if (first === null || first === undefined) {
+                    if (second === null || second === undefined) {
+                        return 0;
+                    }
+                    return defaultDirection === direction ? 1 : -1;
+                }
+                if (second === null || second === undefined) {
+                    return defaultDirection === direction ? -1 : 1;
+                }
 
                 if (dataType === 'string') {
                     first = first.toLowerCase();
                     second = second.toLowerCase();
                 }
-                if (dataType === 'time' || dataType === 'status') {
-                    first = first ? first : 0;
-                    second = second ? second : 0;
-                }
+
                 if (first > second) {
                     return direction === 'ascending' ? 1 : -1;
                 }
@@ -317,6 +357,7 @@ define(function(require) {
                 // a must be equal to b
                 return 0;
             });
+            /* eslint-enable complexity */
         },
 
         /**

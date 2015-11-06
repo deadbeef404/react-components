@@ -5,7 +5,7 @@ define(function(require) {
     var React = require('react');
     var _ = require('lodash');
 
-    var ConfirmDialog = React.createClass({displayName: 'ConfirmDialog',
+    var ConfirmDialog = React.createClass({displayName: "ConfirmDialog",
         propTypes: {
             message: React.PropTypes.string,
             okButtonText: React.PropTypes.string,

@@ -7,7 +7,7 @@ define(function(require) {
     var RequestHandler = require('RequestHandler');
     var Utils = require('drc/utils/Utils');
 
-    var Search = React.createClass({displayName: 'Search',
+    var Search = React.createClass({displayName: "Search",
         /**
          * Prop validation
          * @type {Object}
@@ -467,7 +467,7 @@ define(function(require) {
             var markup = [];
             _.forEach(rowData, _.bind(function(item){
                 markup.push(
-                    React.createElement("li", {key: item.id, 'data-id': item.id, tabIndex: "-1", onMouseEnter: this.handleListMouseEnter}, item.name)
+                    React.createElement("li", {key: item.id, "data-id": item.id, tabIndex: "-1", onMouseEnter: this.handleListMouseEnter}, item.name)
                 );
             }, this));
             return markup;
